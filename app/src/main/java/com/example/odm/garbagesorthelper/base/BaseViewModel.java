@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
  * author: ODM
  * date: 2019/9/17
  */
-public class BaseViewModel extends AndroidViewModel implements LifecycleObserver {
+public   class BaseViewModel extends AndroidViewModel implements LifecycleObserver {
 
 
     //弱引用持有

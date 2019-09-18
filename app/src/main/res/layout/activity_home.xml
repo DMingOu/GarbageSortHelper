@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.odm.garbagesorthelper.HomeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeActivity">
+
+        <EditText
+            android:id="@+id/etHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text= "@={viewModel.garbageName}"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:hint="请输入你要查询的垃圾名"
+            app:searchAction="@{viewModel.garbageName}"
+            />
+        <TextView
+            android:id="@+id/tvHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@{viewModel.garbageName ,default = 请输入你要查询的垃圾名 }"
+            android:layout_below="@id/etHome"
+             />
+
+    </RelativeLayout>
+</layout>
