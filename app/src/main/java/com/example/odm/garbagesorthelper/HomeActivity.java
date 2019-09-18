@@ -14,7 +14,7 @@ import com.example.odm.garbagesorthelper.databinding.ActivityHomeBinding;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
-public class HomeActivity extends RxAppCompatActivity implements IBaseView {
+public class HomeActivity extends BaseActivity implements IBaseView {
 
     private static final String TAG = "HomeActivity";
 
@@ -26,6 +26,8 @@ public class HomeActivity extends RxAppCompatActivity implements IBaseView {
         setContentView(R.layout.activity_home);
         initViewDataBinding();
     }
+
+
 
     @Override
     public void initViewDataBinding() {

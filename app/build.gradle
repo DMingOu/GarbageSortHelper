@@ -52,4 +52,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47-androidx'
 
     implementation 'com.orhanobut:logger:2.2.0'
+
+    //MD风格底部导航
+    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
 }

@@ -28,8 +28,8 @@ public class CommonBindings {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //收起软键盘
+                if(actionId == EditorInfo.IME_ACTION_SEARCH && !"".equals(value)) {
+                    //搜索内容非空且点击了搜索键后收起软键盘
                     InputMethodManager manager = ((InputMethodManager) GarbageSortApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -38,17 +38,7 @@ public class CommonBindings {
                 }
                 return true;
             }
-        });
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(!hasFocus) {
-                    InputMethodManager manager = ((InputMethodManager) GarbageSortApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                }
-            }
+
         });
     }
 }

@@ -7,7 +7,4 @@ package com.example.odm.garbagesorthelper.base;
  */
 public interface IBaseView {
 
-     void initViewDataBinding();
-
-     int getLayoutId();
 }
