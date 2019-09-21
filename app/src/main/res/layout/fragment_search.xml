@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.odm.garbagesorthelper.ui.search.SearchViewModel" />
     </data>
 
     <RelativeLayout
@@ -11,13 +14,24 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.example.odm.garbagesorthelper.widget.ClearEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="search"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:gravity="center|start"
+            android:hint="请输入你要查询的垃圾名"
+            android:drawableStart="@drawable/module_search_edittext_left_icon"
+            android:background="@drawable/module_search_edittext_background"
+            android:drawablePadding="15dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            android:text="@={viewModel.garbageName}"
+            app:checkNewValue="@{viewModel.garbageName}"
             />
+
 
     </RelativeLayout>
 </layout>

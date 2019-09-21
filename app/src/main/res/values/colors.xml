@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="bottom_navigation_search">#008577</color>
-    <color name="bottom_navigation_me">#D81B60</color>
+    <color name="bottom_navigation_about">#D81B60</color>
     <color name="bottom_navigation_knowledge">#6A5ACD</color>
 
 </resources>

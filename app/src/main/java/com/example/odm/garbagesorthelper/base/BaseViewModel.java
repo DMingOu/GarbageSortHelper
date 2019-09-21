@@ -10,6 +10,13 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
+import com.example.odm.garbagesorthelper.model.RepositoryManager;
+import com.example.odm.garbagesorthelper.model.source.http.ApiService;
+import com.example.odm.garbagesorthelper.model.source.http.HttpDataSource;
+import com.example.odm.garbagesorthelper.model.source.http.HttpDataSourceImpl;
+import com.example.odm.garbagesorthelper.model.source.local.LocalDataSource;
+import com.example.odm.garbagesorthelper.model.source.local.LocalDataSourceImpl;
+import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.lang.ref.WeakReference;
@@ -19,15 +26,27 @@ import java.lang.ref.WeakReference;
  * author: ODM
  * date: 2019/9/17
  */
-public   class BaseViewModel extends AndroidViewModel implements LifecycleObserver {
+public  class BaseViewModel <M extends  BaseModel>extends AndroidViewModel implements LifecycleObserver {
+
+
+
+    protected M model;
 
 
     //弱引用持有
     private WeakReference<LifecycleProvider> lifecycle;
 
     public BaseViewModel(@NonNull Application application) {
-        super(application);
+       super(application);
+
     }
+
+//    public BaseViewModel(@NonNull Application application , M model) {
+//        this(application);
+//        this.model = model;
+//    }
+
+
 
     /**
      * 注入RxLifecycle生命周期
@@ -42,8 +61,22 @@ public   class BaseViewModel extends AndroidViewModel implements LifecycleObserv
         return lifecycle.get();
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        if(model != null) {
+            model.onClear();
+        }
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     public void onAny(LifecycleOwner owner, Lifecycle.Event event) {
+    }
+
+
+
+    public void setModel(M model) {
+        this.model = model;
     }
 
 }

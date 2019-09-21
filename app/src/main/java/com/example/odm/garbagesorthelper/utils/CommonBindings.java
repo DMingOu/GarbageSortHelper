@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.utils;
 
 import android.content.Context;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +34,9 @@ public class CommonBindings {
                     InputMethodManager manager = ((InputMethodManager) GarbageSortApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                        Logger.d("点击了搜索键   " + value);
+                        //点击键盘的搜索键后，清空内容，放弃焦点
+                        editText.clearFocus();
+                        editText.setText("");
                     }
                 }
                 return true;
@@ -41,4 +44,12 @@ public class CommonBindings {
 
         });
     }
+
+    @BindingAdapter("checkNewValue")
+    public static void checkNewValue(EditText editText , String newValue) {
+        if(! editText.getText().toString().equals(newValue)) {
+            editText.setText(newValue);
+        }
+    }
+
 }

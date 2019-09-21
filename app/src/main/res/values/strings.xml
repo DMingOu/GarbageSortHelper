@@ -2,6 +2,6 @@
     <string name="app_name">GarbageSortHelper</string>
     
     <string name="bottom_navigation_search">搜索</string>
-    <string name="bottom_navigation_me">关于我</string>
-    <string name="bottom_navigation_knowledge">关于我</string>
+    <string name="bottom_navigation_about">关于</string>
+    <string name="bottom_navigation_knowledge">知识</string>
 </resources>
