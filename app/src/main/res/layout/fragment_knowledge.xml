@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -12,13 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="KNOWLEDGE"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerInParent="true"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_knowledge"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:tabIndicatorColor="@color/b"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimary" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_knowledge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tab_knowledge"
             />
 
     </RelativeLayout>

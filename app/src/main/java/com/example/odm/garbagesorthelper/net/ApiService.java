@@ -1,6 +1,6 @@
 package com.example.odm.garbagesorthelper.net;
 
-import com.example.odm.garbagesorthelper.model.entity.Garbage;
+import com.example.odm.garbagesorthelper.model.entity.GarbageData;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -20,15 +20,15 @@ public interface   ApiService {
      */
 
 
-   static String BASE_URL = "http://gs.choviwu.top/garbage/";
+   static String BASE_URL = "https://service.xiaoyuan.net.cn/garbage/index/";
 
     /**
-     * http://gs.choviwu.top/garbage/getGarbage?garbageName=奶茶
+     * https://service.xiaoyuan.net.cn/garbage/index/search?kw=奶茶杯
      *
-     * @param garbageName garbage
+     * @param garbageName 垃圾名称
      * @return 垃圾分类数据
      */
-   @GET("getGarbage")
-   Observable<Garbage> getGarbageData(@Query("garbageName") String garbageName);
+   @GET("search")
+    Observable<GarbageData> getGarbageData(@Query("kw") String garbageName);
 
 }

@@ -8,25 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.SearchViewModelFactory;
 import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
-import com.example.odm.garbagesorthelper.model.entity.Garbage;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
-
-import java.util.List;
 
 /**
  * description: 搜索页面View层
@@ -96,12 +89,12 @@ public class SearchFragment extends BaseFragment {
      */
     private void showGarbageResultBar() {
         CookieBar.builder(getActivity())
-                .setTitle(searchViewModel.sortedList.getValue().get(0).getGname())
-                .setIcon(searchViewModel.getGarbageIcon(searchViewModel.sortedList.getValue().get(0).getGtype()))
-                .setMessage(searchViewModel.sortedList.getValue().get(0).getGtype())
+                .setTitle(searchViewModel.sortedList.getValue().get(0).getCategory())
+                .setIcon(searchViewModel.getGarbageIcon(searchViewModel.sortedList.getValue().get(0).getType()))
+                .setMessage(searchViewModel.sortedList.getValue().get(0).getName() + "\n"+searchViewModel.sortedList.getValue().get(0).getRemark())
                 .setLayoutGravity(Gravity.BOTTOM)
                 .setAction(R.string.known, null)
-                .setDuration(3000)
+                .setDuration(4000)
                 .show();
     }
 }
