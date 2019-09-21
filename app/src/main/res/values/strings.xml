@@ -4,4 +4,7 @@
     <string name="bottom_navigation_search">搜索</string>
     <string name="bottom_navigation_about">关于</string>
     <string name="bottom_navigation_knowledge">知识</string>
+
+    <string name="known">我已知晓</string>
+    <string name="share_wechat">分享给微信好友</string>
 </resources>

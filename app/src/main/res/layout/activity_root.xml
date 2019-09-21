@@ -15,18 +15,35 @@
         android:orientation="vertical"
         tools:context=".RootActivity">
 
+        <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+            xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/root_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            titlebar:fillStatusBar="true"
+            titlebar:statusBarColor = "@color/bottom_navigation_search"
+            titlebar:titleBarColor = "@color/bottom_navigation_search"
+            titlebar:centerType="textView"
+            titlebar:centerText="垃圾分类小助手"
+            titlebar:centerTextColor="@color/xui_config_color_white"
+            titlebar:centerTextMarquee="false"
+            titlebar:leftType="none"
+            titlebar:titleBarHeight="89dp"
+            />
+
         <FrameLayout
             android:id="@+id/root_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/root_bottom_navigation"
-            />
+            android:visibility="visible" />
 
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/root_bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_alignParentBottom="true"            />
+            android:layout_alignParentBottom="true"
+            />
 
     </RelativeLayout>
 </layout>

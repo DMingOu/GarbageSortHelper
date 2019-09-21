@@ -14,6 +14,7 @@ import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding;
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment;
+import com.xuexiang.xui.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class RootActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置沉浸式状态栏
+        StatusBarUtils.translucent(this);
+        StatusBarUtils.setStatusBarLightMode(this);
         setContentView(R.layout.activity_root);
         initFragmentData();
         initViewDataBinding();
@@ -59,6 +63,8 @@ public class RootActivity extends BaseActivity {
         // 监控底部导航栏的点击事件
         rootBinding.rootBottomNavigation.setOnTabSelectedListener( (position,wasSelected)->{
             Toast.makeText(getApplicationContext(),"点击了第 " + position + "个页面",Toast.LENGTH_SHORT).show();
+            rootViewModel.changeFragment(position);
+            rootBinding.rootToolbar.setBackgroundColor(getResources().getColor(rootViewModel.titlebarColor.getValue().intValue()));
             setFragmentPosition(position);
             return true;
         });

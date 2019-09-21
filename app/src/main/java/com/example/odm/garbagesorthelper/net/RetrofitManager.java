@@ -25,7 +25,7 @@ public class RetrofitManager {
     private static RetrofitManager retrofitManager;
     private Retrofit retrofit;
     private ApiService service;
-    private static int DEFAULT_TIME_OUT = 30;
+    private static int DEFAULT_TIME_OUT = 8;
 
     /**
      * 超时时间，默认为8秒

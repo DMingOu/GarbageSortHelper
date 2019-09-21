@@ -49,6 +49,11 @@ public class Garbage {
          * gtype : 湿垃圾
          */
 
+        public DataBean(String gname,String gtype) {
+            this.gname = gname;
+            this.gtype = gtype;
+        }
+
         private String gname;
         private String gtype;
 

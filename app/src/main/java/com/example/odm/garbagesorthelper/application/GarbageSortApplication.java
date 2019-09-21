@@ -7,6 +7,7 @@ import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.RootActivity;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.xuexiang.xui.XUI;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 
@@ -25,6 +26,7 @@ public class GarbageSortApplication extends Application {
         mContext = getApplicationContext();
         initLogger();
         initCrashPage();
+        initXUIFramework();
     }
 
     /**
@@ -56,4 +58,15 @@ public class GarbageSortApplication extends Application {
                 .eventListener(null)
                 .apply();
     }
+
+    /**
+     * 初始化UI框架
+     * XUI
+     */
+    private void initXUIFramework() {
+        //初始化UI框架
+        XUI.init(this);
+        XUI.debug(true);
+    }
+
 }

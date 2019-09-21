@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.ui.search;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.odm.garbagesorthelper.BR;
@@ -21,6 +23,10 @@ import com.example.odm.garbagesorthelper.SearchViewModelFactory;
 import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
+import com.example.odm.garbagesorthelper.model.entity.Garbage;
+import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
+
+import java.util.List;
 
 /**
  * description: 搜索页面View层
@@ -38,6 +44,7 @@ public class SearchFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewDataBinding(inflater ,container);
         initEditText();
+        initDataObservable();
 //        首先通过DataBindingUtil.inflate初始化binding对象，然后通过.getRoot()获取操作视图，并且在onCreateView中返回该视图。否则会导致binding不生效。
         return mBinding.getRoot();
     }
@@ -70,8 +77,31 @@ public class SearchFragment extends BaseFragment {
         });
     }
 
+    private void initDataObservable() {
+        searchViewModel.sortedList.observe(this, dataBeans -> {
+            if(dataBeans != null && dataBeans.size() > 0) {
+                showGarbageResultBar();
+            }
+        });
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_search;
+    }
+
+
+        /**
+     * 弹出Bar提示--用户搜索结果
+     */
+    private void showGarbageResultBar() {
+        CookieBar.builder(getActivity())
+                .setTitle(searchViewModel.sortedList.getValue().get(0).getGname())
+                .setIcon(searchViewModel.getGarbageIcon(searchViewModel.sortedList.getValue().get(0).getGtype()))
+                .setMessage(searchViewModel.sortedList.getValue().get(0).getGtype())
+                .setLayoutGravity(Gravity.BOTTOM)
+                .setAction(R.string.known, null)
+                .setDuration(3000)
+                .show();
     }
 }
