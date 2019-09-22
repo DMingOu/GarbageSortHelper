@@ -14,7 +14,10 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import com.xuexiang.xui.utils.DensityUtils;
 import com.xuexiang.xui.utils.DeviceUtils;
@@ -31,7 +34,7 @@ import static android.os.Build.VERSION_CODES.KITKAT;
  * @author: ODM
  * date: 2019/9/22
  */
-public class StatusBarUtils {
+public class StatusBarUtils  {
 
     private final static int STATUSBAR_TYPE_DEFAULT = 0;
     private final static int STATUSBAR_TYPE_MIUI = 1;
@@ -171,7 +174,9 @@ public class StatusBarUtils {
      * @param activity 需要被处理的 Activity
      */
     public static boolean setStatusBarLightMode(Activity activity) {
-        if (activity == null) return false;
+        if (activity == null) {
+            return false;
+        }
         // 无语系列：ZTK C2016只能时间和电池图标变色。。。。
         if (DeviceUtils.isZTKC2016()) {
             return false;
@@ -220,7 +225,9 @@ public class StatusBarUtils {
      * 支持 4.4 以上版本 MIUI 和 Flyme，以及 6.0 以上版本的其他 Android
      */
     public static boolean setStatusBarDarkMode(Activity activity) {
-        if (activity == null) return false;
+        if (activity == null) {
+            return false;
+        }
         if (mStatuBarType == STATUSBAR_TYPE_DEFAULT) {
             // 默认状态，不需要处理
             return true;
@@ -416,15 +423,6 @@ public class StatusBarUtils {
         return !(DeviceUtils.isZUKZ1() || DeviceUtils.isZTKC2016());
     }
 
-    /**
-     * 获取状态栏的高度。
-     */
-    public static int getStatusBarHeight(Context context) {
-        if (sStatusbarHeight == -1) {
-            initStatusBarHeight(context);
-        }
-        return sStatusbarHeight;
-    }
 
     private static void initStatusBarHeight(Context context) {
         Class<?> clazz;
@@ -579,6 +577,7 @@ public class StatusBarUtils {
 
     }
 
+
     public static int getNavigationBarHeight(Context context) {
         int height = 0;
         int id = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
@@ -587,4 +586,16 @@ public class StatusBarUtils {
         }
         return height;
     }
+
+    /**
+     * 获取状态栏的高度。
+     */
+
+    public static int getStatusBarHeight(Context context) {
+        if (sStatusbarHeight == -1) {
+            initStatusBarHeight(context);
+        }
+        return sStatusbarHeight;
+    }
+
 }

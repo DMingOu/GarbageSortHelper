@@ -21,6 +21,7 @@ public class RootViewModel extends BaseViewModel {
 
     public MutableLiveData<Integer> titlebarColor = new MutableLiveData<>(R.color.bottom_navigation_search);
 
+
     /**
      * 动态改变了标题栏的背景颜色
      * @param position

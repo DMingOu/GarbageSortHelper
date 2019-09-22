@@ -16,7 +16,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_knowledge"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="89dp"
             android:background="@color/bottom_navigation_knowledge"
             app:tabIndicatorColor="@color/xui_config_color_red"
             app:tabIndicatorFullWidth="false"

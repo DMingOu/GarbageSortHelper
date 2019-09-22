@@ -7,9 +7,7 @@
         <variable
             name="viewModel"
             type="com.example.odm.garbagesorthelper.RootViewModel" />
-        <variable
-            name="statusBarUtil"
-            type="com.example.odm.garbagesorthelper.utils.StatusBarUtils" />
+        <import type="com.xuexiang.xui.utils.StatusBarUtils"/>
     </data>
 
     <RelativeLayout

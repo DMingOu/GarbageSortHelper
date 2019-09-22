@@ -97,4 +97,6 @@ public class RootActivity extends BaseActivity {
         ft.show(currentFragment);
         ft.commitAllowingStateLoss();
     }
+
+
 }
