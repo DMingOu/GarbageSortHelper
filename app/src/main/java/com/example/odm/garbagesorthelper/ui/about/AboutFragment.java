@@ -41,6 +41,7 @@ public class AboutFragment extends BaseFragment {
         mBinding = DataBindingUtil.inflate(inflater ,getLayoutId() ,container ,false);
         mBinding.setViewModel(aboutViewModel);
         mBinding.setVariable(com.example.odm.garbagesorthelper.BR.viewModel,aboutViewModel);
+        mBinding.setLifecycleOwner(this);
     }
 
     @Override

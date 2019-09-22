@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +17,8 @@ import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.databinding.FragmentKnowledgeBinding;
+import com.google.android.material.tabs.TabLayout;
+import com.orhanobut.logger.Logger;
 
 /**
  * description: 知识页面View层
@@ -29,7 +33,8 @@ public class KnowLedgeFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initViewDataBinding(inflater ,container);
+        initViewDataBinding(inflater, container);
+        initTabLayout();
         return mBinding.getRoot();
     }
 
@@ -39,10 +44,33 @@ public class KnowLedgeFragment extends BaseFragment {
         mBinding = DataBindingUtil.inflate(inflater,getLayoutId(),container ,false);
         mBinding.setViewModel(knowLedgeViewModel);
         mBinding.setVariable(com.example.odm.garbagesorthelper.BR.viewModel,knowLedgeViewModel);
+        mBinding.setLifecycleOwner(this);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_knowledge;
+    }
+
+    private void initTabLayout(){
+        knowLedgeViewModel.initTabData();
+        for (int i = 0; i < knowLedgeViewModel.tabTitles.size(); i++) {
+            TabLayout.Tab tab = mBinding.tabKnowledge.newTab();
+            if (tab!=null){
+                tab.setCustomView(getTabView(i));
+            }
+            mBinding.tabKnowledge.addTab(tab);
+
+        }
+
+    }
+
+    public View getTabView(int position) {
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.item_tab_fragment_knowledge, null);
+        TextView tv = v.findViewById(R.id.tv_tab_title);
+        tv.setText(knowLedgeViewModel.tabTitles.get(position));
+        ImageView iv = v.findViewById(R.id.iv_tab_icon);
+        iv.setImageDrawable(knowLedgeViewModel.tabIcons.get(position));
+        return v;
     }
 }
