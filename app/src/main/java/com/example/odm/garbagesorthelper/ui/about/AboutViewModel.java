@@ -1,7 +1,12 @@
 package com.example.odm.garbagesorthelper.ui.about;
 
 import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
 import com.example.odm.garbagesorthelper.model.RepositoryManager;
 import com.example.odm.garbagesorthelper.model.source.http.ApiService;
@@ -15,11 +20,29 @@ import com.example.odm.garbagesorthelper.model.source.http.HttpDataSourceImpl;
 public class AboutViewModel extends BaseViewModel<RepositoryManager> {
 
 
+    public MutableLiveData<String> versionName = new MutableLiveData<>();
+
 
     public AboutViewModel(Application application) {
         super(application);
     }
 
+
+    /**
+     * 获取版本号
+     * @return 当前应用的版本号
+     */
+    public String getVersion() {
+        try {
+            PackageManager manager = getApplication().getPackageManager();
+            PackageInfo info = manager.getPackageInfo(getApplication().getPackageName(), 0);
+            String version = info.versionName;
+            return "version  ".concat(version);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "无法得到当前版本";
+        }
+    }
 
 
 }

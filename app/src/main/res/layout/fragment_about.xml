@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -12,14 +13,145 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <TextView
+     <ImageView
+         android:id="@+id/iv_about_app_icon"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:layout_marginTop="110dp"
+         android:layout_centerHorizontal="true"
+         android:src="@drawable/icon_app"
+         />
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/app_name_chinese"
+         android:id="@+id/tv_about_app_name"
+         android:layout_below="@id/iv_about_app_icon"
+         android:layout_centerHorizontal="true"
+         android:textSize="22sp"
+         android:textColor="@color/xui_config_color_pure_black"
+         />
+     <TextView
+         android:id="@+id/tv_about_app_versioncode"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@{viewModel.versionName}"
+         android:textSize="16sp"
+         android:layout_below="@id/tv_about_app_name"
+         android:layout_centerHorizontal="true"
+         android:textColor="@color/xui_config_color_dark_blue_gray"
+         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_about_app_versioncode"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:background="@color/xui_config_color_white">
+        <RelativeLayout
+            android:id="@+id/ral_about_app_update"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="About"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerInParent="true"
-            />
+            android:layout_height="60dp"
+
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tv_about_app_update_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="17dp"
+                android:text="@string/update_version"
+                android:textColor="@color/xui_config_color_black"
+                android:textSize="19sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/version_latest"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ral_about_app_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="?attr/selectableItemBackground"
+
+            android:clickable="true"
+            android:focusable="true">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/xui_config_color_gray_5"
+                android:layout_alignParentTop="true"
+                />
+            <TextView
+                android:id="@+id/tv_about_app_introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/function_introduction"
+                android:textSize="19sp"
+                android:layout_marginStart="20dp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/xui_config_color_black"
+                />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/module_about_arrow_right"
+                android:layout_marginEnd="15dp"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/ral_about_app_author"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/xui_config_color_gray_5"
+                android:layout_alignParentTop="true"
+                />
+            <TextView
+                android:id="@+id/tv_about_app_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_author"
+                android:textSize="19sp"
+                android:layout_marginStart="20dp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/xui_config_color_black"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/module_about_arrow_right"
+                android:layout_marginEnd="15dp"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
 
     </RelativeLayout>
+
+
 </layout>

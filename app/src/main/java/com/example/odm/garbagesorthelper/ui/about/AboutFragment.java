@@ -1,10 +1,12 @@
 package com.example.odm.garbagesorthelper.ui.about;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,9 @@ import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.databinding.FragmentAboutBinding;
 import com.example.odm.garbagesorthelper.databinding.FragmentAboutBindingImpl;
+import com.orhanobut.logger.Logger;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xui.widget.guidview.DismissListener;
 
 /**
  * description: 我的页面View层
@@ -25,13 +30,16 @@ import com.example.odm.garbagesorthelper.databinding.FragmentAboutBindingImpl;
  */
 public class AboutFragment extends BaseFragment {
 
-    FragmentAboutBinding mBinding;
-    AboutViewModel aboutViewModel;
+  private   FragmentAboutBinding mBinding;
+  private   AboutViewModel aboutViewModel;
+  private   MaterialDialog.Builder dialogBuilder;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewDataBinding(inflater , container);
+        initView();
+        initData();
         return mBinding.getRoot();
     }
 
@@ -44,8 +52,51 @@ public class AboutFragment extends BaseFragment {
         mBinding.setLifecycleOwner(this);
     }
 
+    private void initData() {
+        aboutViewModel.versionName.setValue(aboutViewModel.getVersion());
+        Logger.d(aboutViewModel.versionName.getValue());
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_about;
+    }
+
+    private void initView(){
+        if(mBinding != null){
+            dialogBuilder  = new MaterialDialog.Builder(getContext());
+            /*
+             * 点击事件
+             */
+            mBinding.ralAboutAppAuthor.setOnClickListener(v -> {
+                showAuthorDialog();
+            });
+            mBinding.ralAboutAppIntroduction.setOnClickListener(v->{
+                showIntroductionDialog();
+            });
+            mBinding.ralAboutAppUpdate.setOnClickListener(v->{
+                Toast.makeText(getContext(),"已经是最新版本了",Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+    private void showAuthorDialog() {
+        if(dialogBuilder != null) {
+            dialogBuilder.title("我是谁?")
+                        .content("我是一名大二学生，因为兴趣使然，独立完成了此款垃圾分类小APP"+"\n"+"欢迎您通过我的邮箱与我联系:758502274@qq.com")
+                        .positiveText(R.string.known)
+                        .show();
+        }
+    }
+    private void showIntroductionDialog() {
+        if(dialogBuilder != null) {
+
+            dialogBuilder.title("功能介绍")
+                    .icon(getResources().getDrawable(R.drawable.module_about_dialog_icon_list))
+                    .content("1、搜索关键词，获取关键词对应的垃圾种类".concat("\n").concat("2、学习垃圾分类的基础知识与必要性").concat("\n").concat("3、待续ing..."))
+                    .positiveText(R.string.known)
+                    .show();
+
+        }
     }
 }

@@ -19,6 +19,8 @@ import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
+import com.orhanobut.logger.Logger;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 
 /**
@@ -30,14 +32,14 @@ public class SearchFragment extends BaseFragment {
 
     private FragmentSearchBinding mBinding;
     private SearchViewModel  searchViewModel;
-
+    private MaterialDialog loadingDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewDataBinding(inflater ,container);
         initEditText();
-        initDataObservable();
+        showInputSearchResult();
 //        首先通过DataBindingUtil.inflate初始化binding对象，然后通过.getRoot()获取操作视图，并且在onCreateView中返回该视图。否则会导致binding不生效。
         return mBinding.getRoot();
     }
@@ -61,6 +63,7 @@ public class SearchFragment extends BaseFragment {
                     manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     //触发软键盘的点击事件
                     searchViewModel.onSearch();
+                    showLoadingDialog();
                     //点击键盘的搜索键后，清空内容，放弃焦点
                     mBinding.etSearch.clearFocus();
                     mBinding.etSearch.setText("");
@@ -70,12 +73,18 @@ public class SearchFragment extends BaseFragment {
         });
     }
 
-    private void initDataObservable() {
+
+
+    private void showInputSearchResult() {
+
         searchViewModel.sortedList.observe(this, dataBeans -> {
             if(dataBeans != null && dataBeans.size() > 0) {
+                //展示输入框搜索结果，同时取消Loading框
                 showGarbageResultBar();
+                cancelLoadingDialog();
             }
         });
+
     }
 
     @Override
@@ -84,7 +93,7 @@ public class SearchFragment extends BaseFragment {
     }
 
 
-        /**
+    /**
      * 弹出Bar提示--用户搜索结果
      */
     private void showGarbageResultBar() {
@@ -97,4 +106,27 @@ public class SearchFragment extends BaseFragment {
                 .setDuration(4000)
                 .show();
     }
-}
+
+    /**
+     * 弹出Loading对话框，提示用户等待
+     */
+    private void showLoadingDialog () {
+            loadingDialog = new MaterialDialog.Builder(getContext())
+                    .limitIconToDefaultSize()
+                    .title(R.string.tips)
+                    .content(R.string.content_wait_for_receive_data)
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
+    }
+
+    /**
+     * 取消Loading对话框的显示
+     */
+    private void cancelLoadingDialog() {
+        if(loadingDialog != null) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+            }
+        }
+    }

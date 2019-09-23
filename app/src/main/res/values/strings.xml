@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">GarbageSortHelper</string>
-    
+    <string name="app_name_chinese">垃圾分类小助手</string>
     <string name="bottom_navigation_search">搜索</string>
     <string name="bottom_navigation_about">关于</string>
     <string name="bottom_navigation_knowledge">知识</string>
 
     <string name="known">我已知晓</string>
     <string name="share_wechat">分享给微信好友</string>
+    <string name="update_version">版本更新</string>
+    <string name="about_author">关于作者</string>
+    <string name="version_latest">已经是最新版本了</string>
+    <string name="function_introduction">功能介绍</string>
+    <string name="tips">提示</string>
+    <string name="content_wait_for_receive_data">正在加速为你获取数据</string>
 </resources>
