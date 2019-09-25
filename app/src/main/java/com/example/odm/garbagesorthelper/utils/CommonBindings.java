@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -45,11 +46,13 @@ public class CommonBindings {
         });
     }
 
-    @BindingAdapter("checkNewValue")
+    @BindingAdapter("checkNewStringValue")
     public static void checkNewValue(EditText editText , String newValue) {
         if(! editText.getText().toString().equals(newValue)) {
             editText.setText(newValue);
         }
     }
+
+
 
 }

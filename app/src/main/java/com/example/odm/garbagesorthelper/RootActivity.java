@@ -13,6 +13,7 @@ import com.example.odm.garbagesorthelper.base.BaseActivity;
 import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding;
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
+import com.example.odm.garbagesorthelper.ui.search.CameraFragment;
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment;
 import com.xuexiang.xui.utils.StatusBarUtils;
 
@@ -44,6 +45,7 @@ public class RootActivity extends BaseActivity {
         mFragments.add(new KnowLedgeFragment());
         mFragments.add(new SearchFragment());
         mFragments.add(new AboutFragment());
+        mFragments.add(new CameraFragment());
     }
 
 
@@ -84,7 +86,7 @@ public class RootActivity extends BaseActivity {
         return R.layout.activity_root;
     }
 
-    private void setFragmentPosition(int position) {
+    public void setFragmentPosition(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment currentFragment = mFragments.get(position);
         Fragment lastFragment = mFragments.get(lastFragmentIndex);

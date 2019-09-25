@@ -54,7 +54,6 @@ public class AboutFragment extends BaseFragment {
 
     private void initData() {
         aboutViewModel.versionName.setValue(aboutViewModel.getVersion());
-        Logger.d(aboutViewModel.versionName.getValue());
     }
 
     @Override

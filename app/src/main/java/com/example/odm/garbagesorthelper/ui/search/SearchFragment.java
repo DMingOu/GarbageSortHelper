@@ -1,27 +1,51 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Size;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.CameraX;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageAnalysisConfig;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureConfig;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.core.PreviewConfig;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
+import com.example.odm.garbagesorthelper.RootActivity;
 import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
+import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
+import com.example.odm.garbagesorthelper.model.entity.ImageClassfyData;
+import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * description: 搜索页面View层
@@ -39,7 +63,8 @@ public class SearchFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewDataBinding(inflater ,container);
         initEditText();
-        showInputSearchResult();
+        initDataObserve();
+        handleLiveEvent();
 //        首先通过DataBindingUtil.inflate初始化binding对象，然后通过.getRoot()获取操作视图，并且在onCreateView中返回该视图。否则会导致binding不生效。
         return mBinding.getRoot();
     }
@@ -62,7 +87,7 @@ public class SearchFragment extends BaseFragment {
                 if (manager != null) {
                     manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     //触发软键盘的点击事件
-                    searchViewModel.onSearch();
+                    searchViewModel.onSearch(searchViewModel.garbageName.getValue());
                     showLoadingDialog();
                     //点击键盘的搜索键后，清空内容，放弃焦点
                     mBinding.etSearch.clearFocus();
@@ -73,24 +98,52 @@ public class SearchFragment extends BaseFragment {
         });
     }
 
-
-
-    private void showInputSearchResult() {
-
+    private void initDataObserve() {
+        //展示输入框搜索结果，同时取消Loading框
         searchViewModel.sortedList.observe(this, dataBeans -> {
             if(dataBeans != null && dataBeans.size() > 0) {
-                //展示输入框搜索结果，同时取消Loading框
                 showGarbageResultBar();
                 cancelLoadingDialog();
             }
         });
+        //跳转到拍摄页面
+        searchViewModel.isOpenCamera.observe(this,  aBoolean -> {
+            if (aBoolean) {
+                RootActivity rootActivity = (RootActivity) getActivity();
+                rootActivity.setFragmentPosition(3);
+                searchViewModel.isOpenCamera.setValue(false);
+            }
+        });
+        //将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
+        searchViewModel.imageClassfyGarbage.observe(this, bean -> {
+            String keyGarbageName = bean.getKeyword();
+            searchViewModel.onSearch(keyGarbageName);
+        });
 
     }
+
+
+
+    /**
+     * 处理 LiveEvent 事件
+     */
+    private void handleLiveEvent() {
+        LiveEventBus
+                .get(Constants.IMAGE_SUCCESS, String.class)
+                .observe(this, imageName -> {
+                    //成功保存了拍摄照片
+                    searchViewModel.imageClassfyFromBaidu(imageName);
+                    showLoadingDialog();
+                });
+    }
+
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_search;
     }
+
+
 
 
     /**
@@ -106,6 +159,7 @@ public class SearchFragment extends BaseFragment {
                 .setDuration(4000)
                 .show();
     }
+
 
     /**
      * 弹出Loading对话框，提示用户等待

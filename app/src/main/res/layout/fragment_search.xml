@@ -30,8 +30,20 @@
             android:inputType="text"
             android:singleLine="true"
             android:text="@={viewModel.garbageName}"
-            app:checkNewValue="@{viewModel.garbageName}"
+            app:checkNewStringValue="@{viewModel.garbageName}"
             />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/module_camera_button_takephoto_"
+            android:layout_below="@id/etSearch"
+            android:layout_alignStart="@id/etSearch"
+            android:onClick="@{()->viewModel.openCamera()}"
+            />
+
+
+
 
 
     </RelativeLayout>

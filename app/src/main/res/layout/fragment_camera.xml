@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.odm.garbagesorthelper.ui.search.CameraViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextureView
+            android:id="@+id/containerCamera"
+            android:layout_width="match_parent"
+            android:layout_height="600dp" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:background="@drawable/module_camera_button_takephoto_"
+            android:layout_marginTop="15dp" />
+
+    </LinearLayout>
+</layout>

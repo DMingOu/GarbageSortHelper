@@ -1,4 +1,4 @@
-package com.example.odm.garbagesorthelper.net;
+package com.example.odm.garbagesorthelper.core.net;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;

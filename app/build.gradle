@@ -69,5 +69,29 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha10'
     //标题栏
     implementation 'com.wuhenzhizao:titlebar:1.1.4'
+    // CameraX core library
+    def camerax_version = "1.0.0-alpha05"
+    // CameraX view library
+    def camerax_view_version = "1.0.0-alpha02"
+    // CameraX extensions library
+    def camerax_ext_version = "1.0.0-alpha02"
+    implementation "androidx.camera:camera-core:$camerax_version"
+    // If you want to use Camera2 extensions
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    // If you to use the Camera View class
+    implementation "androidx.camera:camera-view:$camerax_view_version"
+    // If you to use Camera Extensions
+    implementation "androidx.camera:camera-extensions:$camerax_ext_version"
+    //权限
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
+
+    //百度图像识别
+    //打包下载平台
+    implementation files('libs/aip-java-sdk-4.11.3.jar')
+    implementation files('libs/json-20160810.jar')
+    implementation files('libs/slf4j-api-1.7.25.jar')
+    implementation files('libs/slf4j-simple-1.7.25.jar')
+    //美团消息总线
+    implementation 'com.jeremyliao:live-event-bus-x:1.5.0'
 
 }
