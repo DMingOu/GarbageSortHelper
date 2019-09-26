@@ -15,7 +15,9 @@
         <TextureView
             android:id="@+id/containerCamera"
             android:layout_width="match_parent"
-            android:layout_height="600dp" />
+            android:layout_marginTop="89dp"
+            android:fitsSystemWindows="true"
+            android:layout_height="500dp" />
 
         <Button
             android:id="@+id/btnCamera"

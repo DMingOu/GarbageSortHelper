@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,10 +108,18 @@ public class SearchFragment extends BaseFragment {
             }
         });
         //跳转到拍摄页面
-        searchViewModel.isOpenCamera.observe(this,  aBoolean -> {
-            if (aBoolean) {
+        searchViewModel.isOpenCamera.observe(this,  isOpenCamera -> {
+            if (isOpenCamera) {
+
                 RootActivity rootActivity = (RootActivity) getActivity();
-                rootActivity.setFragmentPosition(3);
+                RxPermissions rxPermissions = new RxPermissions(rootActivity);
+                if(rxPermissions.isGranted(Manifest.permission.CAMERA)&&rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                                        &&rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    rootActivity.setFragmentPosition(3);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(),"未获取相关权限，无法开启拍照识别！",Toast.LENGTH_LONG).show();
+                }
+
                 searchViewModel.isOpenCamera.setValue(false);
             }
         });

@@ -74,6 +74,7 @@ public class CameraFragment extends BaseFragment {
 
     private CameraViewModel cameraViewModel ;
     private FragmentCameraBinding mBinding;
+    private static final String TAG = "CameraFragment";
 
 
     @Nullable
@@ -131,13 +132,10 @@ public class CameraFragment extends BaseFragment {
     private void initCamera(){
         //加载CameraX 配置信息
         cameraViewModel.initCameraConfig();
-        //图片预览
-        cameraViewModel.preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
-            @Override
-            public void onUpdated(Preview.PreviewOutput output) {
-                mBinding.containerCamera.setSurfaceTexture(output.getSurfaceTexture());
-            }
-        });
+        //动态获取拍摄权限
+
+
+        CameraX.bindToLifecycle(getSelf(), cameraViewModel.preview, cameraViewModel.imageAnalysis, cameraViewModel.imageCapture);
         //图片分析
         cameraViewModel.imageAnalysis.setAnalyzer(new ImageAnalysis.Analyzer() {
             @Override
@@ -146,16 +144,14 @@ public class CameraFragment extends BaseFragment {
 //                Logger.d(cropRect.exactCenterX());
             }
         });
-        //拍摄
-        RxPermissions rxPermissions = new RxPermissions(getActivity());
-        rxPermissions.request(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        //绑定生命周期
-                        CameraX.bindToLifecycle(getActivity(),cameraViewModel.preview,cameraViewModel.imageAnalysis,cameraViewModel.imageCapture);
-                    }
-                });
+        //图片预览
+        cameraViewModel.preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
+            @Override
+            public void onUpdated(Preview.PreviewOutput output) {
+                Log.e(TAG, "onUpdated: 更新拍摄视图" );
+                mBinding.containerCamera.setSurfaceTexture(output.getSurfaceTexture());
+            }
+        });
         //点击拍照区域对焦
         mBinding.containerCamera.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -176,5 +172,8 @@ public class CameraFragment extends BaseFragment {
         });
     }
 
+    private CameraFragment getSelf() {
+        return this;
+    }
 
 }
