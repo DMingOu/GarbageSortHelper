@@ -50,17 +50,17 @@ public class CameraViewModel extends BaseViewModel<RepositoryManager> {
         super(application);
     }
 
-    public void initCameraConfig() {
+     void initCameraConfig() {
 
         PreviewConfig previewConfig = new PreviewConfig.Builder().build();
          preview = new Preview(previewConfig);
-        ImageAnalysisConfig imageAnalysisConfig = new ImageAnalysisConfig.Builder().setTargetResolution(new Size(1920,1080)).build();
+        ImageAnalysisConfig imageAnalysisConfig = new ImageAnalysisConfig.Builder().setTargetResolution(new Size(1080,2248)).build();
          imageAnalysis = new ImageAnalysis(imageAnalysisConfig);
         ImageCaptureConfig imageCaptureConfig = new ImageCaptureConfig.Builder().build();
         imageCapture = new ImageCapture(imageCaptureConfig);
     }
 
-    public File createImageFile(String imageName) {
+     File createImageFile(String imageName) {
         File photoFile = new File(Environment.getExternalStorageDirectory(),imageName);
         return photoFile;
     }

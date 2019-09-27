@@ -21,7 +21,7 @@
             android:layout_centerVertical="true"
             android:layout_margin="40dp"
             android:gravity="center|start"
-            android:hint="请输入你要查询的垃圾名"
+            android:hint="@string/searchview_hint"
             android:textSize="18sp"
             android:drawableStart="@drawable/module_search_edittext_left_icon"
             android:background="@drawable/module_search_edittext_background"
@@ -33,17 +33,16 @@
             app:checkNewStringValue="@{viewModel.garbageName}"
             />
 
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:background="@drawable/module_camera_button_takephoto_"
+        <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnOpenCamera"
+            android:background="@drawable/module_search_open_camera"
+            app:sb_shape_type="rectangle"
+            android:layout_marginStart="5dp"
             android:layout_below="@id/etSearch"
-            android:layout_alignStart="@id/etSearch"
             android:onClick="@{()->viewModel.openCamera()}"
             />
-
-
-
 
 
     </RelativeLayout>

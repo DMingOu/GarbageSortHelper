@@ -31,10 +31,9 @@ public class RootActivity extends BaseActivity {
 
     ActivityRootBinding rootBinding;
     RootViewModel rootViewModel;
-
-    List<Fragment> mFragments;
-    private int lastFragmentIndex;
     private static final String TAG = "RootActivity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,38 +41,29 @@ public class RootActivity extends BaseActivity {
         StatusBarUtils.translucent(this);
         StatusBarUtils.setStatusBarLightMode(this);
         setContentView(R.layout.activity_root);
-        initFragmentData();
         initViewDataBinding();
+        initFragmentData();
         initBottomNavigation();
         initPermission();
-
     }
 
-    private  void initFragmentData() {
-        mFragments = new ArrayList<>();
-        mFragments.add(new KnowLedgeFragment());
-        mFragments.add(new SearchFragment());
-        mFragments.add(new AboutFragment());
-        mFragments.add(new CameraFragment());
-    }
 
+    private void initFragmentData() {
+        if(rootViewModel != null) {
+            rootViewModel.initFragmentData();
+        }
+    }
 
     public void initBottomNavigation() {
-        // 创造底部导航的子项
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about);
-
         // 底部导航添加子项
-        rootBinding.rootBottomNavigation.addItem(item1);
-        rootBinding.rootBottomNavigation.addItem(item2);
-        rootBinding.rootBottomNavigation.addItem(item3);
+        rootBinding.rootBottomNavigation.addItem(rootViewModel.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge));
+        rootBinding.rootBottomNavigation.addItem(rootViewModel.createBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search));
+        rootBinding.rootBottomNavigation.addItem(rootViewModel.createBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about));
         rootBinding.rootBottomNavigation.setCurrentItem(1);
-        setFragmentPosition(1);
+        this.setFragmentPosition(1);
         rootBinding.rootBottomNavigation.setColored(true);
         // 监控底部导航栏的点击事件
         rootBinding.rootBottomNavigation.setOnTabSelectedListener( (position,wasSelected)->{
-            Toast.makeText(getApplicationContext(),"点击了第 " + position + "个页面",Toast.LENGTH_SHORT).show();
             rootViewModel.changeFragment(position);
             rootBinding.rootToolbar.setBackgroundColor(getResources().getColor(rootViewModel.titlebarColor.getValue().intValue()));
             setFragmentPosition(position);
@@ -97,9 +87,9 @@ public class RootActivity extends BaseActivity {
 
     public void setFragmentPosition(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment currentFragment = mFragments.get(position);
-        Fragment lastFragment = mFragments.get(lastFragmentIndex);
-        lastFragmentIndex = position;
+        Fragment currentFragment = rootViewModel.mFragments.get(position);
+        Fragment lastFragment = rootViewModel.mFragments.get(rootViewModel.lastFragmentIndex);
+        rootViewModel.lastFragmentIndex = position;
         ft.hide(lastFragment);
         if (!currentFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();

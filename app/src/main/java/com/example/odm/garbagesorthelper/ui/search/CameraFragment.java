@@ -132,9 +132,6 @@ public class CameraFragment extends BaseFragment {
     private void initCamera(){
         //加载CameraX 配置信息
         cameraViewModel.initCameraConfig();
-        //动态获取拍摄权限
-
-
         CameraX.bindToLifecycle(getSelf(), cameraViewModel.preview, cameraViewModel.imageAnalysis, cameraViewModel.imageCapture);
         //图片分析
         cameraViewModel.imageAnalysis.setAnalyzer(new ImageAnalysis.Analyzer() {
@@ -158,12 +155,11 @@ public class CameraFragment extends BaseFragment {
             public boolean onTouch(View v, MotionEvent event) {
                 TextureViewMeteringPointFactory pointFactory = new TextureViewMeteringPointFactory(mBinding.containerCamera);
                 MeteringPoint meteringPoint = pointFactory.createPoint(event.getX(),event.getY());
-                Logger.d(event.getAxisValue(0)+"    "+event.getAxisValue(1));
                 FocusMeteringAction action = FocusMeteringAction.Builder
                         .from(meteringPoint)
                         .build();
                 try {
-                    CameraX.getCameraControl(CameraX.LensFacing.BACK).startFocusAndMetering(action);
+                    CameraX.getCameraControl(CameraX.LensFacing.FRONT).startFocusAndMetering(action);
                 } catch (CameraInfoUnavailableException e) {
                     e.printStackTrace();
                 }
