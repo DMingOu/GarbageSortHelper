@@ -13,4 +13,5 @@
     <string name="function_introduction">功能介绍</string>
     <string name="tips">提示</string>
     <string name="content_wait_for_receive_data">正在加速为你获取数据</string>
+    <string name="icon">图标</string>
 </resources>

@@ -571,10 +571,7 @@ public class StatusBarUtils  {
             navigationBar.setLayoutParams(params);
             navigationBar.setBackgroundColor(color);
             decorView.addView(navigationBar);
-        } else {
-            //4.4以下无法设置NavigationBar颜色
         }
-
     }
 
 

@@ -123,7 +123,7 @@ public class SearchFragment extends BaseFragment {
                 searchViewModel.isOpenCamera.setValue(false);
             }
         });
-        //将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
+        //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
         searchViewModel.imageClassfyGarbage.observe(this, bean -> {
             String keyGarbageName = bean.getKeyword();
             searchViewModel.onSearch(keyGarbageName);

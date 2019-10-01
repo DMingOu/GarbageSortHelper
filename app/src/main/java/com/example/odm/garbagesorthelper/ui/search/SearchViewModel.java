@@ -88,7 +88,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
                 });
     }
 
-    public int getGarbageIcon(int garbageType){
+     int getGarbageIcon(int garbageType){
         switch (garbageType) {
 
             case 0:
@@ -106,7 +106,6 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
                 return R.drawable.module_search_cookiebar_harmful_garbage;
             default:
                 return R.drawable.module_search_cookiebar_fail_garbage;
-
         }
     }
 
@@ -116,7 +115,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
-    public void imageClassfyFromBaidu(String imageName) {
+     void imageClassfyFromBaidu(String imageName) {
         //返回信息的百科数量
         classfyOptions.put("baike_num", "1");
         Disposable subscribe = Flowable.create(new FlowableOnSubscribe<ImageClassfyData>() {
