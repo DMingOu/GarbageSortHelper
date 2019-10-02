@@ -6,29 +6,27 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
-import com.example.odm.garbagesorthelper.model.AipImageClassifyCilent;
+import com.example.odm.garbagesorthelper.core.Constants;
+import com.example.odm.garbagesorthelper.core.net.ApiService;
 import com.example.odm.garbagesorthelper.model.RepositoryManager;
 import com.example.odm.garbagesorthelper.model.entity.GarbageData;
 import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
 import com.example.odm.garbagesorthelper.core.net.ObserverManager;
 import com.example.odm.garbagesorthelper.core.net.RetrofitManager;
-import com.example.odm.garbagesorthelper.model.entity.ImageClassfyData;
-import com.example.odm.garbagesorthelper.utils.GsonUtils;
+import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
+import com.example.odm.garbagesorthelper.utils.Base64Util;
+import com.example.odm.garbagesorthelper.utils.FileUtil;
 import com.orhanobut.logger.Logger;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * description: 搜索页面ViewModel
@@ -56,14 +54,14 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      */
     public MutableLiveData<List<GarbageData.DataBean>> sortedList = new MutableLiveData<>();
 
-    public MutableLiveData<ImageClassfyData.NameValuePairsBeanXX.ResultBean.ValuesBean.NameValuePairsBeanX> imageClassfyGarbage = new MutableLiveData<>();
+    public MutableLiveData<ImageClassifyBean.ResultBean> imageClassfyGarbage = new MutableLiveData<>();
+
+
     /**
-     * 百度图像识别的分类配置
+     * 调用垃圾分类查询接口，通过垃圾名 获取垃圾所属分类
+     *
+     * @param garbageName the garbage name
      */
-    private HashMap<String, String> classfyOptions = new HashMap<String, String>();
-
-
-
     public void onSearch(String garbageName) {
 
 
@@ -88,6 +86,13 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
                 });
     }
 
+
+    /**
+     * 不同的垃圾类别(int) 返回不同的垃圾分类图标
+     *
+     * @param garbageType the garbage type
+     * @return the int
+     */
     public int getGarbageIcon(int garbageType){
         switch (garbageType) {
 
@@ -116,29 +121,46 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
-    public void imageClassfyFromBaidu(String imageName) {
-        //返回信息的百科数量
-        classfyOptions.put("baike_num", "1");
-        Disposable subscribe = Flowable.create(new FlowableOnSubscribe<ImageClassfyData>() {
-            @Override
-            public void subscribe(FlowableEmitter<ImageClassfyData> emitter) throws Exception {
-                // 参数为本地路径
-                String imagePath = "/storage/emulated/0/"+imageName;
-                JSONObject object = AipImageClassifyCilent.getInstance().advancedGeneral(imagePath, classfyOptions);
-                ImageClassfyData classfyData = GsonUtils.GsonToBean(GsonUtils.GsonString(object), ImageClassfyData.class);
-                emitter.onNext(classfyData);
+    /**
+     * 调用百度的接口获取图片识别的数据
+     *
+     * @param imageName the image name
+     */
+    public void imageClassfyFromBaidu(String imageName)  {
+        String filePath = "/storage/emulated/0/"+imageName;
+        byte[] imgData = new byte[0];
+        try {
+            imgData = FileUtil.readFileByBytes(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imgStr = Base64Util.encode(imgData);
+        String imgParam = null;
+        try {
+            imgParam = URLEncoder.encode(imgStr, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String param = "image=" + imgParam;
+        RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"),param);
+        //请求数据
+        RetrofitManager.getInstance()
+                        .getApiService()
+                        .getImageClassifyData(ApiService.Base_Url_Image_Classify , Constants.accessToken_baidu , body)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new ObserverManager<ImageClassifyBean>() {
+                            @Override
+                            public void onError(HttpThrowable httpThrowable) {
+                                Logger.d(httpThrowable.message);
+                            }
 
-            }
-        }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ImageClassfyData>() {
-                    @Override
-                    public void accept(ImageClassfyData data) throws Exception {
+                            @Override
+                            public void onNext(ImageClassifyBean imageClassifyBean) {
+                                imageClassfyGarbage.setValue(imageClassifyBean.getResult().get(0));
+                            }
+                        });
 
-                        imageClassfyGarbage.setValue(data.getNameValuePairs().getResult().getValues().get(0).getNameValuePairs());
-                    }
-                });
 
     }
 
