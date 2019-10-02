@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:gravity="center"
-android:layout_width="wrap_content"
-android:layout_height="105dp">
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="105dp">
 
     <ImageView
         android:id="@+id/iv_tab_icon"
@@ -17,6 +18,6 @@ android:layout_height="105dp">
     android:textColor="@color/xui_config_color_white"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="干垃圾"/>
+    tool:text="干垃圾"/>
 
 </LinearLayout>

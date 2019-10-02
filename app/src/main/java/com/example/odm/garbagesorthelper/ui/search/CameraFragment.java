@@ -41,32 +41,12 @@ import com.example.odm.garbagesorthelper.RootActivity;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
-import com.example.odm.garbagesorthelper.model.AipImageClassifyCilent;
 import com.jeremyliao.liveeventbus.LiveEventBus;
-import com.orhanobut.logger.Logger;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.util.HashMap;
-import java.util.Observable;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
- * description: 拍摄界面
+ * description: 拍摄界面V层
  * author: ODM
  * date: 2019/9/25
  */

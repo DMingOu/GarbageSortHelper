@@ -67,15 +67,9 @@ public class AboutFragment extends BaseFragment {
             /*
              * 点击事件
              */
-            mBinding.ralAboutAppAuthor.setOnClickListener(v -> {
-                showAuthorDialog();
-            });
-            mBinding.ralAboutAppIntroduction.setOnClickListener(v->{
-                showIntroductionDialog();
-            });
-            mBinding.ralAboutAppUpdate.setOnClickListener(v->{
-                Toast.makeText(getContext(),"已经是最新版本了",Toast.LENGTH_SHORT).show();
-            });
+            mBinding.ralAboutAppAuthor.setOnClickListener(v -> showAuthorDialog());
+            mBinding.ralAboutAppIntroduction.setOnClickListener(v-> showIntroductionDialog());
+            mBinding.ralAboutAppUpdate.setOnClickListener(v-> Toast.makeText(getContext(),"已经是最新版本了",Toast.LENGTH_SHORT).show());
         }
     }
 
