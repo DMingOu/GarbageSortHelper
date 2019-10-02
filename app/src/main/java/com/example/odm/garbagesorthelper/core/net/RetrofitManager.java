@@ -32,10 +32,12 @@ public class RetrofitManager {
      * 有需要就用SP存储
      */
     private static int timeoutTime = DEFAULT_TIME_OUT;
+
+
     /**
      * 服务器ip地址
      */
-    private static String baseUrl = ApiService.BASE_URL;
+     static String baseUrl = ApiService.BASE_URL;
     public final static HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
     private RetrofitManager(){
@@ -106,4 +108,6 @@ public class RetrofitManager {
     public static int getTimeoutTime(){
         return timeoutTime;
     }
+
+
 }
