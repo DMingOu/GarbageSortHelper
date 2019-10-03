@@ -76,7 +76,7 @@ public class AboutFragment extends BaseFragment {
     private void showAuthorDialog() {
         if(dialogBuilder != null) {
             dialogBuilder.title("我是谁?")
-                        .content("我是一名大二学生，因为兴趣使然，独立完成了此款垃圾分类小APP"+"\n"+"欢迎您通过我的邮箱与我联系:758502274@qq.com")
+                        .content("我是一名大二学生，因为兴趣使然，独立完成了此款垃圾分类小APP。"+"\n"+"欢迎您通过我的邮箱与我联系:758502274@qq.com")
                         .positiveText(R.string.known)
                         .show();
         }
@@ -86,7 +86,9 @@ public class AboutFragment extends BaseFragment {
 
             dialogBuilder.title("功能介绍")
                     .icon(getResources().getDrawable(R.drawable.module_about_dialog_icon_list))
-                    .content("1、搜索关键词，获取关键词对应的垃圾种类".concat("\n").concat("2、学习垃圾分类的基础知识与必要性").concat("\n").concat("3、待续ing..."))
+                    .content("1、搜索关键词，获取关键词对应的垃圾分类".concat("\n").concat("2、垃圾拍照识别,获取对应的垃圾分类")
+                                                                .concat("\n").concat("3、语音识别关键词，获取关键词对应的垃圾分类")
+                                                                .concat("\n").concat("4、学习垃圾分类的基础知识与必要性" ))
                     .positiveText(R.string.known)
                     .show();
 
