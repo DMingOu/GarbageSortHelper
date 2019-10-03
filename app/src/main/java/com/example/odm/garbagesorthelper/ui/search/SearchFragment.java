@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -97,28 +98,9 @@ public class SearchFragment extends BaseFragment {
 
     private  void initRecorderDialog() {
 //        // 初始化听写Dialog，如果只使用有UI听写功能，无需创建SpeechRecognizer
-//        // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
         mIatDialog = new RecognizerDialog(getActivity(), searchViewModel.mInitListener);
-        if(mIatDialog != null) {
-            //以下为dialog设置听写参数
-            mIatDialog.setParameter(SpeechConstant.RESULT_TYPE, "json");
-            //设置语音输入语言，zh_cn为简体中文
-            mIatDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-            //设置结果返回语言
-            mIatDialog.setParameter(SpeechConstant.ACCENT, "mandarin");
-            // 设置语音前端点:静音超时时间，单位ms，即用户多长时间不说话则当做超时处理
-            //取值范围{1000～10000}
-            mIatDialog.setParameter(SpeechConstant.VAD_BOS, "4500");
-            //设置语音后端点:后端点静音检测时间，单位ms，即用户停止说话多长时间内即认为不再输入，
-            //自动停止录音，范围{0~10000}
-            mIatDialog.setParameter(SpeechConstant.VAD_EOS, "1500");
-            mIatDialog.setParameter("dwa", "wpgs");
-            //开始识别并设置监听器
-            mIatDialog.setListener(searchViewModel.mRecognizerDialogListener);
-            Log.e(TAG, "initRecorderDialog: 初始成功" );
-        } else {
-            Log.e(TAG, "initRecorderDialog: 初始失败" );
-        }
+        searchViewModel.initRecorderDialog(mIatDialog);
+
     }
 
     private void initDataObserve() {
@@ -147,19 +129,36 @@ public class SearchFragment extends BaseFragment {
             String keyGarbageName = bean.getKeyword();
             searchViewModel.onSearch(keyGarbageName);
         });
-
+        /*
+         * 观察开启语音识别的变量，（显示语音框）开启语音识别功能
+         */
         searchViewModel.isOpenRecorder.observe(this , isOpenRecorder -> {
             if(isOpenRecorder) {
                 if(mIatDialog != null) {
                     mIatDialog.show();
+                    //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
+                    TextView recorderDialogTextView = (TextView) mIatDialog.getWindow().getDecorView().findViewWithTag("textlink");
+                    recorderDialogTextView.setText(R.string.recorder_dialog_textview_text);
                 } else {
                     Log.e(TAG, "initDataObserve: 对话框未初始化" );
                 }
             }
         });
+        /*
+         * 观察语音识别的结果，调用垃圾分类搜索接口
+         */
+        searchViewModel.voiceGarbageName.observe(this , garbageName->{
+                if(! "".equals(garbageName)) {
+//                    showLoadingDialog();
+                    searchViewModel.onSearch(garbageName);
+                } else {
+                    //开启语音识别后，若无法检测用户语音内容，会弹出Toast提醒
+                    if( searchViewModel.isOpenRecorder.getValue()) {
+                        Toast.makeText(getActivity().getApplicationContext() ,"无法识别您说的内容",Toast.LENGTH_SHORT).show();
+                    }
+                }
+        });
     }
-
-
 
     /**
      * 处理 LiveEvent 事件
@@ -179,8 +178,6 @@ public class SearchFragment extends BaseFragment {
     public int getLayoutId() {
         return R.layout.fragment_search;
     }
-
-
 
 
     /**

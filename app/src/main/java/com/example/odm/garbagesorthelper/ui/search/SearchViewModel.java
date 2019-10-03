@@ -14,8 +14,10 @@ import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
 import com.example.odm.garbagesorthelper.core.net.ObserverManager;
 import com.example.odm.garbagesorthelper.core.net.RetrofitManager;
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
+import com.example.odm.garbagesorthelper.model.entity.VoiceRecognizedData;
 import com.example.odm.garbagesorthelper.utils.Base64Util;
 import com.example.odm.garbagesorthelper.utils.FileUtil;
+import com.example.odm.garbagesorthelper.utils.GsonUtils;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -47,7 +49,6 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
         super(application);
     }
 
-
     /**
      * 用户搜索框搜索内容--垃圾名
      */
@@ -73,13 +74,16 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
     public MutableLiveData<ImageClassifyBean.ResultBean> imageClassfyGarbage = new MutableLiveData<>();
 
     /**
+     * 语音识别结果的垃圾名
+     */
+    public MutableLiveData<String> voiceGarbageName = new MutableLiveData<>("");
+    /**
      * 初始化监听器。
      */
     public InitListener mInitListener = new InitListener() {
 
         @Override
         public void onInit(int code) {
-
             if (code != ErrorCode.SUCCESS) {
                 Logger.d("初始化失败，错误码：" + code+",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
             }
@@ -98,6 +102,12 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
         @Override
         public void onResult(com.iflytek.cloud.RecognizerResult recognizerResult, boolean b) {
                 Logger.d(recognizerResult.getResultString().toString());
+                VoiceRecognizedData data = GsonUtils.GsonToBean(recognizerResult.getResultString() ,VoiceRecognizedData.class);
+                if("。".equals(data.getWs().get(0).getCw().get(0).getW())) {
+                    Logger.d("接收到结果为  。 ,则排除掉它");
+                } else {
+                    voiceGarbageName.setValue(getGarbageFromVoiceRecdata(data));
+                }
         }
         /**
          * 识别回调错误.
@@ -221,7 +231,28 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
+    private String  getGarbageFromVoiceRecdata(VoiceRecognizedData recognizedData) {
+            return recognizedData.getWs().get(0).getCw().get(0).getW();
+    }
 
+    public void initRecorderDialog(RecognizerDialog mIatDialog) {
+        mIatDialog.setParameter(SpeechConstant.RESULT_TYPE, "json");
+        //设置语音输入语言，zh_cn为简体中文
+        mIatDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        //设置结果返回语言
+        mIatDialog.setParameter(SpeechConstant.ACCENT, "mandarin");
+        // 设置语音前端点:静音超时时间，单位ms，即用户多长时间不说话则当做超时处理
+        //取值范围{1000～10000}
+        mIatDialog.setParameter(SpeechConstant.VAD_BOS, "4500");
+        //设置语音后端点:后端点静音检测时间，单位ms，即用户停止说话多长时间内即认为不再输入，
+        //自动停止录音，范围{0~10000}
+        mIatDialog.setParameter(SpeechConstant.VAD_EOS, "1500");
+        //高阶动态修正-->会导致接收多条结果，适合实时显示说话内容，暂不启用此功能
+//            mIatDialog.setParameter("dwa", "wpgs");
+        //开始识别并设置监听器
+        mIatDialog.setListener(mRecognizerDialogListener);
+
+    }
 
 
 
