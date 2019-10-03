@@ -9,6 +9,7 @@ import com.example.odm.garbagesorthelper.base.BaseViewModel;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.core.net.ApiService;
 import com.example.odm.garbagesorthelper.model.RepositoryManager;
+import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.example.odm.garbagesorthelper.model.entity.GarbageData;
 import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
 import com.example.odm.garbagesorthelper.core.net.ObserverManager;
@@ -30,6 +31,7 @@ import com.orhanobut.logger.Logger;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -252,6 +254,19 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
         //开始识别并设置监听器
         mIatDialog.setListener(mRecognizerDialogListener);
 
+    }
+
+    public List<BannerData> getBannerDataList() {
+        List<BannerData> dataList = new ArrayList<>();
+        BannerData a = new BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003225959.png");
+        BannerData b = new BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003230434.png");
+        BannerData c = new BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003230859.png");
+        BannerData d = new BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003232017.png");
+        dataList.add(a);
+        dataList.add(b);
+        dataList.add(c);
+        dataList.add(d);
+        return  dataList;
     }
 
 

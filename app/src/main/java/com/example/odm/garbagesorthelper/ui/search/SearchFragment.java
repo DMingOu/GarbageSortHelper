@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.RootActivity;
@@ -25,9 +27,11 @@ import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
+import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.jeremyliao.liveeventbus.LiveEventBus;
+import com.stx.xhb.androidx.XBanner;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
@@ -44,6 +48,7 @@ public class SearchFragment extends BaseFragment {
     private MaterialDialog loadingDialog;
     private RecognizerDialog mIatDialog;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class SearchFragment extends BaseFragment {
         initEditText();
         initRecorderDialog();
         initDataObserve();
+        initBanner();
         handleLiveEvent();
 //        首先通过DataBindingUtil.inflate初始化binding对象，然后通过.getRoot()获取操作视图，并且在onCreateView中返回该视图。否则会导致binding不生效。
         return mBinding.getRoot();
@@ -101,6 +107,21 @@ public class SearchFragment extends BaseFragment {
         mIatDialog = new RecognizerDialog(getActivity(), searchViewModel.mInitListener);
         searchViewModel.initRecorderDialog(mIatDialog);
 
+    }
+
+    private  void  initBanner() {
+        mBinding.banner.setBannerData(searchViewModel.getBannerDataList());
+
+        mBinding.banner.loadImage(new XBanner.XBannerAdapter() {
+            @Override
+            public void loadBanner(XBanner banner, Object model, View view, int position) {
+                Glide.with(SearchFragment.this)
+                        .load(((BannerData) model).getXBannerUrl())
+                        .placeholder(R.drawable.module_glide_load_default_image)
+                        .error(R.drawable.module_search_cookiebar_fail_garbage)
+                        .into((ImageView) view);
+            }
+        });
     }
 
     private void initDataObserve() {
