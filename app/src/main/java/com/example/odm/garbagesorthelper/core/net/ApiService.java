@@ -1,7 +1,6 @@
 package com.example.odm.garbagesorthelper.core.net;
 
 import com.example.odm.garbagesorthelper.model.entity.GarbageData;
-import com.example.odm.garbagesorthelper.model.entity.ImageClassfyData;
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
 
 import io.reactivex.Observable;

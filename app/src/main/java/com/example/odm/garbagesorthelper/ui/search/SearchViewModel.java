@@ -16,6 +16,13 @@ import com.example.odm.garbagesorthelper.core.net.RetrofitManager;
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
 import com.example.odm.garbagesorthelper.utils.Base64Util;
 import com.example.odm.garbagesorthelper.utils.FileUtil;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.iflytek.speech.RecognizerResult;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -49,13 +56,61 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      * 开启摄像头的变量
      */
     public MutableLiveData<Boolean> isOpenCamera = new MutableLiveData<>(false);
+
+    /**
+     * 开启麦克风的控制变量
+     */
+    public MutableLiveData<Boolean> isOpenRecorder = new MutableLiveData<>(false);
+
     /**
      * 用户搜索结果--分类垃圾列表
      */
     public MutableLiveData<List<GarbageData.DataBean>> sortedList = new MutableLiveData<>();
 
+    /*
+     * 垃圾分类识别实体类对象
+     */
     public MutableLiveData<ImageClassifyBean.ResultBean> imageClassfyGarbage = new MutableLiveData<>();
 
+    /**
+     * 初始化监听器。
+     */
+    public InitListener mInitListener = new InitListener() {
+
+        @Override
+        public void onInit(int code) {
+
+            if (code != ErrorCode.SUCCESS) {
+                Logger.d("初始化失败，错误码：" + code+",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+            }
+        }
+    };
+    /**
+     * 听写UI监听器 讯飞
+     */
+    public RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
+
+        /**
+         * 接收语音听写回调信息
+         * @param recognizerResult 回调结果
+         * @param b 是否翻译
+         */
+        @Override
+        public void onResult(com.iflytek.cloud.RecognizerResult recognizerResult, boolean b) {
+                Logger.d(recognizerResult.getResultString().toString());
+        }
+        /**
+         * 识别回调错误.
+         */
+        public void onError(SpeechError error) {
+            if(error.getErrorCode() == 14002) {
+                Logger.d( error.getPlainDescription(true)+"\n请确认是否已开通翻译功能" );
+            } else {
+                Logger.d(error.getPlainDescription(true));
+            }
+        }
+
+    };
 
     /**
      * 调用垃圾分类查询接口，通过垃圾名 获取垃圾所属分类
@@ -63,8 +118,6 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      * @param garbageName the garbage name
      */
     public void onSearch(String garbageName) {
-
-
         RetrofitManager.getInstance()
                 .getApiService()
                 .getGarbageData(garbageName)
@@ -121,6 +174,10 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
+    public void openRecorder() {
+        isOpenRecorder.setValue(true);
+    }
+
     /**
      * 调用百度的接口获取图片识别的数据
      *
@@ -163,5 +220,9 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
 
     }
+
+
+
+
 
 }

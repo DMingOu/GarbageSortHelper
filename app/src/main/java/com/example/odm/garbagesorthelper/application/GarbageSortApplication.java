@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.RootActivity;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.xuexiang.xui.XUI;
@@ -27,6 +29,7 @@ public class GarbageSortApplication extends Application {
         initLogger();
         initCrashPage();
         initXUIFramework();
+        initXunFeiRecord();
     }
 
     /**
@@ -67,6 +70,13 @@ public class GarbageSortApplication extends Application {
         //初始化UI框架
         XUI.init(this);
         XUI.debug(true);
+    }
+
+    /**
+     * 初始化讯飞语音识别框架
+     */
+    private void initXunFeiRecord() {
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5d92eae0");
     }
 
 }

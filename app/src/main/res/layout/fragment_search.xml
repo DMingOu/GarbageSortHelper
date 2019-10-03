@@ -39,10 +39,23 @@
             android:id="@+id/btnOpenCamera"
             android:background="@drawable/module_search_open_camera"
             app:sb_shape_type="rectangle"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
+
             android:layout_below="@id/etSearch"
             android:onClick="@{()->viewModel.openCamera()}"
             />
+        <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnOpenRecorder"
+            android:background="@drawable/module_search_open_recorder"
+            app:sb_shape_type="rectangle"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/etSearch"
+            android:layout_toEndOf="@id/btnOpenCamera"
+            android:onClick="@{()->viewModel.openRecorder()}"
+        />
 
 
     </RelativeLayout>

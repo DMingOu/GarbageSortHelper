@@ -67,6 +67,14 @@ public class CameraFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        //返回搜索页面
+//        RootActivity rootActivity = (RootActivity) getActivity();
+//        rootActivity.setFragmentPosition(1);
+    }
+
+    @Override
     public void initViewDataBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
         cameraViewModel = ViewModelProviders.of(this).get(CameraViewModel.class);
         mBinding =  DataBindingUtil.inflate(inflater,getLayoutId() ,container,false);

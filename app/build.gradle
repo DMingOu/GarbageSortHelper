@@ -10,6 +10,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+//        ndk {
+//            //选择要添加的对应cpu类型的.so库。
+//            abiFilters 'armeabi-v7a'
+//        }
     }
     buildTypes {
         release {
@@ -26,6 +31,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//    sourceSets {
+//        main{
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
 }
 
 dependencies {
@@ -82,10 +92,11 @@ dependencies {
     implementation "androidx.camera:camera-view:$camerax_view_version"
     // If you to use Camera Extensions
     implementation "androidx.camera:camera-extensions:$camerax_ext_version"
-    //权限
+    //申请权限
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
 
-
+    //讯飞API
+    implementation files('libs/Msc.jar')
     //美团消息总线
     implementation 'com.jeremyliao:live-event-bus-x:1.5.0'
 

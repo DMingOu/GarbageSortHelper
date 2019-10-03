@@ -19,6 +19,7 @@ import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
 import com.example.odm.garbagesorthelper.ui.search.CameraFragment;
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment;
+import com.iflytek.cloud.ui.RecognizerDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.utils.StatusBarUtils;
 
@@ -31,6 +32,8 @@ public class RootActivity extends BaseActivity {
 
     ActivityRootBinding rootBinding;
     RootViewModel rootViewModel;
+
+
     private static final String TAG = "RootActivity";
 
 
@@ -101,9 +104,10 @@ public class RootActivity extends BaseActivity {
 
     @SuppressLint("CheckResult")
     public void initPermission() {
-        //动态获取拍摄权限
+        //动态获取拍摄,录音权限
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+        rxPermissions.request(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
