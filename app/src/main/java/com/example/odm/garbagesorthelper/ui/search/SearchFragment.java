@@ -68,6 +68,17 @@ public class SearchFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+//        searchViewModel.searching = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
 
     }
 
@@ -131,12 +142,14 @@ public class SearchFragment extends BaseFragment {
         //展示输入框搜索结果，同时取消Loading框
         searchViewModel.sortedList.observe(this, dataBeans -> {
             if(dataBeans != null && dataBeans.size() > 0) {
-                Logger.d("展示搜索结果！！      " + dataBeans.size());
-                showGarbageResultBar();
-                cancelLoadingDialog();
-                //清空搜索结果列表，防止二次出现
-                searchViewModel.sortedList.setValue(new ArrayList<>());
-                Logger.d("搜索结果列表的大小  " + searchViewModel.sortedList.getValue().size());
+                if( searchViewModel.searching) {
+//                    Logger.d("展示搜索结果！！      " + dataBeans.get(0).getName());
+                    searchViewModel.searching = false;
+                    showGarbageResultBar();
+//                    cancelLoadingDialog();
+                }
+                //清空搜索结果列表，防止二次出现,bug:修改无效，dataBeans依旧有上一次的数据回调触发onChange
+//                searchViewModel.clearResultList();
             }
         });
         //跳转到拍摄页面
@@ -163,23 +176,12 @@ public class SearchFragment extends BaseFragment {
         //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
         searchViewModel.imageClassfyGarbage.observe(this, bean -> {
             String keyGarbageName = bean.getKeyword();
-            searchViewModel.onSearch(keyGarbageName);
+            if(searchViewModel.searching) {
+//                Logger.d("开始垃圾搜索" + Thread.currentThread().getName());
+                searchViewModel.onSearch(keyGarbageName);
+            }
+
         });
-//        /*
-//         * 观察开启语音识别的变量，（显示语音框）开启语音识别功能
-//         */
-//        searchViewModel.isOpenRecorder.observe(this , isOpenRecorder -> {
-//            if(isOpenRecorder) {
-//                if(mIatDialog != null) {
-//                    mIatDialog.show();
-//                    //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
-//                    TextView recorderDialogTextView = (TextView) mIatDialog.getWindow().getDecorView().findViewWithTag("textlink");
-//                    recorderDialogTextView.setText(R.string.recorder_dialog_textview_text);
-//                } else {
-//                    Log.e(TAG, "initDataObserve: 对话框未初始化" );
-//                }
-//            }
-//        });
         /*
          * 显示语音框）开启语音识别功能
          */
@@ -200,7 +202,9 @@ public class SearchFragment extends BaseFragment {
         searchViewModel.voiceGarbageName.observe(this , garbageName->{
                 if(! "".equals(garbageName)) {
 //                    showLoadingDialog();
-                    searchViewModel.onSearch(garbageName);
+                    if(searchViewModel.searching) {
+                        searchViewModel.onSearch(garbageName);
+                    }
                 } else {
                     //开启语音识别后，若无法检测用户语音内容，会弹出Toast提醒
                     if( searchViewModel.isOpenRecorder.getValue()) {
@@ -215,13 +219,22 @@ public class SearchFragment extends BaseFragment {
      * 处理 LiveEvent 事件
      */
     private void handleLiveEvent() {
-        LiveEventBus
-                .get(Constants.IMAGE_SUCCESS, String.class)
-                .observe(this, imageName -> {
-                    //成功保存了拍摄照片
-                    searchViewModel.imageClassfyFromBaidu(imageName);
-                    showLoadingDialog();
-                });
+        //Todo 暂时未解决LiveEventBus 发送一次事件却重复接收到相同事件的bug ，故暂时采用时间差方式
+        Long currentTime  = System.currentTimeMillis();
+        if( (currentTime - searchViewModel.liveEventTime > 100000) ) {
+            LiveEventBus
+                    .get(Constants.IMAGE_SUCCESS, String.class)
+                    .observe(this, imageName -> {
+//                        Logger.d("处理LiveEvent "+"存储时间： " + searchViewModel.liveEventTime + "  当前系统时间  " +currentTime);
+                        searchViewModel.liveEventTime = currentTime;
+                        //成功保存了拍摄照片，开启Loading对话框，调用百度识图接口查询（耗时）
+                        showLoadingDialog();
+                        searchViewModel.imageClassfyFromBaidu(imageName);
+                    });
+        }
+
+
+
     }
 
 
@@ -243,6 +256,7 @@ public class SearchFragment extends BaseFragment {
                 .setAction(R.string.known, null)
                 .setDuration(4000)
                 .show();
+        cancelLoadingDialog();
     }
 
 
@@ -250,13 +264,19 @@ public class SearchFragment extends BaseFragment {
      * 弹出Loading对话框，提示用户等待
      */
     private void showLoadingDialog () {
-            loadingDialog = new MaterialDialog.Builder(getContext())
-                    .limitIconToDefaultSize()
-                    .title(R.string.tips)
-                    .content(R.string.content_wait_for_receive_data)
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(false)
-                    .show();
+            if(loadingDialog == null) {
+                loadingDialog = new MaterialDialog.Builder(getContext())
+                        .limitIconToDefaultSize()
+                        .title(R.string.tips)
+                        .content(R.string.content_wait_for_receive_data)
+                        .progress(true, 0)
+                        .progressIndeterminateStyle(false)
+                        .show();
+            } else {
+                loadingDialog.show();
+            }
+
+
 
     }
 

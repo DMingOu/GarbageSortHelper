@@ -168,6 +168,7 @@ public class CameraFragment extends BaseFragment {
         return this;
     }
 
+    //Todo 无法拦截返回键事件
     public View.OnKeyListener backListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View view, int i, KeyEvent keyEvent) {

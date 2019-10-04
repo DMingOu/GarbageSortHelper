@@ -79,6 +79,10 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      * 语音识别结果的垃圾名
      */
     public MutableLiveData<String> voiceGarbageName = new MutableLiveData<>("");
+
+    public boolean searching = false;
+
+    public long liveEventTime ;
     /**
      * 初始化监听器。
      */
@@ -108,6 +112,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
                 if("。".equals(data.getWs().get(0).getCw().get(0).getW())) {
                     Logger.d("接收到结果为  。 ,则排除掉它");
                 } else {
+                    searching = true;
                     voiceGarbageName.setValue(getGarbageFromVoiceRecdata(data));
                 }
         }
@@ -145,10 +150,16 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
                     public void onNext(GarbageData garbageData) {
                         if (garbageData != null) {
                                 //将成功查询到的 列表加入 垃圾分类列表中
+//                                Logger.d("返回搜索结果   " + garbageData.getData().get(0).getName() );
                                 sortedList.setValue(garbageData.getData());
                         }
                     }
                 });
+    }
+
+    public void clearResultList() {
+        sortedList.setValue(new ArrayList<>());
+        Logger.d("搜索结果列表的大小  " + sortedList.getValue().size());
     }
 
 
@@ -186,9 +197,6 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
-//    public void openRecorder() {
-//        isOpenRecorder.setValue(true);
-//    }
 
     /**
      * 调用百度的接口获取图片识别的数据
@@ -226,7 +234,13 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
                             @Override
                             public void onNext(ImageClassifyBean imageClassifyBean) {
-                                imageClassfyGarbage.setValue(imageClassifyBean.getResult().get(0));
+                                if(imageClassifyBean.getResult() != null){
+//                                    Logger.d("获取到图像识别结果");
+                                    imageClassfyGarbage.postValue(imageClassifyBean.getResult().get(0));
+                                    searching = true;
+                                }else {
+                                    Logger.d("图像识别结果为空");
+                                }
                             }
                         });
 
