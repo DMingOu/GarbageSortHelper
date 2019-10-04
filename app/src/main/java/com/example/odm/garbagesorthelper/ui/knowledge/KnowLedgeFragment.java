@@ -88,7 +88,6 @@ public class KnowLedgeFragment extends BaseFragment {
     @SuppressLint("ClickableViewAccessibility")
     private void initRecyclerView() {
         knowLedgeViewModel.screenHeight = getScreenHeight();
-        Logger.d(getScreenHeight());
         knowLedgeViewModel.statusBarHeight = StatusBarUtils.getStatusBarHeight(getContext());
         knowLedgeViewModel.tabHeight = StatusBarUtils.getStatusBarHeight(getContext()) * 3;
         manager = new LinearLayoutManager(getContext());

@@ -2,14 +2,24 @@ package com.example.odm.garbagesorthelper.ui.search;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Size;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureConfig;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
+import androidx.camera.extensions.HdrImageCaptureExtender;
+import androidx.camera.extensions.HdrPreviewExtender;
+
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
 import com.example.odm.garbagesorthelper.model.RepositoryManager;
+import com.orhanobut.logger.Logger;
+import com.xuexiang.xui.widget.imageview.preview.PreviewBuilder;
 
 
 import java.io.File;
@@ -32,18 +42,34 @@ public class CameraViewModel extends BaseViewModel<RepositoryManager> {
     }
 
      void initCameraConfig() {
-
-        PreviewConfig previewConfig = new PreviewConfig.Builder().build();
-         preview = new Preview(previewConfig);
+         //拍摄预览的配置config
+         PreviewConfig.Builder configBuilder = new PreviewConfig.Builder().setLensFacing(CameraX.LensFacing.BACK);
+         HdrPreviewExtender hdrPreviewExtender = HdrPreviewExtender.create(configBuilder);
+         //拍摄预览，开启HDR，判断硬件条件是否支持开启，是则直接开启
+         if(hdrPreviewExtender.isExtensionAvailable()) {
+             hdrPreviewExtender.enableExtension();
+         }
+         preview = new Preview(configBuilder.build());
+         //图片分析的配置config
         ImageAnalysisConfig imageAnalysisConfig = new ImageAnalysisConfig.Builder().setTargetResolution(new Size(1080,2248)).build();
-         imageAnalysis = new ImageAnalysis(imageAnalysisConfig);
-        ImageCaptureConfig imageCaptureConfig = new ImageCaptureConfig.Builder().build();
-        imageCapture = new ImageCapture(imageCaptureConfig);
+        imageAnalysis = new ImageAnalysis(imageAnalysisConfig);
+        //图片拍摄的配置config
+        ImageCaptureConfig.Builder captureBuilder = new ImageCaptureConfig.Builder().setLensFacing(CameraX.LensFacing.BACK);
+        HdrImageCaptureExtender hdrImageCaptureExtender = HdrImageCaptureExtender.create(captureBuilder);
+         //拍摄照片，开启HDR，判断硬件条件是否支持开启，是则直接开启
+        if(hdrImageCaptureExtender.isExtensionAvailable()) {
+             hdrImageCaptureExtender.isExtensionAvailable();
+         }
+        imageCapture = new ImageCapture(captureBuilder.build());
     }
 
+
+     //保存指定名称的文件
      File createImageFile(String imageName) {
         return new File(Environment.getExternalStorageDirectory(),imageName);
     }
+
+
 
 
 

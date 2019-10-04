@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Size;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.TextureView;
@@ -42,6 +43,8 @@ import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
 import com.jeremyliao.liveeventbus.LiveEventBus;
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 
 
@@ -63,7 +66,12 @@ public class CameraFragment extends BaseFragment {
         initViewDataBinding(inflater ,container);
         initCamera();
         initView();
-        return mBinding.getRoot();
+        View view =  mBinding.getRoot();
+        view.requestFocus();
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        view.setOnKeyListener(backListener);
+        return view;
     }
 
     @Override
@@ -147,7 +155,7 @@ public class CameraFragment extends BaseFragment {
                         .from(meteringPoint)
                         .build();
                 try {
-                    CameraX.getCameraControl(CameraX.LensFacing.FRONT).startFocusAndMetering(action);
+                    CameraX.getCameraControl(CameraX.LensFacing.BACK).startFocusAndMetering(action);
                 } catch (CameraInfoUnavailableException e) {
                     e.printStackTrace();
                 }
@@ -159,5 +167,22 @@ public class CameraFragment extends BaseFragment {
     private CameraFragment getSelf() {
         return this;
     }
+
+    public View.OnKeyListener backListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            Log.e(TAG, "onKey: 捕捉到拦截事件" );
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                //这边判断,如果是back的按键被点击了   就自己拦截实现掉
+                if (i == KeyEvent.KEYCODE_BACK) {
+//                    Log.e(TAG, "onKey: 拦截返回键" );
+//                    getFragmentManager().popBackStack();
+                    return true;//表示处理了
+                }
+            }
+            return false;
+        }
+    };
+
 
 }

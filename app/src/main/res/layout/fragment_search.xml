@@ -70,7 +70,7 @@
             android:layout_marginEnd="10dp"
             android:layout_below="@id/etSearch"
             android:layout_toEndOf="@id/btnOpenCamera"
-            android:onClick="@{()->viewModel.openRecorder()}"
+
         />
 
 

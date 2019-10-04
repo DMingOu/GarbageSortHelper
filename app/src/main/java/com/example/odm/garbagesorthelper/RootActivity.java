@@ -94,10 +94,12 @@ public class RootActivity extends BaseActivity {
         Fragment lastFragment = rootViewModel.mFragments.get(rootViewModel.lastFragmentIndex);
         rootViewModel.lastFragmentIndex = position;
         ft.hide(lastFragment);
+        //如果目标Fragment已经添加，则remove掉重新加入
         if (!currentFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
             ft.add(R.id.root_fragment_container, currentFragment);
         }
+        ft.replace(R.id.root_fragment_container ,currentFragment);
         ft.show(currentFragment);
         ft.commitAllowingStateLoss();
     }

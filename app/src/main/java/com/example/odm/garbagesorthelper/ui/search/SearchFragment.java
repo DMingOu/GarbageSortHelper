@@ -31,10 +31,13 @@ import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.jeremyliao.liveeventbus.LiveEventBus;
+import com.orhanobut.logger.Logger;
 import com.stx.xhb.androidx.XBanner;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
+
+import java.util.ArrayList;
 
 /**
  * description: 搜索页面View层
@@ -128,18 +131,30 @@ public class SearchFragment extends BaseFragment {
         //展示输入框搜索结果，同时取消Loading框
         searchViewModel.sortedList.observe(this, dataBeans -> {
             if(dataBeans != null && dataBeans.size() > 0) {
+                Logger.d("展示搜索结果！！      " + dataBeans.size());
                 showGarbageResultBar();
                 cancelLoadingDialog();
+                //清空搜索结果列表，防止二次出现
+                searchViewModel.sortedList.setValue(new ArrayList<>());
+                Logger.d("搜索结果列表的大小  " + searchViewModel.sortedList.getValue().size());
             }
         });
         //跳转到拍摄页面
         searchViewModel.isOpenCamera.observe(this,  isOpenCamera -> {
             if (isOpenCamera) {
+
                 RootActivity rootActivity = (RootActivity) getActivity();
                 RxPermissions rxPermissions = new RxPermissions(rootActivity);
                 if(rxPermissions.isGranted(Manifest.permission.CAMERA)&&rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                                                         &&rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)){
-                    rootActivity.setFragmentPosition(3);
+                    //打开
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.root_fragment_container, new CameraFragment() )
+                            .addToBackStack(CameraFragment.class.getSimpleName())
+                            .commit();
+
+                    searchViewModel.isOpenCamera.setValue(false);
+//                    rootActivity.setFragmentPosition(3);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),"未获取相关权限，无法开启拍照识别！",Toast.LENGTH_LONG).show();
                 }
@@ -150,19 +165,33 @@ public class SearchFragment extends BaseFragment {
             String keyGarbageName = bean.getKeyword();
             searchViewModel.onSearch(keyGarbageName);
         });
+//        /*
+//         * 观察开启语音识别的变量，（显示语音框）开启语音识别功能
+//         */
+//        searchViewModel.isOpenRecorder.observe(this , isOpenRecorder -> {
+//            if(isOpenRecorder) {
+//                if(mIatDialog != null) {
+//                    mIatDialog.show();
+//                    //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
+//                    TextView recorderDialogTextView = (TextView) mIatDialog.getWindow().getDecorView().findViewWithTag("textlink");
+//                    recorderDialogTextView.setText(R.string.recorder_dialog_textview_text);
+//                } else {
+//                    Log.e(TAG, "initDataObserve: 对话框未初始化" );
+//                }
+//            }
+//        });
         /*
-         * 观察开启语音识别的变量，（显示语音框）开启语音识别功能
+         * 显示语音框）开启语音识别功能
          */
-        searchViewModel.isOpenRecorder.observe(this , isOpenRecorder -> {
-            if(isOpenRecorder) {
-                if(mIatDialog != null) {
-                    mIatDialog.show();
-                    //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
-                    TextView recorderDialogTextView = (TextView) mIatDialog.getWindow().getDecorView().findViewWithTag("textlink");
-                    recorderDialogTextView.setText(R.string.recorder_dialog_textview_text);
-                } else {
-                    Log.e(TAG, "initDataObserve: 对话框未初始化" );
-                }
+        mBinding.btnOpenRecorder.setOnClickListener(v -> {
+            if(mIatDialog != null) {
+                mIatDialog.show();
+                searchViewModel.isOpenRecorder.setValue(true);
+                //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
+                TextView recorderDialogTextView = (TextView) mIatDialog.getWindow().getDecorView().findViewWithTag("textlink");
+                recorderDialogTextView.setText(R.string.recorder_dialog_textview_text);
+            } else {
+                Log.e(TAG, "initDataObserve: 对话框未初始化" );
             }
         });
         /*
@@ -179,6 +208,7 @@ public class SearchFragment extends BaseFragment {
                     }
                 }
         });
+        searchViewModel.isOpenRecorder.setValue(false);
     }
 
     /**
@@ -227,6 +257,7 @@ public class SearchFragment extends BaseFragment {
                     .progress(true, 0)
                     .progressIndeterminateStyle(false)
                     .show();
+
     }
 
     /**

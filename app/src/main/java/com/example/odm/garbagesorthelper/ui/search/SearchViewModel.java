@@ -186,9 +186,9 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
-    public void openRecorder() {
-        isOpenRecorder.setValue(true);
-    }
+//    public void openRecorder() {
+//        isOpenRecorder.setValue(true);
+//    }
 
     /**
      * 调用百度的接口获取图片识别的数据
