@@ -64,13 +64,10 @@ public class CameraViewModel extends BaseViewModel<RepositoryManager> {
     }
 
 
-     //保存指定名称的文件
+     //保存指定名称的文件,绝对路径为"/storage/emulated/0/"+imageName
      File createImageFile(String imageName) {
         return new File(Environment.getExternalStorageDirectory(),imageName);
     }
-
-
-
 
 
 }

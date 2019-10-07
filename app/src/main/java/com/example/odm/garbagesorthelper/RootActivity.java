@@ -47,7 +47,7 @@ public class RootActivity extends BaseActivity {
         initViewDataBinding();
         initFragmentData();
         initBottomNavigation();
-        initPermission();
+        initPermissions();
     }
 
 
@@ -105,7 +105,7 @@ public class RootActivity extends BaseActivity {
     }
 
     @SuppressLint("CheckResult")
-    public void initPermission() {
+    public void initPermissions() {
         //动态获取拍摄,录音权限
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -114,7 +114,6 @@ public class RootActivity extends BaseActivity {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         //检查权限是否获取，提醒用户
-
                         if (aBoolean) {
                             Log.e(TAG, "accept: 动态申请 权限回调 true" );
 

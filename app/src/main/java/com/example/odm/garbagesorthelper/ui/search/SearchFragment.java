@@ -106,6 +106,8 @@ public class SearchFragment extends BaseFragment {
                     manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     //触发软键盘的点击事件
                     searchViewModel.onSearch(searchViewModel.garbageName.getValue());
+                    //搜索状态置为 true
+                    searchViewModel.searching = true;
                     showLoadingDialog();
                     //点击键盘的搜索键后，清空内容，放弃焦点
                     mBinding.etSearch.clearFocus();
@@ -123,6 +125,9 @@ public class SearchFragment extends BaseFragment {
 
     }
 
+    /**
+     * 初始化展示轮播图Banner
+     */
     private  void  initBanner() {
         mBinding.banner.setBannerData(searchViewModel.getBannerDataList());
 
@@ -138,6 +143,9 @@ public class SearchFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 观察viewModel的数据变动--改变view层的UI
+     */
     private void initDataObserve() {
         //展示输入框搜索结果，同时取消Loading框
         searchViewModel.sortedList.observe(this, dataBeans -> {
@@ -183,7 +191,7 @@ public class SearchFragment extends BaseFragment {
 
         });
         /*
-         * 显示语音框）开启语音识别功能
+         * 显示语音框--开启语音识别功能
          */
         mBinding.btnOpenRecorder.setOnClickListener(v -> {
             if(mIatDialog != null) {
