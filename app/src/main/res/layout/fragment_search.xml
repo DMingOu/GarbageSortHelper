@@ -2,77 +2,76 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.odm.garbagesorthelper.ui.search.SearchViewModel" />
-    </data>
-
     <RelativeLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.stx.xhb.androidx.XBanner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginTop="100dp"
-        app:AutoPlayTime="3000"
-        app:pointsContainerBackground="#44aaaaaa"
-        app:pointNormal="@drawable/module_search_shape_banner_normal_point"
-        app:pointSelect="@drawable/module_search_shape_banner_selected_point"
-        app:pointsPosition="CENTER"
-        app:isClipChildrenMode="true"
-        app:tipTextSize="0sp"
-        app:isShowNumberIndicator="false"
-        app:isShowIndicatorOnlyOne="true"
-        app:pageChangeDuration="800"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <com.example.odm.garbagesorthelper.widget.ClearEditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
+            android:background="@drawable/module_search_edittext_background"
+            android:drawableStart="@drawable/module_search_edittext_left_icon"
+            android:drawablePadding="20dp"
             android:gravity="center|start"
             android:hint="@string/searchview_hint"
-            android:textSize="18sp"
-            android:drawableStart="@drawable/module_search_edittext_left_icon"
-            android:background="@drawable/module_search_edittext_background"
-            android:drawablePadding="20dp"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:singleLine="true"
             android:text="@={viewModel.garbageName}"
+            android:textSize="18sp"
             app:checkNewStringValue="@{viewModel.garbageName}"
             />
 
+        <com.stx.xhb.androidx.XBanner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="10dp"
+        app:AutoPlayTime="3000"
+        app:isClipChildrenMode="true"
+        app:isShowIndicatorOnlyOne="true"
+        app:isShowNumberIndicator="false"
+        app:pageChangeDuration="800"
+        app:pointNormal="@drawable/module_search_shape_banner_normal_point"
+        app:pointSelect="@drawable/module_search_shape_banner_selected_point"
+        app:pointsContainerBackground="#44aaaaaa"
+        app:pointsPosition="CENTER"
+        app:tipTextSize="0sp"
+        />
+
         <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+            android:id="@+id/btnOpenCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnOpenCamera"
-            android:background="@drawable/module_search_open_camera"
-            app:sb_shape_type="rectangle"
-            android:layout_marginStart="10dp"
-
             android:layout_below="@id/etSearch"
+            android:layout_marginStart="10dp"
+        android:layout_alignStart="@id/etSearch"
+            android:background="@drawable/module_search_jump_to_camera"
             android:onClick="@{()->viewModel.openCamera()}"
+            app:sb_shape_type="rectangle"
             />
         <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/btnOpenRecorder"
-            android:background="@drawable/module_search_open_recorder"
-            app:sb_shape_type="rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etSearch"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_below="@id/etSearch"
-            android:layout_toEndOf="@id/btnOpenCamera"
-
+            android:layout_alignEnd="@id/etSearch"
+            android:background="@drawable/module_search_open_recording"
+            app:sb_shape_type="rectangle"
         />
 
 
     </RelativeLayout>
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.odm.garbagesorthelper.ui.search.SearchViewModel" />
+    </data>
 </layout>

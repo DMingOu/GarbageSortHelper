@@ -28,7 +28,7 @@
             titlebar:centerTextColor="@color/xui_config_color_white"
             titlebar:centerTextMarquee="false"
             titlebar:leftType="none"
-            titlebar:titleBarHeight="89dp"
+            titlebar:titleBarHeight="70dp"
             />
 
         <FrameLayout
@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/root_bottom_navigation"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:layout_below="@id/root_toolbar"/>
 
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/root_bottom_navigation"

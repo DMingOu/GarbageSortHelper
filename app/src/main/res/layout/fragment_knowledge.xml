@@ -24,7 +24,6 @@
             app:tabIndicatorHeight="4dp"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/colorPrimary"
-            android:layout_marginTop="89dp"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_knowledge"
