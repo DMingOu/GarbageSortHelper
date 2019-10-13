@@ -48,7 +48,7 @@ public class ClearEditText extends AppCompatEditText implements View.OnTouchList
         //清除图标
         //Wrap the drawable so that it can be tinted pre Lollipop
         //DrawableCompat.setTint(wrappedDrawable, getCurrentHintTextColor());
-        mClearIcon = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.module_search_edittext_clear));
+        mClearIcon = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.module_search_edittext_delete_all));
         mClearIcon.setBounds(0, 0, mClearIcon.getIntrinsicWidth(), mClearIcon.getIntrinsicHeight());
         mSearchIcon = DrawableCompat.wrap(ContextCompat.getDrawable(context ,R.drawable.module_search_edittext_left_icon));
         mSearchIcon.setBounds(0, 0, mSearchIcon.getIntrinsicWidth(), mSearchIcon.getIntrinsicHeight());

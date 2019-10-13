@@ -149,7 +149,8 @@ public class CameraFragment extends BaseFragment {
             public boolean onTouch(View v, MotionEvent event) {
                 int eventAction = event.getAction();
                 switch (eventAction) {
-                    case MotionEvent.ACTION_DOWN://按下
+                    case MotionEvent.ACTION_DOWN:
+                        //启动点击对焦自定义View
                         mBinding.focusCircle.focusStart(mBinding.focusCircle , event.getX() ,event.getY());
                         TextureViewMeteringPointFactory pointFactory = new TextureViewMeteringPointFactory(mBinding.containerCamera);
                         MeteringPoint meteringPoint = pointFactory.createPoint(event.getX(),event.getY());
@@ -165,7 +166,7 @@ public class CameraFragment extends BaseFragment {
                     case MotionEvent.ACTION_MOVE://移动
                         break;
                     case MotionEvent.ACTION_UP://松开
-
+                        //对焦View关闭
                         mBinding.focusCircle.focusCompleted();
                         break;
                 }
