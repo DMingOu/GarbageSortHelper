@@ -84,7 +84,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     public long liveEventTime ;
     /**
-     * 初始化监听器。
+     * 初始化语音听写监听器。
      */
     public InitListener mInitListener = new InitListener() {
 
@@ -96,7 +96,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
         }
     };
     /**
-     * 听写UI监听器 讯飞
+     * 初始化听写UI监听器 讯飞，处理数据
      */
     public RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
 
