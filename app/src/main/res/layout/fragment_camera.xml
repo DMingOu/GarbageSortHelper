@@ -9,6 +9,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rv_Camera"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,6 +31,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             app:sb_shape_type="round"/>
+        <com.example.odm.garbagesorthelper.widget.FocusCircleView
+            android:id="@+id/focusCircle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </RelativeLayout>
 </layout>

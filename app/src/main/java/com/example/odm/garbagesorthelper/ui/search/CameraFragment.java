@@ -42,6 +42,7 @@ import com.example.odm.garbagesorthelper.RootActivity;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
+import com.example.odm.garbagesorthelper.widget.FocusCircleView;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.orhanobut.logger.Logger;
 
@@ -57,6 +58,7 @@ public class CameraFragment extends BaseFragment {
 
     private CameraViewModel cameraViewModel ;
     private FragmentCameraBinding mBinding;
+
     private static final String TAG = "CameraFragment";
 
 
@@ -64,8 +66,8 @@ public class CameraFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewDataBinding(inflater ,container);
-        initCamera();
         initView();
+        initCamera();
         View view =  mBinding.getRoot();
         view.requestFocus();
         view.setFocusable(true);
@@ -74,13 +76,7 @@ public class CameraFragment extends BaseFragment {
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        //返回搜索页面
-//        RootActivity rootActivity = (RootActivity) getActivity();
-//        rootActivity.setFragmentPosition(1);
-    }
+
 
     @Override
     public void initViewDataBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -98,6 +94,8 @@ public class CameraFragment extends BaseFragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
+
+
         mBinding.btnCamera.setOnClickListener( v->{
             //创建要存照片的File
             String imageName = "QG7777777.png";
@@ -149,24 +147,38 @@ public class CameraFragment extends BaseFragment {
         mBinding.containerCamera.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                TextureViewMeteringPointFactory pointFactory = new TextureViewMeteringPointFactory(mBinding.containerCamera);
-                MeteringPoint meteringPoint = pointFactory.createPoint(event.getX(),event.getY());
-                FocusMeteringAction action = FocusMeteringAction.Builder
-                        .from(meteringPoint)
-                        .build();
-                try {
-                    CameraX.getCameraControl(CameraX.LensFacing.BACK).startFocusAndMetering(action);
-                } catch (CameraInfoUnavailableException e) {
-                    e.printStackTrace();
+                int eventAction = event.getAction();
+                switch (eventAction) {
+                    case MotionEvent.ACTION_DOWN://按下
+                        mBinding.focusCircle.focusStart(mBinding.focusCircle , event.getX() ,event.getY());
+                        TextureViewMeteringPointFactory pointFactory = new TextureViewMeteringPointFactory(mBinding.containerCamera);
+                        MeteringPoint meteringPoint = pointFactory.createPoint(event.getX(),event.getY());
+                        FocusMeteringAction action = FocusMeteringAction.Builder
+                                .from(meteringPoint)
+                                .build();
+                        try {
+                            CameraX.getCameraControl(CameraX.LensFacing.BACK).startFocusAndMetering(action);
+                        } catch (CameraInfoUnavailableException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE://移动
+                        break;
+                    case MotionEvent.ACTION_UP://松开
+
+                        mBinding.focusCircle.focusCompleted();
+                        break;
                 }
-                return false;
+                return true;
             }
         });
+
     }
 
     private CameraFragment getSelf() {
         return this;
     }
+
 
     //Todo 无法拦截返回键事件
     public View.OnKeyListener backListener = new View.OnKeyListener() {

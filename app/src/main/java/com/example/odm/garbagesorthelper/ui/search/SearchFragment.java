@@ -282,6 +282,7 @@ public class SearchFragment extends BaseFragment {
                         .show();
             } else {
                 loadingDialog.show();
+
             }
 
 
