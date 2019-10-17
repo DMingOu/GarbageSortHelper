@@ -203,7 +203,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      *
      * @param imageName the image name
      */
-    public void imageClassfyFromBaidu(String imageName)  {
+    public void imageClassifyFromBaidu(String imageName)  {
         String filePath = "/storage/emulated/0/"+imageName;
         byte[] imgData = new byte[0];
         try {
@@ -211,10 +211,10 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String imgStr = Base64Util.encode(imgData);
+        String imgStr_Base64 = Base64Util.encode(imgData);
         String imgParam = null;
         try {
-            imgParam = URLEncoder.encode(imgStr, "UTF-8");
+            imgParam = URLEncoder.encode(imgStr_Base64, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -270,6 +270,9 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
 
     }
 
+    /*
+     * 初始化页面轮播图数据
+     */
     public List<BannerData> getBannerDataList() {
         List<BannerData> dataList = new ArrayList<>();
         BannerData a = new BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003225959.png");

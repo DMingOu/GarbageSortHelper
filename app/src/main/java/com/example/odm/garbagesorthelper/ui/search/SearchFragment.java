@@ -236,7 +236,7 @@ public class SearchFragment extends BaseFragment {
                         searchViewModel.liveEventTime = currentTime;
                         //成功保存了拍摄照片，开启Loading对话框，调用百度识图接口查询（耗时）
                         showLoadingDialog();
-                        searchViewModel.imageClassfyFromBaidu(imageName);
+                        searchViewModel.imageClassifyFromBaidu(imageName);
                     });
         }
 
