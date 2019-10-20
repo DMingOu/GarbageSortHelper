@@ -42,6 +42,7 @@ import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.RootActivity;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
+import com.example.odm.garbagesorthelper.base.IBackInterface;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
 import com.example.odm.garbagesorthelper.widget.FocusCircleView;
@@ -71,10 +72,13 @@ public class CameraFragment extends BaseFragment {
         initView();
         initCamera();
         View view =  mBinding.getRoot();
-        view.requestFocus();
-        view.setFocusable(true);
-        view.setFocusableInTouchMode(true);
-        view.setOnKeyListener(backListener);
+        IBackInterface backInterface;
+        if(!(getActivity() instanceof IBackInterface)){
+            throw new ClassCastException("Hosting Activity must implement BackHandledInterface");
+        }else{
+            backInterface = (IBackInterface)getActivity();
+        }
+        backInterface.setSelectedBackFragment(this);
         return view;
     }
 
@@ -188,22 +192,14 @@ public class CameraFragment extends BaseFragment {
     }
 
 
-    //Todo 无法拦截返回键事件
-    public View.OnKeyListener backListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-            Log.e(TAG, "onKey: 捕捉到拦截事件" );
-            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                //这边判断,如果是back的按键被点击了   就自己拦截实现掉
-                if (i == KeyEvent.KEYCODE_BACK) {
-//                    Log.e(TAG, "onKey: 拦截返回键" );
-//                    getFragmentManager().popBackStack();
-                    return true;//表示处理了
-                }
-            }
-            return false;
-        }
-    };
+
+    /**
+     * 用于返回是否需要实现监听
+     * 返回true，则让宿主Activity处理本次返回事件
+     */
+    public boolean onBackPressed() {
+        return  true;
+    }
 
 
 }

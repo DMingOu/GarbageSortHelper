@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.odm.garbagesorthelper.base.BaseActivity;
+import com.example.odm.garbagesorthelper.base.IBackInterface;
 import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding;
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
@@ -29,7 +30,7 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-public class RootActivity extends BaseActivity {
+public class RootActivity extends BaseActivity  implements IBackInterface {
 
     ActivityRootBinding rootBinding;
     RootViewModel rootViewModel;
@@ -131,12 +132,26 @@ public class RootActivity extends BaseActivity {
     }
 
     /**
-     * 监听退出APP事件
+     * 监听返回键事件
      */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Logger.d("app被关闭");
-        finish();
+
+        //若当前页面为拍摄页面，监听返回键事件--返回拍摄页面
+        if(rootViewModel.backFragment != null  && ((CameraFragment) rootViewModel.backFragment).onBackPressed()) {
+
+            setFragmentPosition(1);
+            rootViewModel.backFragment = null;
+        } else {
+        //若当前页面为其他页面，监听返回键事件--退出APP
+            super.onBackPressed();
+            finish();
+        }
+
+    }
+
+    @Override
+    public void setSelectedBackFragment(Fragment fragment) {
+        rootViewModel.backFragment  = fragment;
     }
 }

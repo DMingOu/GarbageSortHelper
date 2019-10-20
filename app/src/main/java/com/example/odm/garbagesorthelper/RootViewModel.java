@@ -30,6 +30,7 @@ public class RootViewModel extends BaseViewModel {
     //Fragment对象列表
     List<Fragment> mFragments;
 
+    Fragment backFragment;
     //目前展示Fragment的位置
     int lastFragmentIndex;
 

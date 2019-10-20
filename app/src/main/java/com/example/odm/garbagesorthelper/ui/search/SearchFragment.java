@@ -173,9 +173,8 @@ public class SearchFragment extends BaseFragment {
                     //跳转到拍摄页面
                     getFragmentManager().beginTransaction()
                             .add(R.id.root_fragment_container , new CameraFragment() , "CameraFragment")
-                            .commit();
+                            .commitAllowingStateLoss();
                     searchViewModel.isOpenCamera.setValue(false);
-//                    rootActivity.setFragmentPosition(3);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),"未获取相关权限，无法开启拍照识别！",Toast.LENGTH_LONG).show();
                 }
