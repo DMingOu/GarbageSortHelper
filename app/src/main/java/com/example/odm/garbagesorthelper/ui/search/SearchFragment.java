@@ -28,6 +28,7 @@ import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
 import com.example.odm.garbagesorthelper.model.entity.BannerData;
+import com.example.odm.garbagesorthelper.utils.InjectorUtils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.jeremyliao.liveeventbus.LiveEventBus;
@@ -90,7 +91,8 @@ public class SearchFragment extends BaseFragment {
 
     @Override
     public void initViewDataBinding( LayoutInflater inflater , @Nullable ViewGroup container) {
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+//        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        searchViewModel = InjectorUtils.provideSearchViewModelFactory(requireContext()).create(SearchViewModel.class);
         mBinding =  DataBindingUtil.inflate(inflater,getLayoutId() ,container,false);
         mBinding.setViewModel(searchViewModel);
         mBinding.setVariable(BR.viewModel,searchViewModel);
@@ -168,12 +170,10 @@ public class SearchFragment extends BaseFragment {
                 RxPermissions rxPermissions = new RxPermissions(rootActivity);
                 if(rxPermissions.isGranted(Manifest.permission.CAMERA)&&rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                                                         &&rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)){
-                    //打开
+                    //跳转到拍摄页面
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.root_fragment_container, new CameraFragment() )
-                            .addToBackStack(CameraFragment.class.getSimpleName())
+                            .add(R.id.root_fragment_container , new CameraFragment() , "CameraFragment")
                             .commit();
-
                     searchViewModel.isOpenCamera.setValue(false);
 //                    rootActivity.setFragmentPosition(3);
                 } else {
@@ -236,7 +236,7 @@ public class SearchFragment extends BaseFragment {
                         searchViewModel.liveEventTime = currentTime;
                         //成功保存了拍摄照片，开启Loading对话框，调用百度识图接口查询（耗时）
                         showLoadingDialog();
-                        searchViewModel.imageClassifyFromBaidu(imageName);
+                        searchViewModel.imageClassifyFromBaiDu(imageName);
                     });
         }
 

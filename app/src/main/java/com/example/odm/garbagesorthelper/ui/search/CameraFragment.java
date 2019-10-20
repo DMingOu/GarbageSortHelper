@@ -33,6 +33,8 @@ import androidx.camera.view.CameraView;
 import androidx.camera.view.TextureViewMeteringPointFactory;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -106,8 +108,13 @@ public class CameraFragment extends BaseFragment {
                     //与搜索页面通信，成功保存了拍摄图片
                     LiveEventBus.get(Constants.IMAGE_SUCCESS).post(imageName);
                     //返回搜索页面
-                    RootActivity rootActivity = (RootActivity) getActivity();
-                    rootActivity.setFragmentPosition(1);
+                    FragmentManager manager = getFragmentManager();
+                    //通过FragmentManager管理器获取被标记的CameraFragment
+                    Fragment fragment1 = manager.findFragmentByTag("CameraFragment");
+                    if (fragment1 != null) {
+                        //开始事务 通过remove清除指定的fragment，并提交
+                        manager.beginTransaction().remove(fragment1).commit();
+                    }
                 }
                 @Override
                 public void onError(@NonNull ImageCapture.ImageCaptureError imageCaptureError, @NonNull String message, @Nullable Throwable cause) {

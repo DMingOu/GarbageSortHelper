@@ -20,6 +20,7 @@ import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
 import com.example.odm.garbagesorthelper.ui.search.CameraFragment;
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment;
 import com.iflytek.cloud.ui.RecognizerDialog;
+import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.utils.StatusBarUtils;
 
@@ -90,18 +91,22 @@ public class RootActivity extends BaseActivity {
 
     public void setFragmentPosition(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment currentFragment = rootViewModel.mFragments.get(position);
+        Fragment targetFragment = rootViewModel.mFragments.get(position);
         Fragment lastFragment = rootViewModel.mFragments.get(rootViewModel.lastFragmentIndex);
         rootViewModel.lastFragmentIndex = position;
         ft.hide(lastFragment);
         //如果目标Fragment已经添加，则remove掉重新加入
-        if (!currentFragment.isAdded()) {
-            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-            ft.add(R.id.root_fragment_container, currentFragment);
+        if (!targetFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().remove(targetFragment).commit();
+            Logger.d("pos : " + position + "    的Fragment ，被添加进去");
+            ft.add(R.id.root_fragment_container, targetFragment);
         }
-        ft.replace(R.id.root_fragment_container ,currentFragment);
-        ft.show(currentFragment);
+
+        ft.replace(R.id.root_fragment_container ,targetFragment);
+        ft.show(targetFragment);
         ft.commitAllowingStateLoss();
+        //重复添加
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     @SuppressLint("CheckResult")
@@ -125,5 +130,13 @@ public class RootActivity extends BaseActivity {
                 });
     }
 
-
+    /**
+     * 监听退出APP事件
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Logger.d("app被关闭");
+        finish();
+    }
 }

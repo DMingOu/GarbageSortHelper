@@ -1,14 +1,12 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
-import android.app.Application;
-
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.base.BaseViewModel;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.core.net.ApiService;
-import com.example.odm.garbagesorthelper.model.RepositoryManager;
+import com.example.odm.garbagesorthelper.model.SearchDataRepository;
 import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.example.odm.garbagesorthelper.model.entity.GarbageData;
 import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
@@ -25,7 +23,6 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
-import com.iflytek.speech.RecognizerResult;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -44,13 +41,17 @@ import okhttp3.RequestBody;
  * author: ODM
  * date: 2019/9/19
  */
-public class SearchViewModel extends BaseViewModel<RepositoryManager> {
+public class SearchViewModel extends ViewModel {
 
 
-    public SearchViewModel(Application application) {
-        super(application);
+//    public SearchViewModel(Application application) {
+//        super(application);
+//    }
+    private SearchDataRepository repository;
+
+    public SearchViewModel(SearchDataRepository repository) {
+        this.repository = repository;
     }
-
     /**
      * 用户搜索框搜索内容--垃圾名
      */
@@ -135,11 +136,7 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      * @param garbageName the garbage name
      */
     public void onSearch(String garbageName) {
-        RetrofitManager.getInstance()
-                .getApiService()
-                .getGarbageData(garbageName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+          repository.getGarbageDataResult(garbageName)
                 .subscribe(new ObserverManager<GarbageData>() {
                     @Override
                     public void onError(HttpThrowable httpThrowable) {
@@ -203,29 +200,8 @@ public class SearchViewModel extends BaseViewModel<RepositoryManager> {
      *
      * @param imageName the image name
      */
-    public void imageClassifyFromBaidu(String imageName)  {
-        String filePath = "/storage/emulated/0/"+imageName;
-        byte[] imgData = new byte[0];
-        try {
-            imgData = FileUtil.readFileByBytes(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String imgStr_Base64 = Base64Util.encode(imgData);
-        String imgParam = null;
-        try {
-            imgParam = URLEncoder.encode(imgStr_Base64, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String param = "image=" + imgParam;
-        RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"),param);
-        //请求数据
-        RetrofitManager.getInstance()
-                        .getApiService()
-                        .getImageClassifyData(ApiService.Base_Url_Image_Classify , Constants.accessToken_baidu , body)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+    public void imageClassifyFromBaiDu(String imageName)  {
+        repository.getImageClassifyResult(imageName)
                         .subscribe(new ObserverManager<ImageClassifyBean>() {
                             @Override
                             public void onError(HttpThrowable httpThrowable) {
