@@ -105,7 +105,7 @@ public class RootActivity extends BaseActivity {
         ft.replace(R.id.root_fragment_container ,targetFragment);
         ft.show(targetFragment);
         ft.commitAllowingStateLoss();
-        //重复添加
+        //防止重复添加
         getSupportFragmentManager().executePendingTransactions();
     }
 
