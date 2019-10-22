@@ -85,6 +85,9 @@ public class KnowLedgeFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 初始化滚动列表
+     */
     @SuppressLint("ClickableViewAccessibility")
     private void initRecyclerView() {
         knowLedgeViewModel.screenHeight = getScreenHeight();
@@ -99,9 +102,7 @@ public class KnowLedgeFragment extends BaseFragment {
                 //当滑动由recyclerView触发时，isRecyclerScroll 置true
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     knowLedgeViewModel.isRecyclerScroll = true;
-//                    v.performClick();
                 }
-                //返回True时必须手动触发 v.performClick(); 否则导致点击事件不生效，事件分发机制导致
                 return false;
             }
         });
@@ -120,7 +121,7 @@ public class KnowLedgeFragment extends BaseFragment {
             public void onScrolled(@NonNull  RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (knowLedgeViewModel.isRecyclerScroll) {
-                    //第一个可见的view的位置，即tablayou需定位的位置
+                    //第一个可见的view的位置，即tabLayout需定位的位置
                     int position = manager.findFirstVisibleItemPosition();
                     if (knowLedgeViewModel.lastPos != position) {
                         mBinding.tabKnowledge.setScrollPosition(position, 0, true);
@@ -146,9 +147,9 @@ public class KnowLedgeFragment extends BaseFragment {
 
     /**
      * TabLayout 移动--> RecyclerView移动
-     * @param manager
-     * @param mRecyclerView
-     * @param position
+     * @param manager LinearLayoutManager
+     * @param mRecyclerView 列表
+     * @param position 位置
      */
     private void moveRecyclerViewToPosition(LinearLayoutManager manager, RecyclerView mRecyclerView, int position) {
         // 第一个可见的view的位置

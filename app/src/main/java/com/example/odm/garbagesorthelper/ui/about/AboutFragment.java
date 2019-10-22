@@ -76,7 +76,9 @@ public class AboutFragment extends BaseFragment {
     private void showAuthorDialog() {
         if(dialogBuilder != null) {
             dialogBuilder.title("我是谁?")
-                        .content("我是一名大二学生，因为兴趣使然，独立完成了此款垃圾分类小APP。".concat("\n欢迎您通过我的邮箱与我联系").concat("\nDMingOu@gmail.com"))
+                        .content("我是一名大二学生，因为兴趣使然，独立完成了此款垃圾分类小APP。".concat("\n").
+                                concat(getResources().getString(R.string.welcome_contact_to_me)).concat("\n").
+                                concat(getResources().getString(R.string.my_email_address)))
                         .positiveText(R.string.known)
                         .show();
         }

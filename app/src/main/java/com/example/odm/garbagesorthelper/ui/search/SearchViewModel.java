@@ -1,5 +1,6 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -55,7 +56,7 @@ public class SearchViewModel extends ViewModel {
     /**
      * 用户搜索框搜索内容--垃圾名
      */
-    public MutableLiveData<String> garbageName = new MutableLiveData<>();
+    public LiveData<String> garbageName = new MutableLiveData<>();
     /**
      * 开启摄像头的变量
      */
@@ -74,7 +75,7 @@ public class SearchViewModel extends ViewModel {
     /*
      * 垃圾分类识别实体类对象
      */
-    public MutableLiveData<ImageClassifyBean.ResultBean> imageClassfyGarbage = new MutableLiveData<>();
+    public MutableLiveData<ImageClassifyBean.ResultBean> imageClassifyGarbage = new MutableLiveData<>();
 
     /**
      * 语音识别结果的垃圾名
@@ -212,7 +213,7 @@ public class SearchViewModel extends ViewModel {
                             public void onNext(ImageClassifyBean imageClassifyBean) {
                                 if(imageClassifyBean.getResult() != null){
 //                                    Logger.d("获取到图像识别结果");
-                                    imageClassfyGarbage.postValue(imageClassifyBean.getResult().get(0));
+                                    imageClassifyGarbage.postValue(imageClassifyBean.getResult().get(0));
                                     searching = true;
                                 }else {
                                     Logger.d("图像识别结果为空");

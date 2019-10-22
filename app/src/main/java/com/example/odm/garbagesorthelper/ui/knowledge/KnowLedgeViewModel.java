@@ -18,7 +18,7 @@ import java.util.List;
 public class KnowLedgeViewModel extends BaseViewModel<RepositoryManager> {
 
 
-    public List<Drawable> tabIcons;
+
     public int screenHeight;
     public int statusBarHeight;
     public int tabHeight;

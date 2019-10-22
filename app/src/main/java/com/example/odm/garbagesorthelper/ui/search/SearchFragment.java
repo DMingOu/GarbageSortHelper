@@ -106,14 +106,17 @@ public class SearchFragment extends BaseFragment {
                 InputMethodManager manager = ((InputMethodManager) GarbageSortApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 if (manager != null) {
                     manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    Logger.d(searchViewModel.garbageName.getValue());
                     //触发软键盘的点击事件
-                    searchViewModel.onSearch(searchViewModel.garbageName.getValue());
-                    //搜索状态置为 true
-                    searchViewModel.searching = true;
-                    showLoadingDialog();
-                    //点击键盘的搜索键后，清空内容，放弃焦点
-                    mBinding.etSearch.clearFocus();
-                    mBinding.etSearch.setText("");
+                    if(mBinding.etSearch.getText() != null) {
+                        searchViewModel.onSearch(mBinding.etSearch.getText().toString());
+                        //搜索状态置为 true
+                        searchViewModel.searching = true;
+                        showLoadingDialog();
+                        //点击键盘的搜索键后，清空内容，放弃焦点
+                        mBinding.etSearch.clearFocus();
+                        mBinding.etSearch.setText("");
+                    }
                 }
             }
             return true;
@@ -133,15 +136,14 @@ public class SearchFragment extends BaseFragment {
     private  void  initBanner() {
         mBinding.banner.setBannerData(searchViewModel.getBannerDataList());
 
-        mBinding.banner.loadImage(new XBanner.XBannerAdapter() {
-            @Override
-            public void loadBanner(XBanner banner, Object model, View view, int position) {
+        mBinding.banner.loadImage(
+          (XBanner banner, Object model, View view, int position) -> {
                 Glide.with(SearchFragment.this)
                         .load(((BannerData) model).getXBannerUrl())
                         .placeholder(R.drawable.module_glide_load_default_image)
                         .error(R.drawable.module_search_cookiebar_fail_garbage)
                         .into((ImageView) view);
-            }
+
         });
     }
 
@@ -149,17 +151,13 @@ public class SearchFragment extends BaseFragment {
      * 观察viewModel的数据变动--改变view层的UI
      */
     private void initDataObserve() {
-        //展示输入框搜索结果，同时取消Loading框
+        //展示查询分类结果，同时取消Loading对话框的显示
         searchViewModel.sortedList.observe(this, dataBeans -> {
             if(dataBeans != null && dataBeans.size() > 0) {
                 if( searchViewModel.searching) {
-//                    Logger.d("展示搜索结果！！      " + dataBeans.get(0).getName());
                     searchViewModel.searching = false;
                     showGarbageResultBar();
-//                    cancelLoadingDialog();
                 }
-                //清空搜索结果列表，防止二次出现,bug:修改无效，dataBeans依旧有上一次的数据回调触发onChange
-//                searchViewModel.clearResultList();
             }
         });
         //跳转到拍摄页面
@@ -181,7 +179,7 @@ public class SearchFragment extends BaseFragment {
             }
         });
         //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
-        searchViewModel.imageClassfyGarbage.observe(this, bean -> {
+        searchViewModel.imageClassifyGarbage.observe(this, bean -> {
             String keyGarbageName = bean.getKeyword();
             if(searchViewModel.searching) {
 //                Logger.d("开始垃圾搜索" + Thread.currentThread().getName());
