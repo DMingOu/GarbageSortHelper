@@ -24,7 +24,7 @@ import static com.example.odm.garbagesorthelper.application.GarbageSortApplicati
  */
 public class CommonBindings {
 
-    @BindingAdapter("searchAction")
+    @BindingAdapter("afterSearch")
     public static void bindSearch(EditText editText , String value) {
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -52,6 +52,8 @@ public class CommonBindings {
             editText.setText(newValue);
         }
     }
+
+
 
 
 
