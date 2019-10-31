@@ -16,8 +16,8 @@
 
      <ImageView
          android:id="@+id/iv_about_app_icon"
-         android:layout_width="80dp"
-         android:layout_height="80dp"
+         android:layout_width="90dp"
+         android:layout_height="90dp"
          android:layout_marginTop="20dp"
          android:layout_centerHorizontal="true"
          android:src="@drawable/icon_garbagesort_app"
@@ -31,44 +31,50 @@
          android:layout_below="@id/iv_about_app_icon"
          android:layout_centerHorizontal="true"
          android:textSize="22sp"
-         android:textColor="@color/xui_config_color_white"
+         android:textColor="@color/xui_config_color_black"
+         android:visibility="gone"
          />
      <TextView
          android:id="@+id/tv_about_app_versioncode"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="@{viewModel.versionName}"
-         android:textSize="16sp"
+         android:textSize="20sp"
+         android:layout_marginTop="5dp"
          android:layout_below="@id/tv_about_app_name"
          android:layout_centerHorizontal="true"
          android:textColor="@color/xui_config_color_white"
-         tool:text="version 1.0.0"
+         tool:text="version 1.0"
          />
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv_about_app_versioncode"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
-        android:background="@color/xui_config_color_white">
+       android:background="@color/fragment_search_background">
         <RelativeLayout
             android:id="@+id/ral_about_app_update"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
 
             <TextView
-                android:id="@+id/tv_about_app_update_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="25dp"
-                android:text="@string/update_version"
-                android:textColor="@color/xui_config_color_black"
-                android:textSize="15sp" />
+            android:id = "@+id/tv_about_app_update_version"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:layout_alignParentStart = "true"
+            android:layout_centerVertical = "true"
+            android:layout_marginStart = "25dp"
+            android:layout_marginEnd = "227dp"
+            android:text = "@string/update_version"
+            android:textColor = "@color/xui_config_color_black"
+            android:textSize = "15sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +87,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/xui_config_color_black"
+                android:background="@color/xui_btn_gray_normal_color"
                 android:layout_alignParentBottom="true"
                 android:layout_alignStart="@id/tv_about_app_update_version"
                 android:layout_marginEnd="20dp"
@@ -91,7 +97,7 @@
         <RelativeLayout
             android:id="@+id/ral_about_app_introduction"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
@@ -108,6 +114,7 @@
                 android:textColor="@color/xui_config_color_black"
                 />
             <ImageView
+                android:id="@+id/iv_about_app_introduction"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentEnd="true"
@@ -116,23 +123,24 @@
                 android:layout_marginEnd="20dp"
                 android:contentDescription="@string/show_dialog_about"
                 />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/xui_btn_gray_normal_color"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@id/tv_about_app_introduction"
+                android:layout_alignEnd="@+id/iv_about_app_introduction"
+                />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/ral_about_app_author"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/xui_config_color_black"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@id/tv_about_app_author"
-                android:layout_alignEnd="@+id/iv_about_author"
-                />
+
             <TextView
                 android:id="@+id/tv_about_app_author"
                 android:layout_width="wrap_content"
@@ -156,7 +164,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/xui_config_color_black"
+                android:background="@color/xui_btn_gray_normal_color"
                 android:layout_alignParentBottom="true"
                 android:layout_alignStart="@id/tv_about_app_author"
                 android:layout_alignEnd="@+id/iv_about_author"

@@ -17,19 +17,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.RootActivity;
+import com.example.odm.garbagesorthelper.ui.RootActivity;
 import com.example.odm.garbagesorthelper.application.GarbageSortApplication;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding;
 import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.example.odm.garbagesorthelper.utils.InjectorUtils;
-import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.orhanobut.logger.Logger;
@@ -37,8 +35,6 @@ import com.stx.xhb.androidx.XBanner;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
-
-import java.util.ArrayList;
 
 /**
  * description: 搜索页面View层
@@ -106,7 +102,7 @@ public class SearchFragment extends BaseFragment {
                 InputMethodManager manager = ((InputMethodManager) GarbageSortApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 if (manager != null) {
                     manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    Logger.d(searchViewModel.garbageName.getValue());
+
                     //触发软键盘的点击事件
                     if(mBinding.etSearch.getText() != null) {
                         searchViewModel.onSearch(mBinding.etSearch.getText().toString());

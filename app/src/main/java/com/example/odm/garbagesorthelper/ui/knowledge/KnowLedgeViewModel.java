@@ -32,8 +32,12 @@ public class KnowLedgeViewModel extends BaseViewModel<RepositoryManager> {
     public String[] tabTxt = {"可回收垃圾", "有害垃圾", "干垃圾", "湿垃圾"};
     public int[] tabIcon = {R.drawable.module_search_cookiebar_recycle_garbage,R.drawable.module_search_cookiebar_harmful_garbage,
                              R.drawable.module_search_cookiebar_dry_garbage, R.drawable.module_search_cookiebar_wet_garbage};
-    public int[] garbageSortedResArray = {R.drawable.module_knowledge_recycle_garbage,R.drawable.module_knowledge_harmful_garbage,
-            R.drawable.module_knowledge_dry_garbage ,R.drawable.module_knowledge_wet_garbage};
+    String[] imgUrls = {
+            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163449.webp",
+            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163500.webp",
+            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163513.webp",
+            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163520.webp"
+    };
     public KnowLedgeViewModel(Application application ) {
         super(application );
     }

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.odm.garbagesorthelper.R;
 
 /**
@@ -21,6 +23,8 @@ public class AnchorView extends LinearLayout {
 
     private TextView tvAnchor;
     private ImageView ivContent;
+    private Context context;
+
 
     public AnchorView(Context context) {
         this(context, null);
@@ -38,9 +42,28 @@ public class AnchorView extends LinearLayout {
     private void init(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.widget_anchor, this, true);
         ivContent = view.findViewById(R.id.iv_anchor_content);
+        this.context = context;
     }
 
+    /**
+     * 加载资源图片
+     * @param ResId
+     */
     public void setContentRes(int ResId) {
         ivContent.setImageResource(ResId);
+    }
+
+    /**
+     * 加载Url图片
+     * @param imgUtl
+     */
+    public void setContentUrl(String imgUtl) {
+
+        Glide.with(context.getApplicationContext()).load(imgUtl).
+                placeholder(R.drawable.module_glide_load_default_image).
+                error(R.drawable.module_search_cookiebar_fail_garbage).
+                override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).
+                into(ivContent);
+
     }
 }

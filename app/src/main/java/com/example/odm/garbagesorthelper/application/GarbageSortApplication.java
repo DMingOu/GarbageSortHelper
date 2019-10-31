@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.RootActivity;
+import com.example.odm.garbagesorthelper.ui.RootActivity;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.orhanobut.logger.AndroidLogAdapter;

@@ -5,8 +5,8 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="bottom_navigation_search">#008577</color>
-    <color name="bottom_navigation_about">#4169E1</color>
+    <color name="bottom_navigation_about">#DCDCDC</color>
     <color name="bottom_navigation_knowledge">#6A5ACD</color>
 
-    <color name="fragment_search_background">#4169E1</color>
+    <color name="fragment_search_background">#DCDCDC</color>
 </resources>

@@ -95,7 +95,8 @@ public class KnowLedgeFragment extends BaseFragment {
         knowLedgeViewModel.tabHeight = StatusBarUtils.getStatusBarHeight(getContext()) * 3;
         manager = new LinearLayoutManager(getContext());
         mBinding.rvKnowledge.setLayoutManager(manager);
-        mBinding.rvKnowledge.setAdapter(new AnchorRecyclerViewAdapter(getContext(),knowLedgeViewModel.garbageSortedResArray,knowLedgeViewModel.getFinalHeight()));
+//        mBinding.rvKnowledge.setAdapter(new AnchorRecyclerViewAdapter(getContext(),knowLedgeViewModel.garbageSortedResArray,knowLedgeViewModel.getFinalHeight()));
+        mBinding.rvKnowledge.setAdapter(new AnchorRecyclerViewAdapter(getContext(),knowLedgeViewModel.imgUrls));
         mBinding.rvKnowledge.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

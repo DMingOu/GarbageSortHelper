@@ -1,20 +1,12 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.graphics.Point;
-import android.graphics.SurfaceTexture;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
-import android.util.Size;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,32 +14,22 @@ import androidx.camera.core.CameraInfoUnavailableException;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.FocusMeteringAction;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageAnalysisConfig;
 import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageCaptureConfig;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.MeteringPoint;
 import androidx.camera.core.Preview;
-import androidx.camera.core.PreviewConfig;
-import androidx.camera.view.CameraView;
 import androidx.camera.view.TextureViewMeteringPointFactory;
-import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.odm.garbagesorthelper.BR;
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.RootActivity;
 import com.example.odm.garbagesorthelper.base.BaseFragment;
 import com.example.odm.garbagesorthelper.base.IBackInterface;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
-import com.example.odm.garbagesorthelper.widget.FocusCircleView;
 import com.jeremyliao.liveeventbus.LiveEventBus;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 

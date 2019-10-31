@@ -22,11 +22,17 @@ public class AnchorRecyclerViewAdapter extends RecyclerView.Adapter<AnchorRecycl
     private Context context;
     private int[] imgs;
     private int finalHeight;
+    private String[] imgUrls;
 
     public AnchorRecyclerViewAdapter(Context context, int[] imgs, int lastH) {
         this.context = context;
         this.imgs = imgs;
         this.finalHeight = lastH;
+    }
+
+    public AnchorRecyclerViewAdapter(Context context, String[] imgUrls) {
+        this.context = context;
+        this.imgUrls = imgUrls;
     }
 
     @Override
@@ -38,8 +44,8 @@ public class AnchorRecyclerViewAdapter extends RecyclerView.Adapter<AnchorRecycl
 
     @Override
     public void onBindViewHolder(AnchorViewHolder holder, int position) {
-        holder.anchorView.setContentRes(imgs[position]);
-
+//        holder.anchorView.setContentRes(imgs[position]);
+          holder.anchorView.setContentUrl(imgUrls[position]);
 //        //判断最后一个view
 //        if (position == tabTxt.length - 1) {
 //
@@ -53,7 +59,7 @@ public class AnchorRecyclerViewAdapter extends RecyclerView.Adapter<AnchorRecycl
 
     @Override
     public int getItemCount() {
-        return imgs.length;
+        return imgUrls.length;
     }
 
     public static class AnchorViewHolder extends RecyclerView.ViewHolder {

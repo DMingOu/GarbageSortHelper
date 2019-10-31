@@ -1,4 +1,4 @@
-package com.example.odm.garbagesorthelper;
+package com.example.odm.garbagesorthelper.ui;
 
 import android.app.Application;
 
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
@@ -63,7 +64,6 @@ public class RootViewModel extends BaseViewModel {
         mFragments.add(new KnowLedgeFragment());
         mFragments.add(new SearchFragment());
         mFragments.add(new AboutFragment());
-        mFragments.add(new CameraFragment());
     }
 
 
@@ -71,7 +71,7 @@ public class RootViewModel extends BaseViewModel {
      * 动态改变了标题栏的背景颜色
      * @param position 目标Fragment位置
      */
-     void changeFragment(int position) {
+     void changeFragmentTitleBarColor(int position) {
         switch (position){
             case 0 :
                 titlebarColor.setValue(R.color.bottom_navigation_knowledge);

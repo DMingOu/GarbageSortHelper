@@ -1,6 +1,5 @@
-package com.example.odm.garbagesorthelper;
+package com.example.odm.garbagesorthelper.ui;
 
-import androidx.camera.core.CameraX;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,23 +9,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseActivity;
 import com.example.odm.garbagesorthelper.base.IBackInterface;
 import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding;
-import com.example.odm.garbagesorthelper.ui.about.AboutFragment;
-import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment;
 import com.example.odm.garbagesorthelper.ui.search.CameraFragment;
-import com.example.odm.garbagesorthelper.ui.search.SearchFragment;
-import com.iflytek.cloud.ui.RecognizerDialog;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.utils.StatusBarUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
@@ -69,7 +62,7 @@ public class RootActivity extends BaseActivity  implements IBackInterface {
         rootBinding.rootBottomNavigation.setColored(true);
         // 监控底部导航栏的点击事件
         rootBinding.rootBottomNavigation.setOnTabSelectedListener( (position,wasSelected)->{
-            rootViewModel.changeFragment(position);
+            rootViewModel.changeFragmentTitleBarColor(position);
             rootBinding.rootToolbar.setBackgroundColor(getResources().getColor(rootViewModel.titlebarColor.getValue().intValue()));
             setFragmentPosition(position);
             return true;
@@ -82,7 +75,7 @@ public class RootActivity extends BaseActivity  implements IBackInterface {
         rootBinding = DataBindingUtil.setContentView(this ,getLayoutId());
         rootViewModel  = ViewModelProviders.of(this).get(RootViewModel.class);
         rootBinding.setLifecycleOwner(this);
-        rootBinding.setVariable(BR.viewModel ,rootViewModel);
+        rootBinding.setVariable(com.example.odm.garbagesorthelper.BR.viewModel ,rootViewModel);
     }
 
     @Override

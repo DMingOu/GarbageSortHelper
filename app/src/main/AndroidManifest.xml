@@ -31,7 +31,7 @@
         android:usesCleartextTraffic="true"
         android:configChanges="keyboardHidden|orientation|screenSize|locale"
         android:theme="@style/AppTheme">
-        <activity android:name=".RootActivity">
+        <activity android:name=".ui.RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

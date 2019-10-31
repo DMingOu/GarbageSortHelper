@@ -7,7 +7,12 @@
     android:layout_height = "match_parent"
     android:orientation = "vertical"
     android:splitMotionEvents="false"
+    android:fitsSystemWindows="true"
     >
+        <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        </ScrollView>
 
         <com.example.odm.garbagesorthelper.widget.ClearEditText
         android:id = "@+id/etSearch"
@@ -29,7 +34,6 @@
         android:id = "@+id/banner"
         android:layout_width = "match_parent"
         android:layout_height = "220dp"
-        android:layout_marginTop = "10dp"
         app:AutoPlayTime = "3000"
         app:isClipChildrenMode = "true"
         app:isShowIndicatorOnlyOne = "true"
