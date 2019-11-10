@@ -1,5 +1,7 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,6 +15,7 @@ import com.example.odm.garbagesorthelper.model.entity.GarbageData;
 import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
 import com.example.odm.garbagesorthelper.core.net.ObserverManager;
 import com.example.odm.garbagesorthelper.core.net.RetrofitManager;
+import com.example.odm.garbagesorthelper.model.entity.GarbageSearchHistory;
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
 import com.example.odm.garbagesorthelper.model.entity.VoiceRecognizedData;
 import com.example.odm.garbagesorthelper.utils.Base64Util;
@@ -32,7 +35,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -44,6 +52,8 @@ import okhttp3.RequestBody;
  */
 public class SearchViewModel extends ViewModel {
 
+
+    private static final String TAG = "SearchViewModel";
 
 //    public SearchViewModel(Application application) {
 //        super(application);
@@ -150,6 +160,9 @@ public class SearchViewModel extends ViewModel {
                                 //将成功查询到的 列表加入 垃圾分类列表中
 //                                Logger.d("返回搜索结果   " + garbageData.getData().get(0).getName() );
                                 sortedList.setValue(garbageData.getData());
+                                findGarbageSearchHistory(garbageName , garbageData.getData().get(0).getType());
+                                getAllGarbageSearchHistory();
+
                         }
                     }
                 });
@@ -261,6 +274,73 @@ public class SearchViewModel extends ViewModel {
         dataList.add(c);
         dataList.add(d);
         return  dataList;
+    }
+
+    /**
+     * 插入垃圾搜索历史
+     * @param garbageName
+     * @param garbageType
+     */
+    public void insertGarbageSearchHistory(String garbageName , int garbageType) {
+        repository.updateGarbageHistory(garbageName , garbageType).subscribe(new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onComplete() {
+
+                Log.e(TAG, "垃圾搜索历史插入完成  " + garbageName );
+            }
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("新数据插入失败原因"+e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 根据垃圾名称查找出对象
+     * @param garbageName
+     * @param garbageType
+     */
+    public void findGarbageSearchHistory(String garbageName , int garbageType) {
+        repository.getGarbageHistoryByName(garbageName).subscribe(new SingleObserver<GarbageSearchHistory>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onSuccess(GarbageSearchHistory garbageSearchHistory) {
+                //有则删除掉
+                repository.deleteGarbageHistory(garbageSearchHistory);
+                Log.e(TAG, "删掉了名为 " +garbageSearchHistory.getGarbageName() + "垃圾" );
+                insertGarbageSearchHistory(garbageName ,garbageType);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: 无法找到Name为" + e.getMessage() + " 的垃圾" );
+                insertGarbageSearchHistory(garbageName ,garbageType);
+            }
+        });
+    }
+
+    /**
+     * 获取Room中所有 垃圾搜索历史
+     */
+    public void getAllGarbageSearchHistory() {
+        Disposable disposable = repository.getAllGarbageHistory().subscribe(new Consumer<List<GarbageSearchHistory>>() {
+            @Override
+            public void accept(List<GarbageSearchHistory> garbageSearchHistories) throws Exception {
+                StringBuilder stringBuilder = new StringBuilder();
+                for(GarbageSearchHistory g : garbageSearchHistories) {
+                    stringBuilder.append(g.getGarbageName());
+                    stringBuilder.append("  ");
+                }
+                Log.e(TAG, "数据库展示： " + stringBuilder.toString() );
+            }
+        });
     }
 
 

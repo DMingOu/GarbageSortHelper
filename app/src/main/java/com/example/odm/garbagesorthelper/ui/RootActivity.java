@@ -1,6 +1,7 @@
 package com.example.odm.garbagesorthelper.ui;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -72,7 +73,7 @@ public class RootActivity extends BaseActivity  implements IBackInterface {
 
     @Override
     public void initViewDataBinding() {
-        rootBinding = DataBindingUtil.setContentView(this ,getLayoutId());
+        rootBinding =  DataBindingUtil.setContentView(this ,getLayoutId());
         rootViewModel  = ViewModelProviders.of(this).get(RootViewModel.class);
         rootBinding.setLifecycleOwner(this);
         rootBinding.setVariable(com.example.odm.garbagesorthelper.BR.viewModel ,rootViewModel);

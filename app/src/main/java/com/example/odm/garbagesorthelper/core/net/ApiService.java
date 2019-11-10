@@ -36,7 +36,7 @@ public interface   ApiService {
      * https://service.xiaoyuan.net.cn/garbage/index/search?kw=奶茶杯
      *
      * @param garbageName 垃圾名称
-     * @return 垃圾分类数据 garbage data
+     * @return Observable对象
      */
     @GET("search")
     Observable<GarbageData> getGarbageData(@Query("kw") String garbageName);

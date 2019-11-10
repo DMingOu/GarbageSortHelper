@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.android.library'
+
+
 
 android {
     compileSdkVersion 29
@@ -31,11 +34,25 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 //    sourceSets {
 //        main{
 //            jniLibs.srcDirs = ['libs']
 //        }
 //    }
+//    def SDK_DES = "build/outputs/jar/"
+//    def JAR_FILE = "build/intermediates/packaged-classes/release/classes.jar"
+//    def JAR_NAME = "garbagesorthelper"
+//    task delBuild(type: Delete) {
+//        delete JAR_NAME+ ".jar"
+//    }
+//
+//    task makeJar(type: Jar) {
+//        from zipTree(JAR_FILE)
+//        baseName = JAR_NAME
+//        destinationDir = file(SDK_DES)
+//    }
+//    makeJar.dependsOn(delBuild, build)
 }
 
 dependencies {
@@ -106,4 +123,9 @@ dependencies {
     //图片加载、缓存
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    //Room数据库
+    def room_version = "2.2.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

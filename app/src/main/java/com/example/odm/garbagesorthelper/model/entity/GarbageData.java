@@ -3,7 +3,7 @@ package com.example.odm.garbagesorthelper.model.entity;
 import java.util.List;
 
 /**
- * description: 垃圾分类实体类
+ * description: 垃圾分类数据实体类
  * author: ODM
  * date: 2019/9/21
  */
