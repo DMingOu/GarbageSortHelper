@@ -1,10 +1,12 @@
 package com.example.odm.garbagesorthelper.ui.search;
 
 import android.annotation.SuppressLint;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,6 +32,7 @@ import com.example.odm.garbagesorthelper.base.IBackInterface;
 import com.example.odm.garbagesorthelper.core.Constants;
 import com.example.odm.garbagesorthelper.databinding.FragmentCameraBinding;
 import com.jeremyliao.liveeventbus.LiveEventBus;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -134,6 +137,38 @@ public class CameraFragment extends BaseFragment {
             public void onUpdated(Preview.PreviewOutput output) {
                 Log.e(TAG, "onUpdated: 更新拍摄视图" );
                 mBinding.containerCamera.setSurfaceTexture(output.getSurfaceTexture());
+//               设置图像预览画面随手机旋转--但是方法暂时无效
+                updateTransform();
+//                //获取屏幕预览的中心点
+//                float centerX = (float) mBinding.containerCamera.getWidth() / 2 ;
+//                float centerY = (float) mBinding.containerCamera.getHeight() / 2;
+//                // 计算旋转角度
+//                int rotationDegrees = 0;
+//                Logger.d("output的旋转角度为" + output.getRotationDegrees());
+//                if(mBinding.containerCamera!=null && mBinding.containerCamera.getDisplay()!=null) {
+//                    switch (mBinding.containerCamera.getDisplay().getRotation()) {
+//                        case Surface.ROTATION_0:
+//                            rotationDegrees = 0;
+//                            break;
+//                        case Surface.ROTATION_90:
+//                            rotationDegrees = 90;
+//                            break;
+//                        case Surface.ROTATION_180 :
+//                            rotationDegrees = 180;
+//                            break;
+//                        case Surface.ROTATION_270:
+//                            rotationDegrees = 270;
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                } else {
+//                    Logger.d("Texture的Display为空");
+//                }
+//                Matrix matrix =  new Matrix();
+//                matrix.postRotate((float)-rotationDegrees, centerX, centerY);
+//                // 将变换应用在预览上
+//                mBinding.containerCamera.setTransform(matrix);
             }
         });
         //点击拍照区域对焦
@@ -181,6 +216,41 @@ public class CameraFragment extends BaseFragment {
      */
     public boolean onBackPressed() {
         return  true;
+    }
+
+    /**
+     * 图像预览旋转事件
+     */
+    private void updateTransform(){
+        Matrix mx = new Matrix();
+        float w = mBinding.containerCamera.getMeasuredWidth();
+        float h = mBinding.containerCamera.getMeasuredHeight();
+
+        float cX = w / 2f;
+        float cY = h / 2f;
+
+        int rotationDgr;
+        int rotation = (int)mBinding.containerCamera.getRotation();
+
+        switch(rotation){
+            case Surface.ROTATION_0:
+                rotationDgr = 0;
+                break;
+            case Surface.ROTATION_90:
+                rotationDgr = 90;
+                break;
+            case Surface.ROTATION_180:
+                rotationDgr = 180;
+                break;
+            case Surface.ROTATION_270:
+                rotationDgr = 270;
+                break;
+            default:
+                return;
+        }
+
+        mx.postRotate((float)rotationDgr, cX, cY);
+        mBinding.containerCamera.setTransform(mx);
     }
 
 

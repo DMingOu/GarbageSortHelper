@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.ui.search;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Size;
+import android.view.Surface;
 
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
@@ -37,13 +38,18 @@ public class CameraViewModel extends BaseViewModel {
 
      void initCameraConfig() {
          //拍摄预览的配置config
-         PreviewConfig.Builder configBuilder = new PreviewConfig.Builder().setLensFacing(CameraX.LensFacing.BACK);
+         PreviewConfig.Builder configBuilder = new PreviewConfig.Builder()
+                                                    .setLensFacing(CameraX.LensFacing.BACK)
+                                                    .setTargetRotation(Surface.ROTATION_0)
+                                                    .setTargetResolution(new Size(1080 ,1920));
          HdrPreviewExtender hdrPreviewExtender = HdrPreviewExtender.create(configBuilder);
          //拍摄预览，开启HDR，判断硬件条件是否支持开启，是则直接开启
          if(hdrPreviewExtender.isExtensionAvailable()) {
              hdrPreviewExtender.enableExtension();
          }
          preview = new Preview(configBuilder.build());
+
+
          //图片分析的配置config
         ImageAnalysisConfig imageAnalysisConfig = new ImageAnalysisConfig.Builder().setTargetResolution(new Size(1080,2248)).build();
         imageAnalysis = new ImageAnalysis(imageAnalysisConfig);

@@ -22,6 +22,8 @@
             android:layout_height="match_parent"
             />
 
+
+
         <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
             android:id="@+id/btnCamera"
             android:layout_width="75dp"
