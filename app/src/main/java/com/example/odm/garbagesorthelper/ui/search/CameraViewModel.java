@@ -2,9 +2,6 @@ package com.example.odm.garbagesorthelper.ui.search;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Size;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
@@ -17,9 +14,6 @@ import androidx.camera.extensions.HdrImageCaptureExtender;
 import androidx.camera.extensions.HdrPreviewExtender;
 
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
-import com.example.odm.garbagesorthelper.model.RepositoryManager;
-import com.orhanobut.logger.Logger;
-import com.xuexiang.xui.widget.imageview.preview.PreviewBuilder;
 
 
 import java.io.File;
@@ -30,7 +24,7 @@ import java.io.File;
  * author: ODM
  * date: 2019/9/25
  */
-public class CameraViewModel extends BaseViewModel<RepositoryManager> {
+public class CameraViewModel extends BaseViewModel {
 
     ImageCapture imageCapture;
     ImageAnalysis imageAnalysis;

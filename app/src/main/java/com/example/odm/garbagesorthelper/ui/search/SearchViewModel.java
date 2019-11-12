@@ -7,19 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.odm.garbagesorthelper.R;
-import com.example.odm.garbagesorthelper.core.Constants;
-import com.example.odm.garbagesorthelper.core.net.ApiService;
 import com.example.odm.garbagesorthelper.model.SearchDataRepository;
 import com.example.odm.garbagesorthelper.model.entity.BannerData;
 import com.example.odm.garbagesorthelper.model.entity.GarbageData;
-import com.example.odm.garbagesorthelper.core.net.HttpThrowable;
-import com.example.odm.garbagesorthelper.core.net.ObserverManager;
-import com.example.odm.garbagesorthelper.core.net.RetrofitManager;
+import com.example.odm.garbagesorthelper.model.source.net.HttpThrowable;
+import com.example.odm.garbagesorthelper.model.source.net.ObserverManager;
 import com.example.odm.garbagesorthelper.model.entity.GarbageSearchHistory;
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean;
 import com.example.odm.garbagesorthelper.model.entity.VoiceRecognizedData;
-import com.example.odm.garbagesorthelper.utils.Base64Util;
-import com.example.odm.garbagesorthelper.utils.FileUtil;
 import com.example.odm.garbagesorthelper.utils.GsonUtils;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
@@ -29,21 +24,13 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.orhanobut.logger.Logger;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 /**
  * description: 搜索页面ViewModel
@@ -62,6 +49,7 @@ public class SearchViewModel extends ViewModel {
 
     public SearchViewModel(SearchDataRepository repository) {
         this.repository = repository;
+        getAllGarbageSearchHistory();
     }
     /**
      * 用户搜索框搜索内容--垃圾名
@@ -161,7 +149,7 @@ public class SearchViewModel extends ViewModel {
 //                                Logger.d("返回搜索结果   " + garbageData.getData().get(0).getName() );
                                 sortedList.setValue(garbageData.getData());
                                 findGarbageSearchHistory(garbageName , garbageData.getData().get(0).getType());
-                                getAllGarbageSearchHistory();
+
 
                         }
                     }
@@ -282,7 +270,7 @@ public class SearchViewModel extends ViewModel {
      * @param garbageType
      */
     public void insertGarbageSearchHistory(String garbageName , int garbageType) {
-        repository.updateGarbageHistory(garbageName , garbageType).subscribe(new CompletableObserver() {
+        repository.insertGarbageHistory(garbageName , garbageType).subscribe(new CompletableObserver() {
             @Override
             public void onSubscribe(Disposable d) {
             }
@@ -305,7 +293,8 @@ public class SearchViewModel extends ViewModel {
      * @param garbageType
      */
     public void findGarbageSearchHistory(String garbageName , int garbageType) {
-        repository.getGarbageHistoryByName(garbageName).subscribe(new SingleObserver<GarbageSearchHistory>() {
+        repository.getGarbageHistoryByName(garbageName)
+                .subscribe(new SingleObserver<GarbageSearchHistory>() {
             @Override
             public void onSubscribe(Disposable d) {
             }
@@ -328,6 +317,7 @@ public class SearchViewModel extends ViewModel {
 
     /**
      * 获取Room中所有 垃圾搜索历史
+     *
      */
     public void getAllGarbageSearchHistory() {
         Disposable disposable = repository.getAllGarbageHistory().subscribe(new Consumer<List<GarbageSearchHistory>>() {

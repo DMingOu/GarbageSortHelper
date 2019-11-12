@@ -1,7 +1,7 @@
 package com.example.odm.garbagesorthelper.base;
 
 
-import com.example.odm.garbagesorthelper.model.source.http.ApiService;
+import com.example.odm.garbagesorthelper.model.source.net.ApiService;
 
 /**
  * description: 数据存储Repository基类(暂时没用)

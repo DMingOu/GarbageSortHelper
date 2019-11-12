@@ -1,21 +1,16 @@
 package com.example.odm.garbagesorthelper.ui.knowledge;
 
 import android.app.Application;
-import android.graphics.drawable.Drawable;
 
 import com.example.odm.garbagesorthelper.R;
 import com.example.odm.garbagesorthelper.base.BaseViewModel;
-import com.example.odm.garbagesorthelper.model.RepositoryManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * description: 知识页面ViewModel
  * author: ODM
  * date: 2019/9/19
  */
-public class KnowLedgeViewModel extends BaseViewModel<RepositoryManager> {
+public class KnowLedgeViewModel extends BaseViewModel {
 
 
 

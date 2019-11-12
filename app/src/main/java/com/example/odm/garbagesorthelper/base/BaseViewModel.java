@@ -8,15 +8,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
 
-import com.example.odm.garbagesorthelper.model.RepositoryManager;
-import com.example.odm.garbagesorthelper.model.source.http.ApiService;
-import com.example.odm.garbagesorthelper.model.source.http.HttpDataSource;
-import com.example.odm.garbagesorthelper.model.source.http.HttpDataSourceImpl;
-import com.example.odm.garbagesorthelper.model.source.local.LocalDataSource;
-import com.example.odm.garbagesorthelper.model.source.local.LocalDataSourceImpl;
-import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.lang.ref.WeakReference;

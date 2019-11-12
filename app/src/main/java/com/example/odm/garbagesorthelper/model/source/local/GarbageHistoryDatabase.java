@@ -13,7 +13,7 @@ import com.orhanobut.logger.Logger;
 import java.io.File;
 
 /**
- * @description: 垃圾搜索历史数据库
+ * @description: 垃圾搜索历史数据库持有者
  * @author: ODM
  * @date: 2019/11/10
  */
