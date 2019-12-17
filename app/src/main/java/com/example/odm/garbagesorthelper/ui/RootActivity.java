@@ -25,13 +25,11 @@ import com.xuexiang.xui.utils.StatusBarUtils;
 import io.reactivex.functions.Consumer;
 
 public class RootActivity extends BaseActivity  implements IBackInterface {
-
+    //DataBinding变量
     ActivityRootBinding rootBinding;
     RootViewModel rootViewModel;
 
-
     private static final String TAG = "RootActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,8 @@ public class RootActivity extends BaseActivity  implements IBackInterface {
 
     public void setFragmentPosition(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        //设置进场、退场动画
+        ft.setCustomAnimations(R.anim.push_right_in,R.anim.push_right_out,R.anim.push_right_in,R.anim.push_right_out);
         Fragment targetFragment = rootViewModel.mFragments.get(position);
         Fragment lastFragment = rootViewModel.mFragments.get(rootViewModel.lastFragmentIndex);
         rootViewModel.lastFragmentIndex = position;
