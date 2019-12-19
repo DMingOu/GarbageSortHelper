@@ -12,6 +12,7 @@ import java.util.*
  * description: DataBinding自定义属性与事件
  * author: ODM
  * date: 2019/9/18
+ * state ： 暂时废弃
  */
 object CommonBindings {
     @BindingAdapter("afterSearch")
