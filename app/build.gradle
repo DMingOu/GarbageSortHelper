@@ -1,11 +1,16 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
-
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     defaultConfig {
         applicationId "com.example.odm.garbagesorthelper"
         minSdkVersion 21
@@ -126,6 +131,9 @@ dependencies {
     //Room数据库
     def room_version = "2.2.1"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+//    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
     implementation "androidx.room:room-rxjava2:$room_version"
+//    kapt "android.arch.persistence.room:compiler:2.2.1"
+    kapt "androidx.room:room-compiler:$room_version"
+
 }

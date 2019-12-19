@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rv_Camera"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.odm.garbagesorthelper.ui.search.CameraViewModel" />
-    </data>
-
-    <RelativeLayout
-        android:id="@+id/rv_Camera"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
         <TextureView
@@ -33,6 +27,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             app:sb_shape_type="round"/>
+
+
         <com.example.odm.garbagesorthelper.widget.FocusCircleView
             android:id="@+id/focusCircle"
             android:layout_width="match_parent"
@@ -40,4 +36,3 @@
             />
 
     </RelativeLayout>
-</layout>

@@ -16,8 +16,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
+//import androidx.databinding.BaseObservable;
+//import androidx.databinding.Bindable;
 
 import com.xuexiang.xui.utils.DensityUtils;
 import com.xuexiang.xui.utils.DeviceUtils;

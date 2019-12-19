@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeViewModel" />-->
     </data>
 
     <RelativeLayout

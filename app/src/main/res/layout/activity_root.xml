@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.example.odm.garbagesorthelper.ui.RootViewModel" />
-        <import type="com.xuexiang.xui.utils.StatusBarUtils"/>
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.example.odm.garbagesorthelper.ui.RootViewModel" />-->
+        <import type="com.example.odm.garbagesorthelper.utils.StatusBarUtils"/>
     </data>
 
     <RelativeLayout
