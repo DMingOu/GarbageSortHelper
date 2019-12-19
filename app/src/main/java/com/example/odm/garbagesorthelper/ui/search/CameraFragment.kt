@@ -21,6 +21,7 @@ import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.core.Constants
 import com.example.odm.garbagesorthelper.widget.FocusCircleView
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.orhanobut.logger.Logger
 import com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
 import java.io.File
 
@@ -41,9 +42,6 @@ class CameraFragment : BaseFragment() {
 //    private var mBinding: FragmentCameraBinding? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
-        initViews()
-        initCamera()
-//        val view = mBinding!!.root
         val backInterface: IBackInterface?
         backInterface = if (activity !is IBackInterface) {
             throw ClassCastException("Hosting Activity must implement BackHandledInterface")
@@ -54,6 +52,11 @@ class CameraFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_camera ,container ,false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViews()
+        initCamera()
+    }
 
     override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         cameraViewModel = ViewModelProviders.of(this).get(CameraViewModel::class.java)
@@ -74,6 +77,7 @@ class CameraFragment : BaseFragment() {
         focusCircle = activity?.findViewById(R.id.focusCircle)
 
         btnCapture?.setOnClickListener { v: View? ->
+            Logger.d("点击了拍照按钮")
             //创建要存照片的File
             val imageName = "garbagesorthelper{System.currentTimeMillis()}.png"
             cameraViewModel?.imageCapture?.takePicture(cameraViewModel!!.createImageFile(imageName), object : ImageCapture.OnImageSavedListener {
@@ -113,8 +117,9 @@ class CameraFragment : BaseFragment() {
             override fun onUpdated(output: PreviewOutput) {
                 Log.e(TAG, "onUpdated: 更新拍摄视图")
                 containerCamera?.surfaceTexture = output.surfaceTexture
-                //               设置图像预览画面随手机旋转--但是方法暂时无效
+                // 设置图像预览画面随手机旋转--但是方法暂时无效
                 updateTransform()
+
                 //                //获取屏幕预览的中心点
 //                float centerX = (float) mBinding.containerCamera.getWidth() / 2 ;
 //                float centerY = (float) mBinding.containerCamera.getHeight() / 2;

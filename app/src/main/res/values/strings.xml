@@ -12,7 +12,7 @@
     <string name="version_latest">已是最新版本</string>
     <string name="function_introduction">功能介绍</string>
     <string name="tips">提示</string>
-    <string name="content_wait_for_receive_data">正在加速为你获取数据</string>
+    <string name="content_wait_for_receive_data">正在飞快地为您查询</string>
     <string name="icon">图标</string>
     <string name="recorder_dialog_textview_text">请用普通话说出您想要查询的垃圾名称</string>
     <string name="show_dialog_about">关于页面呼出对话框</string>

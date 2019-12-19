@@ -45,8 +45,8 @@ class RootViewModel(application: Application?) : BaseViewModel<BaseModel?>(appli
      */
     fun initFragmentData() {
         mFragments = ArrayList()
-        mFragments?.add(KnowLedgeFragment())
         mFragments?.add(SearchFragment())
+        mFragments?.add(KnowLedgeFragment())
         mFragments?.add(AboutFragment())
     }
 
@@ -56,8 +56,8 @@ class RootViewModel(application: Application?) : BaseViewModel<BaseModel?>(appli
      */
     fun changeFragmentTitleBarColor(position: Int) {
         when (position) {
-            0 -> titlebarColor.setValue(R.color.bottom_navigation_knowledge)
-            1 -> titlebarColor.setValue(R.color.bottom_navigation_search)
+            0 -> titlebarColor.setValue(R.color.bottom_navigation_search)
+            1 -> titlebarColor.setValue( R.color.bottom_navigation_knowledge)
             2 -> titlebarColor.setValue(R.color.bottom_navigation_about)
             else -> {
             }

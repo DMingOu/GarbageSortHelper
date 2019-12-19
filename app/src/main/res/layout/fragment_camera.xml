@@ -7,16 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
         <TextureView
             android:id="@+id/containerCamera"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
             android:layout_height="match_parent"
             />
-
-
 
         <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
             android:id="@+id/btnCamera"

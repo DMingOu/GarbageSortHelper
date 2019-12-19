@@ -97,17 +97,20 @@ class RootActivity : BaseActivity(), IBackInterface {
         if (rootViewModel?.backFragment != null && (rootViewModel?.backFragment as CameraFragment).onBackPressed()) {
             setFragmentPosition(1)
             rootViewModel?.backFragment = null
-        } else { //若当前页面为其他页面，监听返回键事件--退出APP
+        } else {
+            //若当前页面为其他页面，监听返回键事件--退出APP
             super.onBackPressed()
             finish()
         }
     }
+
+
     fun initBottomNavigation() { // 底部导航添加子项
-        rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge))
         rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search))
+        rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge))
         rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about))
-        rootBinding?.rootBottomNavigation?.currentItem = 1
-        setFragmentPosition(1)
+        rootBinding?.rootBottomNavigation?.currentItem = 0
+        setFragmentPosition(0)
         rootBinding?.rootBottomNavigation?.isColored = true
         // 监控底部导航栏的点击事件
         rootBinding?.rootBottomNavigation?.setOnTabSelectedListener { position: Int, wasSelected: Boolean ->

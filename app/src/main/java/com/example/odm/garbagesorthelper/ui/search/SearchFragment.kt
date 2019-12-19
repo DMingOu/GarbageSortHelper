@@ -149,11 +149,12 @@ class SearchFragment : BaseFragment() {
                 val rootActivity = activity as RootActivity?
                 val rxPermissions = RxPermissions(rootActivity!!)
                 if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) { //跳转到拍摄页面
-                    fragmentManager!!.beginTransaction()
-                            .add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
-                            .commitAllowingStateLoss()
-                    searchViewModel!!.isOpenCamera.setValue(false)
+                        && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    //跳转到拍摄页面
+                    fragmentManager?.beginTransaction()
+                            ?.add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
+                            ?.commitAllowingStateLoss()
+                    searchViewModel?.isOpenCamera?.setValue(false)
                 } else {
                     Toast.makeText(activity!!.applicationContext, "未获取相关权限，无法开启拍照识别！", Toast.LENGTH_LONG).show()
                 }
@@ -171,7 +172,6 @@ class SearchFragment : BaseFragment() {
          * 显示语音框--开启语音识别功能
          */
         btnOpenRecorder.setOnClickListener { v: View? ->
-                Log.e(tag ,"点击了开启语音识别框按钮")
                 mIatDialog?.show()
                 searchViewModel?.isOpenRecorder?.value = true
                 //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
