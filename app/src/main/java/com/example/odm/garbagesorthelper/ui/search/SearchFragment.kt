@@ -77,6 +77,24 @@ class SearchFragment : BaseFragment() {
         banner = activity?.findViewById(R.id.banner) ?: XBanner(activity)
         btnOpenCamera = activity?.findViewById(R.id.btnOpenCamera) ?: ShadowButton(activity)
         btnOpenRecorder = activity?.findViewById(R.id.btnOpenRecorder) ?: ShadowButton(activity)
+
+        /*
+         * 显示语音框--开启语音识别功能
+         */
+        btnOpenRecorder.setOnClickListener { v: View? ->
+            mIatDialog?.show()
+            searchViewModel?.isOpenRecorder?.value = true
+            //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
+            val recorderDialogTextView = mIatDialog?.window?.decorView?.findViewWithTag<View>("textlink") as TextView
+            recorderDialogTextView.setText(R.string.recorder_dialog_textview_text)
+        }
+
+        /**
+         * 拍照按钮的点击事件
+         */
+        btnOpenCamera.setOnClickListener {
+            searchViewModel?.openCamera()
+        }
     }
 
     override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) { //        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
@@ -168,23 +186,7 @@ class SearchFragment : BaseFragment() {
                 searchViewModel!!.onSearch(keyGarbageName ?: "")
             }
         })
-        /*
-         * 显示语音框--开启语音识别功能
-         */
-        btnOpenRecorder.setOnClickListener { v: View? ->
-                mIatDialog?.show()
-                searchViewModel?.isOpenRecorder?.value = true
-                //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
-                val recorderDialogTextView = mIatDialog?.window?.decorView?.findViewWithTag<View>("textlink") as TextView
-                recorderDialogTextView.setText(R.string.recorder_dialog_textview_text)
-        }
 
-        /**
-         * 拍照按钮的点击事件
-         */
-        btnOpenCamera.setOnClickListener {
-            searchViewModel?.openCamera()
-        }
 
         /*
          * 观察语音识别的结果，调用垃圾分类搜索接口

@@ -80,7 +80,7 @@ class CameraFragment : BaseFragment() {
             Logger.d("点击了拍照按钮")
             //创建要存照片的File
             val imageName = "garbagesorthelper{System.currentTimeMillis()}.png"
-            cameraViewModel?.imageCapture?.takePicture(cameraViewModel!!.createImageFile(imageName), object : ImageCapture.OnImageSavedListener {
+            cameraViewModel?.imageCapture?.takePicture(cameraViewModel?.createImageFile(imageName), object : ImageCapture.OnImageSavedListener {
                 @SuppressLint("CheckResult")
                 override fun onImageSaved(file: File) { //与搜索页面通信，成功保存了拍摄图片
                     LiveEventBus.get(Constants.IMAGE_SUCCESS).post(imageName)

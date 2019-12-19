@@ -166,7 +166,8 @@ private val repository: SearchDataRepository) : ViewModel() {
                     }
 
                     override fun onNext(t: ImageClassifyBean?) {
-                        imageClassifyGarbage.postValue(t!!.result[0])
+                        imageClassifyGarbage.postValue(t?.result?.get(0))
+                        Logger.d("百度图像分析 " + t?.result?.get(0))
                         searching = true
                     }
                 })

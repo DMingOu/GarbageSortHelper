@@ -56,7 +56,7 @@ class RootActivity : BaseActivity(), IBackInterface {
     fun setFragmentPosition(position: Int) {
         val ft = supportFragmentManager.beginTransaction()
         //设置进场、退场动画
-        ft.setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out, R.anim.push_right_in, R.anim.push_right_out)
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out, R.anim.push_left_out, R.anim.push_right_out)
         val targetFragment : Fragment = rootViewModel?.mFragments?.get(position) ?: Fragment()
         val lastFragment : Fragment = rootViewModel?.mFragments?.get(rootViewModel?.lastFragmentIndex ?: 0) ?: Fragment()
         rootViewModel?.lastFragmentIndex = position
