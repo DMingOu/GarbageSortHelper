@@ -77,7 +77,6 @@ class RootActivity : BaseActivity(), IBackInterface {
             Logger.d("targetFragment 被remove    pos : $position    的Fragment ，被添加进去")
             //ft.add(R.id.root_fragment_container, targetFragment).commitNow()
         }
-        Logger.d(targetFragment)
         ft.replace(R.id.root_fragment_container, targetFragment)
                 .show(targetFragment)
                 .commitAllowingStateLoss()
