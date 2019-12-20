@@ -23,10 +23,11 @@ object InjectorUtils {
         return SearchViewModelFactory(repository!!)
     }
 
-    fun provideGarbageHistoryDataSource(context: Context): LocalGarbageHistoryDataSource { //取得 RoomDataBase
+    fun provideGarbageHistoryDataSource(context: Context): LocalGarbageHistoryDataSource {
+        //取得 RoomDataBase 数据库
         val database = getInstance(context)
-        //将可以操作的 DAO 传入
-//实例化可以操作的 LocalGarbageHistoryDataSource 对象方便对数据库进行操作
-        return LocalGarbageHistoryDataSource(database.garbageHistoryDao()!!)
+        //将可以操作的 DAO 层传入
+        //实例化可以操作的 LocalGarbageHistoryDataSource 对象方便对数据库进行操作
+        return LocalGarbageHistoryDataSource(database.garbageHistoryDao())
     }
 }

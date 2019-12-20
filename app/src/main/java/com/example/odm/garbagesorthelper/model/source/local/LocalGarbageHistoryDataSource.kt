@@ -10,32 +10,32 @@ import io.reactivex.Single
  * @author: ODM
  * @date: 2019/11/10
  */
-class LocalGarbageHistoryDataSource(private val mDao: GarbageHistoryDao) : GarbageHistoryDataSource {
+class LocalGarbageHistoryDataSource(private val mDao: GarbageHistoryDao ?) : GarbageHistoryDataSource {
     override val allGarbageHistory: Flowable<List<GarbageSearchHistory?>?>?
-        get() = mDao.allGarbageHistory
+        get() = mDao?.allGarbageHistory
 
     override fun deleteAllGarbageHistory(): Completable? {
-        return mDao.deleteAllGarbageHistory()
+        return mDao?.deleteAllGarbageHistory()
     }
 
     override fun insertGarbageHistory(vararg histories: GarbageSearchHistory?): Completable? {
-        return mDao.insertGarbageHistory(*histories)
+        return mDao?.insertGarbageHistory(*histories)
     }
 
     override fun delete(vararg histories: GarbageSearchHistory?): Completable? {
-        return mDao.delete(*histories)
+        return mDao?.delete(*histories)
     }
 
     override fun getGarbageHistoryByName(name: String?): Single<GarbageSearchHistory?>? {
-        return mDao.getGarbageHistoryByName(name)
+        return mDao?.getGarbageHistoryByName(name)
     }
 
     override fun loadAllByType(type: Int): Flowable<List<GarbageSearchHistory?>?>? {
-        return mDao.loadAllByType(type)
+        return mDao?.loadAllByType(type)
     }
 
     override fun getGarbageHistoryById(id: Int): Flowable<GarbageSearchHistory?>? {
-        return mDao.getGarbageHistoryById(id)
+        return mDao?.getGarbageHistoryById(id)
     }
 
 }

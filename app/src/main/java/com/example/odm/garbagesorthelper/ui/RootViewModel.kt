@@ -13,6 +13,7 @@ import com.example.odm.garbagesorthelper.base.BaseViewModel
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment
+import com.orhanobut.logger.Logger
 import java.util.*
 
 /**

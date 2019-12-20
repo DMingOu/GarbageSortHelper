@@ -2,12 +2,14 @@ package com.example.odm.garbagesorthelper.model.source.local
 
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.odm.garbagesorthelper.model.entity.GarbageSearchHistory
+import com.orhanobut.logger.Logger
 import java.io.File
 
 /**
@@ -20,7 +22,10 @@ abstract class GarbageHistoryDatabase : RoomDatabase() {
 
     init {
         val file = File(Environment.getExternalStorageDirectory().toString() + "/GarbageSortHelper/DataBase/")
-        file.mkdirs()
+        if(!file.exists()) {
+            file.mkdirs()
+        }
+
     }
     /**
      * 获得 DataBase 对象
@@ -31,39 +36,11 @@ abstract class GarbageHistoryDatabase : RoomDatabase() {
     companion object {
         private const val DB_NAME = "/storage/emulated/0/GarbageSortHelper/DataBase/garbage_history.db"
 
-
 //        val MIGRATION_1_2  : Migration =  object : Migration(1,2){
 //            override fun migrate(database: SupportSQLiteDatabase) {
 //                database.execSQL("");
 //             }
 //            }
-
-        //     private static final String DB_NAME = "garbage_history.db";
-        /**
-         * 单例模式
-         * volatile 确保线程安全
-         * 线程安全意味着改对象会被许多线程使用
-         * 可以被看作是一种 “程度较轻的 synchronized”
-         */
-//        @Volatile
-//        private var INSTANCE: GarbageHistoryDatabase? = null
-//
-//        @JvmStatic
-//        fun getInstance(context: Context): GarbageHistoryDatabase? { // 若为空则进行实例化
-//            // 否则直接返回
-//            if (INSTANCE == null) {
-//                synchronized(GarbageHistoryDatabase::class.java) {
-//                    if (INSTANCE == null) {
-//                        val file = File(Environment.getExternalStorageDirectory().toString() + "/GarbageSortHelper/DataBase/")
-//                        file.mkdirs()
-//                        INSTANCE = Room.databaseBuilder(context.applicationContext,
-//                                GarbageHistoryDatabase::class.java, DB_NAME)
-//                                .build()
-//                    }
-//                }
-//            }
-//            return INSTANCE
-//        }
 
         @Volatile private var INSTANCE: GarbageHistoryDatabase? = null
         fun getInstance(context: Context) =

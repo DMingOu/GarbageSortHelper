@@ -150,6 +150,7 @@ private val repository: SearchDataRepository) : ViewModel() {
     }
 
     fun openCamera() {
+
         isOpenCamera.value = true
     }
 
@@ -170,7 +171,6 @@ private val repository: SearchDataRepository) : ViewModel() {
                         t?.result?.get(0)?.let {
                             imageClassifyGarbage.postValue(it)
                             searching = true
-                            Logger.d("百度图像分析 " + it)
                         }
                     }
                 })
@@ -187,14 +187,14 @@ private val repository: SearchDataRepository) : ViewModel() {
         //设置结果返回语言
         mIatDialog?.setParameter(SpeechConstant.ACCENT, "mandarin")
         // 设置语音前端点:静音超时时间，单位ms，即用户多长时间不说话则当做超时处理
-//取值范围{1000～10000}
+        //取值范围{1000～10000}
         mIatDialog?.setParameter(SpeechConstant.VAD_BOS, "4500")
         //设置语音后端点:后端点静音检测时间，单位ms，即用户停止说话多长时间内即认为不再输入，
-//自动停止录音，范围{0~10000}
+        //自动停止录音，范围{0~10000}
         mIatDialog?.setParameter(SpeechConstant.VAD_EOS, "1500")
         //高阶动态修正-->会导致接收多条结果，适合实时显示说话内容，暂不启用此功能
-//            mIatDialog.setParameter("dwa", "wpgs");
-//开始识别并设置监听器
+        // mIatDialog.setParameter("dwa", "wpgs");
+        //开始识别并设置监听器
         mIatDialog?.setListener(mRecognizerDialogListener)
     }
 
@@ -245,7 +245,7 @@ private val repository: SearchDataRepository) : ViewModel() {
                     override fun onSubscribe(d: Disposable) {}
                     override fun onSuccess(garbageSearchHistory: GarbageSearchHistory) { //有则删除掉
                         repository.deleteGarbageHistory(garbageSearchHistory)
-                        Log.e(TAG, "删掉了名为 " + garbageSearchHistory.garbageName + "垃圾")
+                        Log.e(TAG, "删掉了名为 " + garbageSearchHistory.garbageName + " 的垃圾")
                         insertGarbageSearchHistory(garbageName, garbageType)
                     }
 

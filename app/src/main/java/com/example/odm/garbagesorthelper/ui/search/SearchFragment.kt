@@ -79,30 +79,39 @@ class SearchFragment : BaseFragment() {
         btnOpenRecorder = activity?.findViewById(R.id.btnOpenRecorder) ?: ShadowButton(activity)
 
         /*
+         * 语音按钮的点击事件
          * 显示语音框--开启语音识别功能
          */
-        btnOpenRecorder.setOnClickListener { v: View? ->
-            mIatDialog?.show()
-            searchViewModel?.isOpenRecorder?.value = true
-            //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
-            val recorderDialogTextView = mIatDialog?.window?.decorView?.findViewWithTag<View>("textlink") as TextView
-            recorderDialogTextView.setText(R.string.recorder_dialog_textview_text)
-        }
+    btnOpenRecorder.setOnClickListener { v: View? ->
+
+        val rxPermissions = RxPermissions(activity?: RootActivity())
+        rxPermissions.request(Manifest.permission.RECORD_AUDIO).subscribe {
+            if (it) {
+                    if (rxPermissions.isGranted(Manifest.permission.RECORD_AUDIO) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        mIatDialog?.show()
+                        searchViewModel?.isOpenRecorder?.value = true
+                        //动态更换了讯飞自带对话框的底部文字，必须在dialog的show执行后更换，否则空指针报错
+                        val recorderDialogTextView = mIatDialog?.window?.decorView?.findViewWithTag<View>("textlink") as TextView
+                        recorderDialogTextView.setText(R.string.recorder_dialog_textview_text)
+                    }
+                } else {
+                    Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启语音识别！", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
 
         /**
          * 拍照按钮的点击事件
+         * 设置跳转拍摄开关为true->跳转拍摄页面
          */
         btnOpenCamera.setOnClickListener {
             searchViewModel?.openCamera()
+            }
         }
-    }
 
     override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) { //        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         searchViewModel = InjectorUtils.provideSearchViewModelFactory(requireContext()).create(SearchViewModel::class.java)
-//        mBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-////        mBinding?.setViewModel(searchViewModel)
-////        mBinding?.setVariable(BR.viewModel, searchViewModel)
-//        mBinding?.setLifecycleOwner(this)
     }
 
 
@@ -145,7 +154,7 @@ class SearchFragment : BaseFragment() {
                     .load((model as BannerData).xBannerUrl)
                     .placeholder(R.drawable.module_glide_load_default_image)
                     .error(R.drawable.module_search_cookiebar_fail_garbage)
-                    .into((view as ImageView?)!!)
+                    .into((view as ImageView))
         }
     }
 
@@ -154,7 +163,7 @@ class SearchFragment : BaseFragment() {
      */
     private fun initDataObserve() { //展示查询分类结果，同时取消Loading对话框的显示
         searchViewModel?.sortedList?.observe(this, Observer { dataBeans: List<DataBean?>? ->
-            if (! dataBeans!!.isEmpty()) {
+            if (dataBeans?.isEmpty() == false) {
                 if (searchViewModel?.searching ?: false) {
                     searchViewModel?.searching = false
                     showGarbageResultBar()
@@ -164,26 +173,29 @@ class SearchFragment : BaseFragment() {
         //跳转到拍摄页面
         searchViewModel?.isOpenCamera?.observe(this, Observer { isOpenCamera: Boolean ->
             if (isOpenCamera) {
-                val rootActivity = activity as RootActivity?
-                val rxPermissions = RxPermissions(rootActivity!!)
-                if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    //跳转到拍摄页面
-                    fragmentManager?.beginTransaction()
-                            ?.add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
-                            ?.commitAllowingStateLoss()
-                    searchViewModel?.isOpenCamera?.setValue(false)
-                } else {
-                    Toast.makeText(activity!!.applicationContext, "未获取相关权限，无法开启拍照识别！", Toast.LENGTH_LONG).show()
+//                val rootActivity = activity as RootActivity
+                val rxPermissions = RxPermissions(activity?: RootActivity())
+                rxPermissions.request(Manifest.permission.CAMERA).subscribe {
+                    if (it) {
+                        if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            //跳转到拍摄页面
+                            fragmentManager?.beginTransaction()
+                                    ?.add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
+                                    ?.commitAllowingStateLoss()
+                            searchViewModel?.isOpenCamera?.setValue(false)
+                        }
+                    } else {
+                        Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         })
         //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
         searchViewModel?.imageClassifyGarbage?.observe(this, Observer { bean: ResultBean ->
             val keyGarbageName = bean.keyword
-            if (searchViewModel!!.searching) {
-                //Logger.d("开始垃圾搜索" + Thread.currentThread().getName());
-                searchViewModel!!.onSearch(keyGarbageName ?: "")
+            if (searchViewModel?.searching ?: false) {
+                searchViewModel?.onSearch(keyGarbageName ?: "")
             }
         })
 
@@ -192,14 +204,15 @@ class SearchFragment : BaseFragment() {
          * 观察语音识别的结果，调用垃圾分类搜索接口
          */
          searchViewModel?.voiceGarbageName?.observe(this, Observer { garbageName: String ->
-            if ("" != garbageName) { //                    showLoadingDialog();
+            if ("" != garbageName) {
+                //showLoadingDialog();
                 if (searchViewModel?.searching ?: false) {
                     searchViewModel?.onSearch(garbageName)
                 }
             } else {
                 //开启语音识别后，若无法检测用户语音内容，会弹出Toast提醒
                 if (searchViewModel?.isOpenRecorder?.value ?: false) {
-                    Toast.makeText(activity!!.applicationContext, "无法识别您说的内容", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity?.applicationContext, "无法识别您说的内容", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -209,7 +222,8 @@ class SearchFragment : BaseFragment() {
     /**
      * 处理 LiveEvent 事件
      */
-    private fun handleLiveEvent() { //Todo 暂时未解决LiveEventBus 发送一次事件却重复接收到相同事件的bug ，故暂时采用时间差方式
+    private fun handleLiveEvent() {
+        //Todo 暂时未解决LiveEventBus 发送一次事件却重复接收到相同事件的bug ，故暂时采用时间差方式
         val currentTime = System.currentTimeMillis()
         val liveEventTime = searchViewModel?.liveEventTime ?: 0L
         if ( (currentTime - liveEventTime)    > 100000) {

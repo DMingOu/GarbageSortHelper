@@ -77,7 +77,6 @@ class CameraFragment : BaseFragment() {
         focusCircle = activity?.findViewById(R.id.focusCircle)
 
         btnCapture?.setOnClickListener { v: View? ->
-            Logger.d("点击了拍照按钮")
             //创建要存照片的File
             val currentTime = System.currentTimeMillis()
             val imageName = "garbagesorthelper_$currentTime.png"

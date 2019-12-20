@@ -51,7 +51,6 @@ class FocusCircleView : View {
         super.onDraw(canvas)
         if (paint != null && scaleAnimation != null) {
             if (mX > 0 && mY > 0) {
-                Logger.d("绘制对焦⚪")
                 canvas.drawCircle(mX, mY, 20f, paint!!)
                 canvas.drawCircle(mX, mY, 90f, paint!!)
             }

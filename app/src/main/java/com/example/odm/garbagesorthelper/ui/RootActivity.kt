@@ -14,6 +14,7 @@ import com.example.odm.garbagesorthelper.base.BaseActivity
 import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding
 import com.example.odm.garbagesorthelper.ui.RootActivity
+import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment
 import com.example.odm.garbagesorthelper.ui.search.CameraFragment
 import com.example.odm.garbagesorthelper.utils.singleClick
 import com.orhanobut.logger.Logger
@@ -32,19 +33,19 @@ class RootActivity : BaseActivity(), IBackInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initPermissions()
         //设置沉浸式状态栏
         StatusBarUtils.translucent(this)
         StatusBarUtils.setStatusBarLightMode(this)
         setContentView(R.layout.activity_root)
-        while (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStackImmediate()
-        }
         initViewDataBinding()
-        initFragmentData()
-        //设置展示第一个Fragment
-        setFragmentByPosition(0)
+        initPermissions()
+//        while (supportFragmentManager.backStackEntryCount > 0) {
+//            supportFragmentManager.popBackStackImmediate()
+//        }
+        //手动设置显示第一个页面(保险)防止加载页面时Fragment尚未添加
+//        setFragmentByPosition(0)
         initBottomNavigation()
+
     }
 
     private fun initFragmentData() {
@@ -67,7 +68,6 @@ class RootActivity : BaseActivity(), IBackInterface {
         ft.addToBackStack(null)
         val targetFragment : Fragment = rootViewModel?.mFragments?.get(position) ?: Fragment()
         val lastFragment : Fragment = rootViewModel?.mFragments?.get(rootViewModel?.lastFragmentIndex ?: 0) ?: Fragment()
-        rootViewModel?.lastFragmentIndex = position
         ft.hide(lastFragment)
         //如果目标Fragment已经添加，则remove掉重新加入
         if (targetFragment.isAdded) {
@@ -77,12 +77,13 @@ class RootActivity : BaseActivity(), IBackInterface {
             Logger.d("targetFragment 被remove    pos : $position    的Fragment ，被添加进去")
             //ft.add(R.id.root_fragment_container, targetFragment).commitNow()
         }
+        Logger.d(targetFragment)
         ft.replace(R.id.root_fragment_container, targetFragment)
                 .show(targetFragment)
                 .commitAllowingStateLoss()
-
         //立刻执行操作
         supportFragmentManager.executePendingTransactions()
+        rootViewModel?.lastFragmentIndex = position
 
 
     }
@@ -90,8 +91,8 @@ class RootActivity : BaseActivity(), IBackInterface {
     @SuppressLint("CheckResult")
     fun initPermissions() { //动态获取拍摄,录音权限
         val rxPermissions = RxPermissions(this)
-        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
+        rxPermissions.request( Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe { aBoolean ->
                     //检查权限是否获取，提醒用户
                     if (aBoolean) {
@@ -100,6 +101,10 @@ class RootActivity : BaseActivity(), IBackInterface {
                         Log.e(TAG, "accept: 动态申请 权限回调 false")
                         Toast.makeText(this@RootActivity, "未授权应用相关权限，将无法使用拍照识别功能！", Toast.LENGTH_LONG).show()
                     }
+                    //添加Fragment对象数据，加载 Fragment
+                    initFragmentData()
+                    //手动设置展示第一个Fragment
+                    setFragmentByPosition(0)
                 }
     }
 
