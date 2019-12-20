@@ -211,7 +211,8 @@ class SearchFragment : BaseFragment() {
      */
     private fun handleLiveEvent() { //Todo 暂时未解决LiveEventBus 发送一次事件却重复接收到相同事件的bug ，故暂时采用时间差方式
         val currentTime = System.currentTimeMillis()
-        if ( (currentTime - searchViewModel!!.liveEventTime)    > 100000) {
+        val liveEventTime = searchViewModel?.liveEventTime ?: 0L
+        if ( (currentTime - liveEventTime)    > 100000) {
             LiveEventBus
                     .get(Constants.IMAGE_SUCCESS, String::class.java)
                     .observe(this, Observer { imageName: String? ->
