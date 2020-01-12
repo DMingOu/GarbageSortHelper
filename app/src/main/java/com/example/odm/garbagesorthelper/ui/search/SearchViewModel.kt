@@ -229,7 +229,7 @@ private val repository: SearchDataRepository) : ViewModel() {
                     }
 
                     override fun onError(e: Throwable) {
-                        Logger.d("新数据插入失败原因" + e.message)
+                        Logger.d("新数据插入失败原因  " + e.message)
                     }
         })
     }
@@ -250,7 +250,7 @@ private val repository: SearchDataRepository) : ViewModel() {
                     }
 
                     override fun onError(e: Throwable) {
-                        Log.e(TAG, "onError: 无法找到Name为" + e.message + " 的垃圾")
+                        Log.e(TAG, "onError: 无法找到Name为  " + e.message + " 的垃圾")
                         insertGarbageSearchHistory(garbageName, garbageType)
                     }
                 })

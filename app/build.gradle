@@ -72,7 +72,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    implementation  'androidx.lifecycle:lifecycle-viewmodel:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0'
 
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.10" // 必要rxjava2依赖
@@ -129,7 +129,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //Room数据库
-    def room_version = "2.2.1"
+    def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
 //    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
     implementation "androidx.room:room-rxjava2:$room_version"

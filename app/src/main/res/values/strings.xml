@@ -1,23 +1,23 @@
 <resources>
-    <string name="app_name">GarbageSortHelper</string>
-    <string name="app_name_chinese">垃圾分类小助手</string>
-    <string name="bottom_navigation_search">查询</string>
-    <string name="bottom_navigation_about">关于</string>
-    <string name="bottom_navigation_knowledge">知识</string>
-    <string name="searchview_hint">请输入你要查询的垃圾名</string>
-    <string name="known">我已知晓</string>
-    <string name="share_wechat">分享给微信好友</string>
-    <string name="update_version">版本更新</string>
-    <string name="about_author">关于作者</string>
-    <string name="version_latest">已是最新版本</string>
-    <string name="function_introduction">功能介绍</string>
-    <string name="tips">提示</string>
-    <string name="content_wait_for_receive_data">正在飞快地为您查询</string>
-    <string name="icon">图标</string>
-    <string name="recorder_dialog_textview_text">请用普通话说出您想要查询的垃圾名称</string>
-    <string name="show_dialog_about">关于页面呼出对话框</string>
-    <string name="welcome_contact_to_me">欢迎您通过我的邮箱与我联系</string>
-    <string name="my_email_address">DMingOu0529@gmail.com</string>
+    <string name = "app_name">GarbageSortHelper</string>
+    <string name = "app_name_chinese">垃圾分类小助手</string>
+    <string name = "bottom_navigation_search">查询</string>
+    <string name = "bottom_navigation_about">关于</string>
+    <string name = "bottom_navigation_knowledge">知识</string>
+    <string name = "searchview_hint">请输入你要查询的垃圾名</string>
+    <string name = "known">我已知晓</string>
+    <string name = "share_wechat">分享给微信好友</string>
+    <string name = "update_version">版本更新</string>
+    <string name = "about_author">关于作者</string>
+    <string name = "version_latest">已是最新版本</string>
+    <string name = "function_introduction">功能介绍</string>
+    <string name = "tips">提示</string>
+    <string name = "content_wait_for_receive_data">正在飞快地为您查询</string>
+    <string name = "icon">图标</string>
+    <string name = "recorder_dialog_textview_text">请用普通话说出您想要查询的垃圾名称</string>
+    <string name = "show_dialog_about">关于页面呼出对话框</string>
+    <string name = "welcome_contact_to_me">欢迎您通过我的邮箱与我联系</string>
+    <string name = "my_email_address">DMingOu0529@gmail.com</string>
 
-    <item name="tag_lastClickTime" type="id"></item>
+    <item name = "tag_lastClickTime" type = "id"></item>
 </resources>

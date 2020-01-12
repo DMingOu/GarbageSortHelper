@@ -48,7 +48,7 @@ class CameraFragment : BaseFragment() {
         } else {
             activity as IBackInterface?
         }
-        backInterface!!.setSelectedBackFragment(this)
+        backInterface?.setSelectedBackFragment(this)
         return inflater.inflate(R.layout.fragment_camera ,container ,false)
     }
 
@@ -78,6 +78,7 @@ class CameraFragment : BaseFragment() {
 
         btnCapture?.setOnClickListener { v: View? ->
             //创建要存照片的File
+            Logger.d("点击了拍照按钮")
             val currentTime = System.currentTimeMillis()
             val imageName = "garbagesorthelper_$currentTime.png"
             cameraViewModel?.imageCapture?.takePicture(cameraViewModel?.createImageFile(imageName), object : ImageCapture.OnImageSavedListener {
@@ -87,17 +88,19 @@ class CameraFragment : BaseFragment() {
                     //返回搜索页面
                     val manager: FragmentManager? = getFragmentManager()
                     //通过FragmentManager管理器获取被标记的CameraFragment
-                    val fragment1: Fragment? = manager!!.findFragmentByTag("CameraFragment")
+                    val fragment1: Fragment? = manager?.findFragmentByTag("CameraFragment")
                     if (fragment1 != null) { //开始事务 通过remove清除指定的fragment，并提交
                         manager.beginTransaction().remove(fragment1).commit()
                     }
                 }
 
-                override fun onError(imageCaptureError: ImageCaptureError, message: String, cause: Throwable?) { //与搜索页面通信，发送失败的原因
+                override fun onError(imageCaptureError: ImageCaptureError, message: String, cause: Throwable?) {
+                    //与搜索页面通信，发送失败的原因
                     var errorMsg: String? = "发生了未知的错误"
                     if (cause != null) {
                         errorMsg = cause.message
                     }
+                    Logger.d("拍照发生错误  " + message)
                     LiveEventBus.get(Constants.IMAGE_FAILURE).post(errorMsg)
                 }
             })
@@ -105,7 +108,8 @@ class CameraFragment : BaseFragment() {
     }
 
     @SuppressLint("CheckResult", "ClickableViewAccessibility")
-    private fun initCamera() { //加载CameraX 配置信息
+    private fun initCamera() {
+        //加载CameraX 配置信息
         cameraViewModel?.initCameraConfig()
         CameraX.bindToLifecycle(self, cameraViewModel?.preview, cameraViewModel?.imageAnalysis, cameraViewModel?.imageCapture)
         //图片分析
@@ -113,14 +117,13 @@ class CameraFragment : BaseFragment() {
             //                Rect cropRect =  image.getCropRect();
         }
         //图片预览
-        cameraViewModel?.preview?.onPreviewOutputUpdateListener = object : OnPreviewOutputUpdateListener {
-            override fun onUpdated(output: PreviewOutput) {
-                Log.e(TAG, "onUpdated: 更新拍摄视图")
-                containerCamera?.surfaceTexture = output.surfaceTexture
-                // 设置图像预览画面随手机旋转--但是方法暂时无效
-                updateTransform()
+        cameraViewModel?.preview?.onPreviewOutputUpdateListener = OnPreviewOutputUpdateListener { output ->
+            Log.e(TAG, "onUpdated: 更新拍摄视图")
+            containerCamera?.surfaceTexture = output.surfaceTexture
+            // 设置图像预览画面随手机旋转--但是方法暂时无效
+            updateTransform()
 
-                //                //获取屏幕预览的中心点
+            //获取屏幕预览的中心点
 //                float centerX = (float) mBinding.containerCamera.getWidth() / 2 ;
 //                float centerY = (float) mBinding.containerCamera.getHeight() / 2;
 //                // 计算旋转角度
@@ -150,7 +153,6 @@ class CameraFragment : BaseFragment() {
 //                matrix.postRotate((float)-rotationDegrees, centerX, centerY);
 //                // 将变换应用在预览上
 //                mBinding.containerCamera.setTransform(matrix);
-            }
         }
         //点击拍照区域对焦
         containerCamera?.setOnTouchListener { v, event ->

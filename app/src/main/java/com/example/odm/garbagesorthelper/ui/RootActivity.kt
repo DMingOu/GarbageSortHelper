@@ -38,12 +38,15 @@ class RootActivity : BaseActivity(), IBackInterface {
         StatusBarUtils.setStatusBarLightMode(this)
         setContentView(R.layout.activity_root)
         initViewDataBinding()
-        initPermissions()
 //        while (supportFragmentManager.backStackEntryCount > 0) {
 //            supportFragmentManager.popBackStackImmediate()
 //        }
         //手动设置显示第一个页面(保险)防止加载页面时Fragment尚未添加
 //        setFragmentByPosition(0)
+        //添加Fragment对象数据，加载 Fragment
+        initFragmentData()
+        //手动设置展示第一个Fragment
+        setFragmentByPosition(0)
         initBottomNavigation()
 
     }
@@ -100,10 +103,7 @@ class RootActivity : BaseActivity(), IBackInterface {
                         Log.e(TAG, "accept: 动态申请 权限回调 false")
                         Toast.makeText(this@RootActivity, "未授权应用相关权限，将无法使用拍照识别功能！", Toast.LENGTH_LONG).show()
                     }
-                    //添加Fragment对象数据，加载 Fragment
-                    initFragmentData()
-                    //手动设置展示第一个Fragment
-                    setFragmentByPosition(0)
+
                 }
     }
 
@@ -123,7 +123,8 @@ class RootActivity : BaseActivity(), IBackInterface {
     }
 
 
-    fun initBottomNavigation() { // 底部导航添加子项
+    fun initBottomNavigation() {
+        // 底部导航添加子项
         rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search))
         rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge))
         rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about))

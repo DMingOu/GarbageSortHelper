@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.application
 
 import android.app.Application
 import android.content.Context
+import android.widget.Toast
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.ui.RootActivity
@@ -10,6 +11,7 @@ import com.iflytek.cloud.SpeechUtility
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.xuexiang.xui.XUI
+import io.reactivex.plugins.RxJavaPlugins
 
 /**
  * description: Application类
@@ -26,6 +28,7 @@ class GarbageSortApplication : Application() {
         initCrashPage()
         initXUIFramework()
         initXunFeiRecord()
+        initRxJavaOnErrorHandle()
     }
 
     private fun initLogger() {
@@ -65,6 +68,13 @@ class GarbageSortApplication : Application() {
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5d92eae0")
     }
 
+    private fun initRxJavaOnErrorHandle() {
+        RxJavaPlugins.setErrorHandler {
+            //Toast.makeText(this , it.message ,Toast.LENGTH_SHORT).show()
+            Logger.d(it.localizedMessage?:"")
+        }
+    }
+
     companion object {
         /**
          * Get context context.
@@ -74,4 +84,6 @@ class GarbageSortApplication : Application() {
         var context: Context? = null
             private set
     }
+
+
 }

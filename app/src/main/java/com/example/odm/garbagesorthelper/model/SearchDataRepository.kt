@@ -29,8 +29,7 @@ class SearchDataRepository private constructor(private val historyDataSource: Lo
      * @return Observable对象
      */
     fun getGarbageDataResult(garbageName: String?): Observable<GarbageData?>?  {
-        return RetrofitManager
-                .instance
+        return RetrofitManager.instance
                 ?.apiService
                 ?.getGarbageData(garbageName)
                 ?.subscribeOn(Schedulers.io())
@@ -60,8 +59,7 @@ class SearchDataRepository private constructor(private val historyDataSource: Lo
         val param = "image=$imgParam"
         val body = RequestBody.create("application/x-www-form-urlencoded; charset=utf-8".toMediaTypeOrNull(), param)
         //请求数据
-        return RetrofitManager
-                .instance
+        return RetrofitManager.instance
                 ?.apiService
                 ?.getImageClassifyData(ApiService.Base_Url_Image_Classify, Constants.accessToken_baidu, body)
                 ?.subscribeOn(Schedulers.io())
