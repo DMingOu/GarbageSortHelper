@@ -1,15 +1,19 @@
 package com.example.odm.garbagesorthelper.ui.search
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Matrix
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.widget.RelativeLayout
 import androidx.camera.core.*
 import androidx.camera.core.ImageCapture.ImageCaptureError
 import androidx.camera.core.Preview.OnPreviewOutputUpdateListener
 import androidx.camera.core.Preview.PreviewOutput
 import androidx.camera.view.TextureViewMeteringPointFactory
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,12 +22,19 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseFragment
 import com.example.odm.garbagesorthelper.base.IBackInterface
+import com.example.odm.garbagesorthelper.base.IHideInterface
 import com.example.odm.garbagesorthelper.core.Constants
+import com.example.odm.garbagesorthelper.ui.RootActivity
 import com.example.odm.garbagesorthelper.widget.FocusCircleView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.orhanobut.logger.Logger
 import com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 /**
  * description: 拍摄界面V层
@@ -38,32 +49,43 @@ class CameraFragment : BaseFragment() {
     private var containerCamera :   TextureView  ?=  null
     private var focusCircle : FocusCircleView ?= null
 
+    private var hideInterface : IHideInterface ?= null
 
-//    private var mBinding: FragmentCameraBinding? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
+
         val backInterface: IBackInterface?
         backInterface = if (activity !is IBackInterface) {
-            throw ClassCastException("Hosting Activity must implement BackHandledInterface")
+            throw ClassCastException("活动Activity 必须继承 BackHandledInterface")
         } else {
             activity as IBackInterface?
         }
         backInterface?.setSelectedBackFragment(this)
+
+        hideInterface = if (activity !is IHideInterface) {
+            throw ClassCastException("活动Activity 必须继承 BackHandledInterface")
+        } else {
+            activity as IHideInterface
+        }
+
         return inflater.inflate(R.layout.fragment_camera ,container ,false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getDeviceDP()
         initViews()
         initCamera()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        hideInterface?.showBottomNavigation()
+        hideInterface?.showTitleBar()
+    }
+
     override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         cameraViewModel = ViewModelProviders.of(this).get(CameraViewModel::class.java)
-//        mBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-//        mBinding?.setViewModel(cameraViewModel)
-//        mBinding?.setVariable(BR.viewModel, cameraViewModel)
-//        mBinding?.setLifecycleOwner(this)
     }
 
     override val layoutId: Int
@@ -74,6 +96,14 @@ class CameraFragment : BaseFragment() {
     private fun initViews() {
         btnCapture = activity?.findViewById(R.id.btnCamera)
         containerCamera = activity?.findViewById(R.id.containerCamera)
+        //动态为预览区域进行设置宽高，以调整到最佳预览
+        val rl = containerCamera?.layoutParams as RelativeLayout.LayoutParams
+        rl.width =  cameraViewModel?.preViewWidth ?: 0
+        rl.height = cameraViewModel?.preViewHeigth ?: 0
+        Logger.d("动态设置预览区域的 高度 "  + rl.height + "   宽度 " + rl.width)
+        rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+        containerCamera?.layoutParams = rl
+
         focusCircle = activity?.findViewById(R.id.focusCircle)
 
         btnCapture?.setOnClickListener { v: View? ->
@@ -120,6 +150,9 @@ class CameraFragment : BaseFragment() {
         cameraViewModel?.preview?.onPreviewOutputUpdateListener = OnPreviewOutputUpdateListener { output ->
             Log.e(TAG, "onUpdated: 更新拍摄视图")
             containerCamera?.surfaceTexture = output.surfaceTexture
+            //隐藏和显示特定的View
+            btnCapture?.visibility = View.VISIBLE
+            hideInterface?.hideBottomNavigation()
             // 设置图像预览画面随手机旋转--但是方法暂时无效
             updateTransform()
 
@@ -219,6 +252,49 @@ class CameraFragment : BaseFragment() {
         }
         mx.postRotate(rotationDgr.toFloat(), cX?:0f, cY?:0f)
         containerCamera?.setTransform(mx)
+    }
+
+
+//public void getAndroiodScreenProperty() {
+//        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+//        DisplayMetrics dm = new DisplayMetrics();
+//        wm.getDefaultDisplay().getMetrics(dm);
+//        int width = dm.widthPixels;         // 屏幕宽度（像素）
+//        int height = dm.heightPixels;       // 屏幕高度（像素）
+//        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+//        int densityDpi = dm.densityDpi;     // 屏幕密度dpi（120 / 160 / 240）
+//        // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
+//        int screenWidth = (int) (width / density);  // 屏幕宽度(dp)
+//        int screenHeight = (int) (height / density);// 屏幕高度(dp)
+//
+//
+//        Log.d("h_bl", "屏幕宽度（像素）：" + width);
+//        Log.d("h_bl", "屏幕高度（像素）：" + height);
+//        Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
+//        Log.d("h_bl", "屏幕密度dpi（120 / 160 / 240）：" + densityDpi);
+//        Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);
+//        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
+//    }
+
+    fun getDeviceDP(){
+        val wm = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val dm = DisplayMetrics()
+        wm.getDefaultDisplay().getMetrics(dm)
+        val width = dm.widthPixels         // 屏幕宽度（像素）
+        val height = dm.heightPixels       // 屏幕高度（像素）
+        val density  = dm.density          // 屏幕密度（0.75 / 1.0 / 1.5）
+        val densityDpi = dm.densityDpi     // 屏幕密度dpi（120 / 160 / 240）
+        // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
+        val screenWidth : Float =  width  / density  // 屏幕宽度(dp)
+        val screenHeight = (height / density);// 屏幕高度(dp)
+        cameraViewModel?.preViewWidth = width
+        cameraViewModel?.preViewHeigth = width * 4 / 3 - 100
+//        Log.d("h_bl", "屏幕宽度（像素）：" + width);
+//        Log.d("h_bl", "屏幕高度（像素）：" + height);
+//        Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
+//        Log.d("h_bl", "屏幕密度dpi（120 / 160 / 240）：" + densityDpi);
+//        Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);
+//        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
     }
 
     companion object {

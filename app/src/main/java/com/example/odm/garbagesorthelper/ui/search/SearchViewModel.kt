@@ -30,9 +30,7 @@ class SearchViewModel(
 //    public SearchViewModel(Application application) {
 //        super(application);
 //    }
-
-
-private val repository: SearchDataRepository) : ViewModel() {
+            private val repository: SearchDataRepository) : ViewModel() {
     /**
      * 用户搜索框搜索内容--垃圾名
      */

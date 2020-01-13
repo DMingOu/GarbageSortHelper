@@ -1,12 +1,17 @@
 package com.example.odm.garbagesorthelper.ui.search
 
 import android.app.Application
+import android.content.Context
 import android.os.Environment
+import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Size
 import android.view.Surface
+import android.view.WindowManager
 import androidx.camera.core.*
 import androidx.camera.extensions.HdrImageCaptureExtender
 import androidx.camera.extensions.HdrPreviewExtender
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.odm.garbagesorthelper.base.BaseModel
 import com.example.odm.garbagesorthelper.base.BaseViewModel
 import java.io.File
@@ -20,6 +25,9 @@ class CameraViewModel(application: Application?) : BaseViewModel<BaseModel?>(app
     var imageCapture: ImageCapture? = null
     var imageAnalysis: ImageAnalysis? = null
     var preview: Preview? = null
+
+    var preViewWidth : Int  = 0
+    var preViewHeigth : Int  = 0
     fun initCameraConfig() { //拍摄预览的配置config
         val configBuilder = PreviewConfig.Builder()
                 .setLensFacing(CameraX.LensFacing.BACK)
@@ -48,4 +56,6 @@ class CameraViewModel(application: Application?) : BaseViewModel<BaseModel?>(app
     fun createImageFile(imageName: String?): File {
         return File(Environment.getExternalStorageDirectory(), imageName)
     }
+
+
 }

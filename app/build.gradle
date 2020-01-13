@@ -136,4 +136,6 @@ dependencies {
 //    kapt "android.arch.persistence.room:compiler:2.2.1"
     kapt "androidx.room:room-compiler:$room_version"
 
+    implementation 'site.gemus:openingstartanimation:1.0.0'
+
 }

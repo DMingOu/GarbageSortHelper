@@ -181,9 +181,12 @@ class SearchFragment : BaseFragment() {
                                 && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                             //跳转到拍摄页面
                             fragmentManager?.beginTransaction()
+                                    ?.setCustomAnimations(R.anim.push_up_in ,R.anim.push_down_out)
                                     ?.add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
                                     ?.commitAllowingStateLoss()
                             searchViewModel?.isOpenCamera?.setValue(false)
+                        } else {
+                            Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()
                         }
                     } else {
                         Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！", Toast.LENGTH_LONG).show()
@@ -204,7 +207,7 @@ class SearchFragment : BaseFragment() {
          * 观察语音识别的结果，调用垃圾分类搜索接口
          */
          searchViewModel?.voiceGarbageName?.observe(this, Observer { garbageName: String ->
-            if ("" != garbageName) {
+            if ("".equals( garbageName)) {
                 //showLoadingDialog();
                 if (searchViewModel?.searching ?: false) {
                     searchViewModel?.onSearch(garbageName)
