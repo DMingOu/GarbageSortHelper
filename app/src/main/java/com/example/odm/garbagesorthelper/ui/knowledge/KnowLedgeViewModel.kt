@@ -25,10 +25,10 @@ class KnowLedgeViewModel(application: Application?) : BaseViewModel<BaseModel?>(
     var tabIcon = intArrayOf(R.drawable.module_search_cookiebar_recycle_garbage, R.drawable.module_search_cookiebar_harmful_garbage,
             R.drawable.module_search_cookiebar_dry_garbage, R.drawable.module_search_cookiebar_wet_garbage)
     var imgUrls = arrayOf(
-            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163449.webp",
-            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163500.webp",
-            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163513.webp",
-            "https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191029163520.webp"
+            "https://ae01.alicdn.com/kf/H3e0cde875f9a4d64af8ea077842fc6a6S.jpg",
+            "https://ae01.alicdn.com/kf/H5d580475bec84a3480af00c5ba8a9298v.jpg",
+            "https://ae01.alicdn.com/kf/H9a598253c41148529676909b69f00a254.jpg",
+            "https://ae01.alicdn.com/kf/H5290b15f527c4921b8350ab2783bfdf5p.jpg"
     )
 
     val finalHeight: Int

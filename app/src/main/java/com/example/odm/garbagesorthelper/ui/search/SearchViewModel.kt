@@ -202,10 +202,10 @@ class SearchViewModel(
     val bannerDataList: List<BannerData>
         get() {
             val dataList: MutableList<BannerData> = ArrayList()
-            val a = BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003225959.png")
-            val b = BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003230434.png")
-            val c = BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003230859.png")
-            val d = BannerData("https://raw.githubusercontent.com/DMingOu/Markdown-Picture-repository/master/img/20191003232017.png")
+            val a = BannerData("https://ae01.alicdn.com/kf/H69de6a06f25c43679ccc44a0669a442ax.jpg")
+            val b = BannerData("https://ae01.alicdn.com/kf/H1105244b986e4b8f9ba8c0f9f6022708R.jpg")
+            val c = BannerData("https://ae01.alicdn.com/kf/Hbf77e31ac3ed49c6b11c7c6caacbb142L.jpg")
+            val d = BannerData("https://ae01.alicdn.com/kf/H690c8a6211ee4e47ba59b32ee003e809l.jpg")
             dataList.add(a)
             dataList.add(b)
             dataList.add(c)

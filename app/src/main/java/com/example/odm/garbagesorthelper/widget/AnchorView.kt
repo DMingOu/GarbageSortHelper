@@ -36,7 +36,12 @@ class AnchorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * @param imgUtl
      */
     fun setContentUrl(imgUtl: String?) {
-        Glide.with(context.applicationContext).load(imgUtl).placeholder(R.drawable.module_glide_load_default_image).error(R.drawable.module_search_cookiebar_fail_garbage).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).into(ivContent!!)
+        Glide.with(context.applicationContext)
+                .load(imgUtl)
+                .placeholder(R.drawable.module_glide_load_default_image)
+                .error(R.drawable.error_image)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .into(ivContent!!)
     }
 
     init {

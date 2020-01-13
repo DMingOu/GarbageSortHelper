@@ -153,7 +153,7 @@ class SearchFragment : BaseFragment() {
             Glide.with(this@SearchFragment)
                     .load((model as BannerData).xBannerUrl)
                     .placeholder(R.drawable.module_glide_load_default_image)
-                    .error(R.drawable.module_search_cookiebar_fail_garbage)
+                    .error(R.drawable.error_image)
                     .into((view as ImageView))
         }
     }

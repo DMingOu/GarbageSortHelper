@@ -35,7 +35,8 @@
                 <category android:name = "android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name = ".ui.RootActivity">
+        <activity android:name = ".ui.RootActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
 
         <meta-data
