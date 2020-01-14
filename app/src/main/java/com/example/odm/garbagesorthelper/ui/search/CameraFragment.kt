@@ -51,6 +51,10 @@ class CameraFragment : BaseFragment() {
 
     private var hideInterface : IHideInterface ?= null
 
+    companion object {
+        private const val TAG = "CameraFragment"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
 
@@ -73,7 +77,7 @@ class CameraFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getDeviceDP()
+//        getDeviceDP()
         initViews()
         initCamera()
     }
@@ -86,7 +90,6 @@ class CameraFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Logger.d("Camera Fragment 被Destroy")
         hideInterface?.showBottomNavigation()
         hideInterface?.showTitleBar()
     }
@@ -103,13 +106,13 @@ class CameraFragment : BaseFragment() {
     private fun initViews() {
         btnCapture = activity?.findViewById(R.id.btnCamera)
         containerCamera = activity?.findViewById(R.id.containerCamera)
-        //动态为预览区域进行设置宽高，以调整到最佳预览
-        val rl = containerCamera?.layoutParams as RelativeLayout.LayoutParams
-        rl.width =  cameraViewModel?.preViewWidth ?: 0
-        rl.height = cameraViewModel?.preViewHeigth ?: 0
-        Logger.d("动态设置预览区域的 高度 "  + rl.height + "   宽度 " + rl.width)
-        rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-        containerCamera?.layoutParams = rl
+//        //动态为预览区域进行设置宽高，以调整到最佳预览
+//        val rl = containerCamera?.layoutParams as RelativeLayout.LayoutParams
+//        rl.width =  cameraViewModel?.preViewWidth ?: 0
+//        rl.height = cameraViewModel?.preViewHeigth ?: 0
+//        Logger.d("动态设置预览区域的 高度 "  + rl.height + "   宽度 " + rl.width)
+//        rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+//        containerCamera?.layoutParams = rl
 
         focusCircle = activity?.findViewById(R.id.focusCircle)
 
@@ -144,7 +147,7 @@ class CameraFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("CheckResult", "ClickableViewAccessibility")
+    @SuppressLint("CheckResult", "ClickableViewAccessibility", "RestrictedApi")
     private fun initCamera() {
         //加载CameraX 配置信息
         cameraViewModel?.initCameraConfig()
@@ -153,9 +156,9 @@ class CameraFragment : BaseFragment() {
             CameraX.bindToLifecycle(self, cameraViewModel?.preview, cameraViewModel?.imageAnalysis, cameraViewModel?.imageCapture)
         }
         //图片分析
-        cameraViewModel?.imageAnalysis?.analyzer = ImageAnalysis.Analyzer { image, rotationDegrees ->
-            //                Rect cropRect =  image.getCropRect();
-        }
+//        cameraViewModel?.imageAnalysis?.analyzer = ImageAnalysis.Analyzer { image, rotationDegrees ->
+//            //                Rect cropRect =  image.getCropRect();
+//        }
         //图片预览
         cameraViewModel?.preview?.onPreviewOutputUpdateListener = OnPreviewOutputUpdateListener { output ->
             Log.e(TAG, "onUpdated: 更新拍摄视图")
@@ -299,7 +302,9 @@ class CameraFragment : BaseFragment() {
         val screenWidth : Float =  width  / density  // 屏幕宽度(dp)
         val screenHeight = (height / density);// 屏幕高度(dp)
         cameraViewModel?.preViewWidth = width
-        cameraViewModel?.preViewHeigth = width * 4 / 3 - 100
+//        cameraViewModel?.preViewHeigth = width * 4 / 3 - 100
+        cameraViewModel?.preViewHeigth = height
+
 //        Log.d("h_bl", "屏幕宽度（像素）：" + width);
 //        Log.d("h_bl", "屏幕高度（像素）：" + height);
 //        Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
@@ -308,7 +313,5 @@ class CameraFragment : BaseFragment() {
 //        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
     }
 
-    companion object {
-        private const val TAG = "CameraFragment"
-    }
+
 }

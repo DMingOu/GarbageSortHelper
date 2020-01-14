@@ -42,7 +42,7 @@ class SearchDataRepository private constructor(private val historyDataSource: Lo
      * @return Observable对象
      */
     fun getImageClassifyResult(imageName: String): Observable<ImageClassifyBean?> ?{
-        val filePath = "/storage/emulated/0/$imageName"
+        val filePath = "/storage/emulated/0/GarbageSortHelper/ImageCache/$imageName"
         var imgData: ByteArray = ByteArray(0)
         try {
             imgData = FileUtil.readFileByBytes(filePath)

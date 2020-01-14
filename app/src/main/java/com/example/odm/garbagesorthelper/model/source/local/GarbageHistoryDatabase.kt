@@ -25,7 +25,6 @@ abstract class GarbageHistoryDatabase : RoomDatabase() {
         if(!file.exists()) {
             file.mkdirs()
         }
-
     }
     /**
      * 获得 DataBase 对象
