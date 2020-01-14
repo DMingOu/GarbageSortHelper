@@ -67,7 +67,7 @@ class CameraFragment : BaseFragment() {
         backInterface?.setSelectedBackFragment(this)
 
         hideInterface = if (activity !is IHideInterface) {
-            throw ClassCastException("活动Activity 必须继承 BackHandledInterface")
+            throw ClassCastException("活动Activity 必须继承 IHideInterface")
         } else {
             activity as IHideInterface
         }

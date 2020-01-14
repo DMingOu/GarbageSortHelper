@@ -35,16 +35,20 @@ class FocusCircleView : View {
      */
     private fun init() {
         paint = Paint()
-        scaleAnimation = ScaleAnimation(1.015f, 1f, 1.015f, 1f,
-                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
         //设画笔置白色
-        paint!!.color = resources.getColor(R.color.xui_config_color_white)
+        paint?.color = resources.getColor(R.color.xui_config_color_white)
         //空心圆
-        paint!!.style = Paint.Style.STROKE
-        paint!!.strokeWidth = 5f
-        scaleAnimation!!.duration = 1000
-        scaleAnimation!!.fillAfter = false
-        scaleAnimation!!.repeatCount = 0
+        paint?.style = Paint.Style.STROKE
+        paint?.strokeWidth = 5f
+//        scaleAnimation = ScaleAnimation(1.015f, 1f, 1.015f, 1f,
+//                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
+        scaleAnimation = ScaleAnimation(1.0f, 1f, 1.0f, 1f,
+                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
+        scaleAnimation?.duration = 1000
+        scaleAnimation?.fillAfter = false
+        scaleAnimation?.repeatCount = 0
+
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -75,7 +79,7 @@ class FocusCircleView : View {
             //重新初始化属性，准备下一次对焦
             setFocusPoint(0f, 0f)
             invalidate()
-            paint!!.color = resources.getColor(R.color.xui_config_color_white)
+            paint?.color = resources.getColor(R.color.xui_config_color_white)
         }, 1000)
     }
 
