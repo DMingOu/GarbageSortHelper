@@ -174,7 +174,7 @@ class CameraFragment : BaseFragment() {
                 MotionEvent.ACTION_DOWN -> {
                     //启动点击对焦自定义View
                     focusCircle?.let {
-                        it.focusStart(it , event.x ,event.y)
+                        it.focusStart(event.x ,event.y)
                     }
                     val meteringPoint = containerCamera?.let {
                         TextureViewMeteringPointFactory(it).createPoint(event.x , event.y)

@@ -1,14 +1,17 @@
 package com.example.odm.garbagesorthelper.widget
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import com.example.odm.garbagesorthelper.R
 import com.orhanobut.logger.Logger
+
 
 /**
  * description: 对焦圆框自定义View
@@ -17,11 +20,16 @@ import com.orhanobut.logger.Logger
  */
 class FocusCircleView : View {
     private var paint: Paint? = null
-    var scaleAnimation: ScaleAnimation? = null
-    //默认启动时在中心对焦，自定义View在屏幕中心画出
+    //圆心的x坐标
     private var mX = 0f
+    //圆心的Y坐标
     private var mY = 0f
-
+    //小圆半径
+    private var rs = 0f
+    //大圆半径
+    private var rb = 0f
+    //控制对焦同心圆View缩放属性动画
+    var valueAnimator :ValueAnimator ?= null
     constructor(context: Context?) : super(context) {
         init()
     }
@@ -31,7 +39,7 @@ class FocusCircleView : View {
     }
 
     /**
-     * 初始化：画笔 ,缩放效果
+     * 初始化：画笔 , 属性动画和插值器
      */
     private fun init() {
         paint = Paint()
@@ -40,28 +48,28 @@ class FocusCircleView : View {
         //空心圆
         paint?.style = Paint.Style.STROKE
         paint?.strokeWidth = 5f
-//        scaleAnimation = ScaleAnimation(1.015f, 1f, 1.015f, 1f,
-//                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
-        scaleAnimation = ScaleAnimation(1.0f, 1f, 1.0f, 1f,
-                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f)
-        scaleAnimation?.duration = 1000
-        scaleAnimation?.fillAfter = false
-        scaleAnimation?.repeatCount = 0
-
-
+        valueAnimator = ValueAnimator.ofFloat(20f, 18.5f)
+        valueAnimator?.interpolator = LinearInterpolator()
+        valueAnimator?.duration = 1000
+        valueAnimator?.repeatCount = 0
+        valueAnimator?.addUpdateListener { animation ->
+            rs = animation.animatedValue as Float
+            rb = rs * 9 / 2
+            invalidate()
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (paint != null && scaleAnimation != null) {
+        paint?.let {
             if (mX > 0 && mY > 0) {
-                canvas.drawCircle(mX, mY, 20f, paint!!)
-                canvas.drawCircle(mX, mY, 90f, paint!!)
+                canvas.drawCircle(mX, mY, rs, paint!!)
+                canvas.drawCircle(mX, mY, rb, paint!!)
             }
         }
     }
 
-    fun setFocusPoint(x: Float, y: Float) {
+    private fun setFocusPoint(x: Float, y: Float) {
         mX = x
         mY = y
     }
@@ -71,7 +79,7 @@ class FocusCircleView : View {
      */
     fun focusCompleted() {
         postDelayed({
-            paint!!.color = resources.getColor(R.color.xui_btn_green_normal_color)
+            paint?.color = resources.getColor(R.color.xui_btn_green_normal_color)
             invalidate()
         }, 500)
         //让自定义View显示绿色状态后，延迟1000ms再消失
@@ -83,9 +91,10 @@ class FocusCircleView : View {
         }, 1000)
     }
 
-    fun focusStart(focusCircleView: FocusCircleView, x: Float, y: Float) {
+    fun focusStart(x: Float, y: Float) {
         setFocusPoint(x, y)
-        focusCircleView.startAnimation(scaleAnimation)
-        invalidate()
+        Logger.d("开始对焦")
+
+        valueAnimator?.start()
     }
 }
