@@ -207,7 +207,7 @@ class SearchFragment : BaseFragment() {
          * 观察语音识别的结果，调用垃圾分类搜索接口
          */
          searchViewModel?.voiceGarbageName?.observe(this, Observer { garbageName: String ->
-            if ("".equals( garbageName)) {
+            if ("" != garbageName) {
                 //showLoadingDialog();
                 if (searchViewModel?.searching ?: false) {
                     searchViewModel?.onSearch(garbageName)

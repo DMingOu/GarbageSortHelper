@@ -70,7 +70,7 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
 
         val ft = supportFragmentManager.beginTransaction()
         //设置进场、退场动画
-        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out, R.anim.push_left_out, R.anim.push_right_out)
+//        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out, R.anim.push_left_out, R.anim.push_right_out)
         ft.addToBackStack(null)
         val targetFragment : Fragment = rootViewModel?.mFragments?.get(position) ?: Fragment()
         val lastFragment : Fragment = rootViewModel?.mFragments?.get(rootViewModel?.lastFragmentIndex ?: 0) ?: Fragment()
@@ -120,6 +120,7 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
             setFragmentByPosition(0)
             rootViewModel?.backFragment = null
         } else {
+            Logger.d("其他页面触发返回键")
             //若当前页面为其他页面，监听返回键事件--退出APP
             super.onBackPressed()
             finish()

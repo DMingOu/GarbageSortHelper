@@ -44,7 +44,7 @@ class WelcomeActivity : AppCompatActivity() {
                 .setColorOfAppIcon( Color.GREEN) //设置绘制图标线条的颜色
                 .setAppName("垃圾分类小助手") //设置app名称
                 .setColorOfAppName(R.color.colorPrimary) //设置app名称颜色
-                .setAppStatement("让垃圾分类也可以轻松愉快") //设置一句话描述
+                .setAppStatement("让垃圾分类也能轻松愉快") //设置一句话描述
                 .setColorOfAppStatement(Color.BLACK) // 设置一句话描述的颜色
                 .setAnimationInterval(2500) // 设置动画时间间隔
                 .setDrawStategy(RedYellowBlueDrawStrategy())

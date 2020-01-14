@@ -78,8 +78,15 @@ class CameraFragment : BaseFragment() {
         initCamera()
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        CameraX.unbindAll()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        Logger.d("Camera Fragment 被Destroy")
         hideInterface?.showBottomNavigation()
         hideInterface?.showTitleBar()
     }
@@ -141,7 +148,10 @@ class CameraFragment : BaseFragment() {
     private fun initCamera() {
         //加载CameraX 配置信息
         cameraViewModel?.initCameraConfig()
-        CameraX.bindToLifecycle(self, cameraViewModel?.preview, cameraViewModel?.imageAnalysis, cameraViewModel?.imageCapture)
+        //CameraX未绑定 UseCase 则绑定
+        if( ! CameraX.isBound(cameraViewModel?.preview) && ! CameraX.isBound(cameraViewModel?.imageCapture) && ! CameraX.isBound(cameraViewModel?.imageAnalysis)) {
+            CameraX.bindToLifecycle(self, cameraViewModel?.preview, cameraViewModel?.imageAnalysis, cameraViewModel?.imageCapture)
+        }
         //图片分析
         cameraViewModel?.imageAnalysis?.analyzer = ImageAnalysis.Analyzer { image, rotationDegrees ->
             //                Rect cropRect =  image.getCropRect();
@@ -229,6 +239,7 @@ class CameraFragment : BaseFragment() {
      * 返回true，则让宿主Activity处理本次返回事件
      */
     fun onBackPressed(): Boolean {
+
         return true
     }
 
