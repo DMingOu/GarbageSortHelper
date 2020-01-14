@@ -1,4 +1,4 @@
-package com.example.odm.garbagesorthelper.ui.search
+package com.example.odm.garbagesorthelper.ui.Camera
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -28,8 +28,7 @@ class CameraViewModel(application: Application?) : BaseViewModel<BaseModel?>(app
     var imageCapture: ImageCapture? = null
     var imageAnalysis: ImageAnalysis? = null
     var preview: Preview? = null
-    var preViewWidth : Int  = 0
-    var preViewHeigth : Int  = 0
+
     var imageFolder : File ?
 
     init {
@@ -44,7 +43,7 @@ class CameraViewModel(application: Application?) : BaseViewModel<BaseModel?>(app
         //拍摄预览的配置config
         val configBuilder = PreviewConfig.Builder()
                 .setLensFacing(CameraX.LensFacing.BACK)
-                .setTargetAspectRatio(Rational(9,16))
+                .setTargetAspectRatio(Rational(9,18))
                 .setTargetRotation(Surface.ROTATION_0)
 //                .setTargetResolution(Size(1080, 1920))
         val hdrPreviewExtender = HdrPreviewExtender.create(configBuilder)

@@ -22,27 +22,34 @@
     android:configChanges = "keyboardHidden|orientation|screenSize|locale"
     android:icon = "@drawable/icon_garbagesort_app"
     android:label = "@string/app_name_chinese"
+    android:requestLegacyExternalStorage = "true"
     android:roundIcon = "@mipmap/ic_launcher_round"
     android:supportsRtl = "true"
     android:theme = "@style/AppTheme"
     android:usesCleartextTraffic = "true"
-    android:requestLegacyExternalStorage="true"
     tools:replace = "android:label">
+        <activity android:name = ".ui.Camera.CameraActivity">
+        </activity>
         <activity android:name = ".ui.WelcomeActivity">
             <intent-filter>
                 <action android:name = "android.intent.action.MAIN" />
                 <action android:name = "android.intent.action.VIEW" />
+
                 <category android:name = "android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name = ".ui.RootActivity"
-                android:windowSoftInputMode="adjustPan">
+        <activity
+        android:name = ".ui.RootActivity"
+        android:windowSoftInputMode = "adjustPan">
         </activity>
 
         <meta-data
         android:name = "IFLYTEK_APPKEY"
         android:value = "5d92eae0" />
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
+        <uses-library
+        android:name = "org.apache.http.legacy"
+        android:required = "false" />
     </application>
 
 </manifest>

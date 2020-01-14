@@ -1,20 +1,14 @@
 package com.example.odm.garbagesorthelper.ui.search
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Matrix
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.RelativeLayout
 import androidx.camera.core.*
 import androidx.camera.core.ImageCapture.ImageCaptureError
 import androidx.camera.core.Preview.OnPreviewOutputUpdateListener
-import androidx.camera.core.Preview.PreviewOutput
 import androidx.camera.view.TextureViewMeteringPointFactory
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
@@ -24,17 +18,12 @@ import com.example.odm.garbagesorthelper.base.BaseFragment
 import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.base.IHideInterface
 import com.example.odm.garbagesorthelper.core.Constants
-import com.example.odm.garbagesorthelper.ui.RootActivity
+import com.example.odm.garbagesorthelper.ui.Camera.CameraViewModel
 import com.example.odm.garbagesorthelper.widget.FocusCircleView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.orhanobut.logger.Logger
 import com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 /**
  * description: 拍摄界面V层

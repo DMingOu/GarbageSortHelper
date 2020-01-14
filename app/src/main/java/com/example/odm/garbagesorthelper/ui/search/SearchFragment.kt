@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.ui.search
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -21,6 +22,7 @@ import com.example.odm.garbagesorthelper.core.Constants
 import com.example.odm.garbagesorthelper.model.entity.BannerData
 import com.example.odm.garbagesorthelper.model.entity.GarbageData.DataBean
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean.ResultBean
+import com.example.odm.garbagesorthelper.ui.Camera.CameraActivity
 import com.example.odm.garbagesorthelper.ui.RootActivity
 import com.example.odm.garbagesorthelper.ui.search.SearchFragment
 import com.example.odm.garbagesorthelper.utils.InjectorUtils
@@ -180,10 +182,12 @@ class SearchFragment : BaseFragment() {
                         if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                             //跳转到拍摄页面
+/*                            val cameraFragment  = CameraFragment()
                             fragmentManager?.beginTransaction()
                                     ?.setCustomAnimations(R.anim.push_up_in ,R.anim.push_down_out)
-                                    ?.add(R.id.root_fragment_container, CameraFragment(), "CameraFragment")
-                                    ?.commitAllowingStateLoss()
+                                    ?.add(R.id.rl_root, cameraFragment, "CameraFragment")
+                                    ?.commitAllowingStateLoss()*/
+                            startActivity(Intent(this.context,CameraActivity::class.java))
                             searchViewModel?.isOpenCamera?.setValue(false)
                         } else {
                             Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()

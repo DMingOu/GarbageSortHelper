@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.odm.garbagesorthelper.R
 import com.orhanobut.logger.Logger
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.xuexiang.xui.utils.StatusBarUtils
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import site.gemus.openingstartanimation.LineDrawStrategy
@@ -29,6 +30,8 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //沉浸式状态栏
+        StatusBarUtils.translucent(this)
         setContentView(R.layout.activity_welcome)
         showWelcomePage()
     }

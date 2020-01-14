@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Camera
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -38,7 +39,7 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
         super.onCreate(savedInstanceState)
         //设置沉浸式状态栏
         StatusBarUtils.translucent(this)
-        StatusBarUtils.setStatusBarLightMode(this)
+//        StatusBarUtils.setStatusBarLightMode(this)
         setContentView(R.layout.activity_root)
         initViewDataBinding()
 //        while (supportFragmentManager.backStackEntryCount > 0) {
@@ -115,8 +116,8 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
      */
     override fun onBackPressed() { //若当前页面为拍摄页面，监听返回键事件--返回拍摄页面
         if (rootViewModel?.backFragment != null && (rootViewModel?.backFragment as CameraFragment).onBackPressed()) {
-            showBottomNavigation()
-            showTitleBar()
+//            showBottomNavigation()
+//            showTitleBar()
             setFragmentByPosition(0)
             rootViewModel?.backFragment = null
         } else {
