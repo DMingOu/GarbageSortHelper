@@ -51,6 +51,8 @@ class CameraFragment : BaseFragment() {
 
     private var hideInterface : IHideInterface ?= null
 
+    private var preViewOutput : Preview.PreviewOutput ?= null
+
     companion object {
         private const val TAG = "CameraFragment"
     }
@@ -77,14 +79,17 @@ class CameraFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        getDeviceDP()
         initViews()
         initCamera()
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    /*
+     * 在 onDestroyView 中解除绑定
+     * 当CameraFragment返回键触发时解除CameraX的绑定，
+     * 当处于开启摄像头情况时最小化App返回时不会触发解除绑定
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
         CameraX.unbindAll()
     }
 
@@ -106,14 +111,6 @@ class CameraFragment : BaseFragment() {
     private fun initViews() {
         btnCapture = activity?.findViewById(R.id.btnCamera)
         containerCamera = activity?.findViewById(R.id.containerCamera)
-//        //动态为预览区域进行设置宽高，以调整到最佳预览
-//        val rl = containerCamera?.layoutParams as RelativeLayout.LayoutParams
-//        rl.width =  cameraViewModel?.preViewWidth ?: 0
-//        rl.height = cameraViewModel?.preViewHeigth ?: 0
-//        Logger.d("动态设置预览区域的 高度 "  + rl.height + "   宽度 " + rl.width)
-//        rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-//        containerCamera?.layoutParams = rl
-
         focusCircle = activity?.findViewById(R.id.focusCircle)
 
         btnCapture?.setOnClickListener { v: View? ->
@@ -162,43 +159,13 @@ class CameraFragment : BaseFragment() {
         //图片预览
         cameraViewModel?.preview?.onPreviewOutputUpdateListener = OnPreviewOutputUpdateListener { output ->
             Log.e(TAG, "onUpdated: 更新拍摄视图")
+            preViewOutput = output
             containerCamera?.surfaceTexture = output.surfaceTexture
             //隐藏和显示特定的View
             btnCapture?.visibility = View.VISIBLE
             hideInterface?.hideBottomNavigation()
             // 设置图像预览画面随手机旋转--但是方法暂时无效
             updateTransform()
-
-            //获取屏幕预览的中心点
-//                float centerX = (float) mBinding.containerCamera.getWidth() / 2 ;
-//                float centerY = (float) mBinding.containerCamera.getHeight() / 2;
-//                // 计算旋转角度
-//                int rotationDegrees = 0;
-//                Logger.d("output的旋转角度为" + output.getRotationDegrees());
-//                if(mBinding.containerCamera!=null && mBinding.containerCamera.getDisplay()!=null) {
-//                    switch (mBinding.containerCamera.getDisplay().getRotation()) {
-//                        case Surface.ROTATION_0:
-//                            rotationDegrees = 0;
-//                            break;
-//                        case Surface.ROTATION_90:
-//                            rotationDegrees = 90;
-//                            break;
-//                        case Surface.ROTATION_180 :
-//                            rotationDegrees = 180;
-//                            break;
-//                        case Surface.ROTATION_270:
-//                            rotationDegrees = 270;
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                } else {
-//                    Logger.d("Texture的Display为空");
-//                }
-//                Matrix matrix =  new Matrix();
-//                matrix.postRotate((float)-rotationDegrees, centerX, centerY);
-//                // 将变换应用在预览上
-//                mBinding.containerCamera.setTransform(matrix);
         }
         //点击拍照区域对焦
         containerCamera?.setOnTouchListener { v, event ->
@@ -269,49 +236,8 @@ class CameraFragment : BaseFragment() {
     }
 
 
-//public void getAndroiodScreenProperty() {
-//        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-//        DisplayMetrics dm = new DisplayMetrics();
-//        wm.getDefaultDisplay().getMetrics(dm);
-//        int width = dm.widthPixels;         // 屏幕宽度（像素）
-//        int height = dm.heightPixels;       // 屏幕高度（像素）
-//        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
-//        int densityDpi = dm.densityDpi;     // 屏幕密度dpi（120 / 160 / 240）
-//        // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
-//        int screenWidth = (int) (width / density);  // 屏幕宽度(dp)
-//        int screenHeight = (int) (height / density);// 屏幕高度(dp)
-//
-//
-//        Log.d("h_bl", "屏幕宽度（像素）：" + width);
-//        Log.d("h_bl", "屏幕高度（像素）：" + height);
-//        Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
-//        Log.d("h_bl", "屏幕密度dpi（120 / 160 / 240）：" + densityDpi);
-//        Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);
-//        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
-//    }
 
-    fun getDeviceDP(){
-        val wm = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()
-        wm.getDefaultDisplay().getMetrics(dm)
-        val width = dm.widthPixels         // 屏幕宽度（像素）
-        val height = dm.heightPixels       // 屏幕高度（像素）
-        val density  = dm.density          // 屏幕密度（0.75 / 1.0 / 1.5）
-        val densityDpi = dm.densityDpi     // 屏幕密度dpi（120 / 160 / 240）
-        // 屏幕宽度算法:屏幕宽度（像素）/屏幕密度
-        val screenWidth : Float =  width  / density  // 屏幕宽度(dp)
-        val screenHeight = (height / density);// 屏幕高度(dp)
-        cameraViewModel?.preViewWidth = width
-//        cameraViewModel?.preViewHeigth = width * 4 / 3 - 100
-        cameraViewModel?.preViewHeigth = height
 
-//        Log.d("h_bl", "屏幕宽度（像素）：" + width);
-//        Log.d("h_bl", "屏幕高度（像素）：" + height);
-//        Log.d("h_bl", "屏幕密度（0.75 / 1.0 / 1.5）：" + density);
-//        Log.d("h_bl", "屏幕密度dpi（120 / 160 / 240）：" + densityDpi);
-//        Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);
-//        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);
-    }
 
 
 }
