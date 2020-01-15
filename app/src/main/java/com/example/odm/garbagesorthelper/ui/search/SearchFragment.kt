@@ -132,7 +132,8 @@ class SearchFragment : BaseFragment() {
             startActivity(Intent(this.context,SearchActivity::class.java), transitionActivityOptions.toBundle());
         }
 /*        etSearch.setOnEditorActionListener { v: TextView, actionId: Int, event: KeyEvent? ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH && "" != searchViewModel?.garbageName.toString()) { //搜索内容非空且点击了搜索键后收起软键盘
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && "" != searchViewModel?.garbageName.toString()) {
+            //搜索内容非空且点击了搜索键后收起软键盘
                 val manager = GarbageSortApplication.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
                 //触发软键盘的点击事件
@@ -143,7 +144,6 @@ class SearchFragment : BaseFragment() {
                 //点击键盘的搜索键后，清空内容，放弃焦点
                 etSearch.clearFocus()
                 etSearch.setText("")
-
             }
             true
         }*/

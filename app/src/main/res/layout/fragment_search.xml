@@ -8,20 +8,15 @@
         android:splitMotionEvents="false"
         android:fitsSystemWindows="true">
 
-        <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        </ScrollView>
 
         <com.example.odm.garbagesorthelper.widget.ClearEditText
         android:id = "@+id/etSearch"
         android:layout_width = "match_parent"
         android:layout_height = "50dp"
-        android:layout_centerVertical = "true"
         android:layout_margin = "30dp"
         android:background = "@drawable/module_search_edittext_background"
         android:drawableStart = "@drawable/module_search_edittext_left_icon"
-        android:drawablePadding = "20dp"
+        android:drawablePadding = "15dp"
         android:gravity = "center|start"
         android:hint = "@string/searchview_hint"
         android:imeOptions = "actionSearch"
@@ -29,12 +24,15 @@
         android:singleLine = "true"
         android:textSize = "18sp"
         android:focusable="false"
+
         />
 
         <com.stx.xhb.androidx.XBanner
         android:id = "@+id/banner"
         android:layout_width = "match_parent"
         android:layout_height = "220dp"
+        android:layout_below="@id/etSearch"
+        android:layout_marginTop = "20dp"
         app:AutoPlayTime = "3000"
         app:isClipChildrenMode = "true"
         app:isShowIndicatorOnlyOne = "true"
@@ -50,21 +48,21 @@
         android:id = "@+id/btnOpenCamera"
         android:layout_width = "120dp"
         android:layout_height = "120dp"
-        android:layout_below = "@id/etSearch"
-        android:layout_alignStart = "@id/etSearch"
-        android:layout_marginStart = "10dp"
+        android:layout_below = "@id/banner"
+        android:layout_marginStart = "30dp"
+        android:layout_marginTop="30dp"
         android:background = "@drawable/camera_2"
-        android:shadowRadius="22"
         />
 
         <Button
         android:id = "@+id/btnOpenRecorder"
         android:layout_width = "110dp"
         android:layout_height = "110dp"
-        android:layout_below = "@id/etSearch"
-        android:layout_alignEnd = "@id/etSearch"
+        android:layout_below = "@id/banner"
+        android:layout_alignEnd = "@id/banner"
+        android:layout_marginTop="35dp"
         android:layout_marginStart = "10dp"
-        android:layout_marginEnd = "10dp"
+        android:layout_marginEnd = "30dp"
         android:background = "@drawable/microphone_1"
         />
 

@@ -81,14 +81,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
 
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
     //BaseAdapter
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47-androidx'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
     //log
     implementation 'com.orhanobut:logger:2.2.0'
 
@@ -99,7 +99,7 @@ dependencies {
 
     //1.0.5版本后只支持androidx
     implementation 'com.github.xuexiangjys:XUI:1.0.7'
-    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
     //标题栏
     implementation 'com.wuhenzhizao:titlebar:1.1.4'
     // CameraX core library

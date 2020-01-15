@@ -55,7 +55,7 @@ class CameraActivity : AppCompatActivity() {
             override fun onImageSaved(file: File) { //与搜索页面通信，成功保存了拍摄图片
                 LiveEventBus.get(Constants.IMAGE_SUCCESS).post(imageName)
                 //返回搜索页面
-                finish()
+                onBackPressed()
             }
 
             override fun onError(imageCaptureError: ImageCapture.ImageCaptureError, message: String, cause: Throwable?) {
@@ -67,6 +67,8 @@ class CameraActivity : AppCompatActivity() {
           })
         }
     }
+
+
 
    @SuppressLint("CheckResult", "ClickableViewAccessibility", "RestrictedApi")
    private fun initCamera() {
@@ -121,5 +123,13 @@ class CameraActivity : AppCompatActivity() {
        }
    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Logger.d("onBackPressed 被调用")
+    }
 
-   }
+    override fun finish() {
+        super.finish()
+        Logger.d("finish 被调用")
+    }
+}
