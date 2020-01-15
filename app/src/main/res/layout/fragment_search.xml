@@ -27,7 +27,9 @@
         android:imeOptions = "actionSearch"
         android:inputType = "text"
         android:singleLine = "true"
-        android:textSize = "18sp" />
+        android:textSize = "18sp"
+        android:focusable="false"
+        />
 
         <com.stx.xhb.androidx.XBanner
         android:id = "@+id/banner"

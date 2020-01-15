@@ -44,7 +44,6 @@ import com.xuexiang.xui.widget.popupwindow.bar.CookieBar
  * date: 2019/9/18
  */
 class SearchFragment : BaseFragment() {
-//    private var mBinding: FragmentSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var loadingDialog: MaterialDialog ?= null
     private var mIatDialog: RecognizerDialog ?= null
@@ -115,7 +114,7 @@ class SearchFragment : BaseFragment() {
             }
         }
 
-    override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) { //        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+    override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         searchViewModel = InjectorUtils.provideSearchViewModelFactory(requireContext()).create(SearchViewModel::class.java)
     }
 
@@ -125,7 +124,14 @@ class SearchFragment : BaseFragment() {
         get() = R.layout.fragment_search
 
     private fun initEditText() {
-        etSearch.setOnEditorActionListener { v: TextView, actionId: Int, event: KeyEvent? ->
+        //点击搜索框跳转 SearchActivity 事件
+        etSearch.setOnClickListener {
+            val sharedView = it;
+            val transitionName = getString(R.string.share_view_edittext_search);
+            val transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
+            startActivity(Intent(this.context,SearchActivity::class.java), transitionActivityOptions.toBundle());
+        }
+/*        etSearch.setOnEditorActionListener { v: TextView, actionId: Int, event: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && "" != searchViewModel?.garbageName.toString()) { //搜索内容非空且点击了搜索键后收起软键盘
                 val manager = GarbageSortApplication.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -140,7 +146,7 @@ class SearchFragment : BaseFragment() {
 
             }
             true
-        }
+        }*/
     }
 
     private fun initRecorderDialog() {
@@ -178,25 +184,16 @@ class SearchFragment : BaseFragment() {
         //跳转到拍摄页面
         searchViewModel?.isOpenCamera?.observe(this, Observer { isOpenCamera: Boolean ->
             if (isOpenCamera) {
-//                val rootActivity = activity as RootActivity
                 val rxPermissions = RxPermissions(activity?: RootActivity())
                 rxPermissions.request(Manifest.permission.CAMERA).subscribe {
                     if (it) {
                         if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            //跳转到拍摄页面
-/*                            val cameraFragment  = CameraFragment()
-                            fragmentManager?.beginTransaction()
-                                    ?.setCustomAnimations(R.anim.push_up_in ,R.anim.push_down_out)
-                                    ?.add(R.id.rl_root, cameraFragment, "CameraFragment")
-                                    ?.commitAllowingStateLoss()*/
-
                             val sharedView = btnOpenCamera;
                             val transitionName = getString(R.string.share_view_button_camera);
 
                             val transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
                             startActivity(Intent(this.context,CameraActivity::class.java), transitionActivityOptions.toBundle());
-//                            startActivity(Intent(this.context,CameraActivity::class.java))
                             searchViewModel?.isOpenCamera?.setValue(false)
                         } else {
                             Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()

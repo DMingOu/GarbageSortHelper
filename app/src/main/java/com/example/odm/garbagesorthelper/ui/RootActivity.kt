@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.graphics.Camera
 import android.opengl.Visibility
 import android.os.Bundle
+import android.transition.Fade
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -41,6 +42,7 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
         StatusBarUtils.translucent(this)
 //        StatusBarUtils.setStatusBarLightMode(this)
         setContentView(R.layout.activity_root)
+//        setupWindowAnimations()
         initViewDataBinding()
 //        while (supportFragmentManager.backStackEntryCount > 0) {
 //            supportFragmentManager.popBackStackImmediate()
@@ -148,6 +150,14 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
             true
         }
 
+    }
+    /**
+     * 退场动画方法失效 ，原因可能为startActivity的intent的flags设置了 Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+     */
+    fun setupWindowAnimations() {
+        val fade =  Fade()
+        fade.duration = 1500
+        getWindow().enterTransition = fade
     }
 
 

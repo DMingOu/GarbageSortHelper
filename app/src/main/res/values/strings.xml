@@ -22,5 +22,6 @@
     <string name = "app_statement_2">本App按照上海市垃圾分类标准,结果仅供参考</string>
 
     <string name = "share_view_button_camera">btn_Camera</string>
+    <string name = "share_view_edittext_search">EditText_Search</string>
     <item name = "tag_lastClickTime" type = "id"></item>
 </resources>
