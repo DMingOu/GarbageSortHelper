@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.TextureView
 import android.view.View
+import android.widget.Button
 import androidx.camera.core.*
 import androidx.camera.view.TextureViewMeteringPointFactory
 import androidx.lifecycle.ViewModelProviders
@@ -23,7 +24,7 @@ class CameraActivity : AppCompatActivity() {
     private var cameraViewModel: CameraViewModel? = null
 
     //控件变量
-    private var btnCapture : ShadowButton?= null
+    private var btnCapture : Button ?= null
     private var containerCamera :   TextureView?=  null
     private var focusView : FocusCircleView?= null
 

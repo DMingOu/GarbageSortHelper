@@ -19,12 +19,14 @@
             android:id="@+id/btnCamera"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:background="@drawable/module_camera_button_takephoto_"
+            android:background="@drawable/module_search_jump_to_camera"
             android:layout_alignBottom="@id/containerCamera"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:visibility="invisible"
-            app:sb_shape_type="round"/>
+            app:sb_shape_type="round"
+            android:transitionName="@string/share_view_button_camera"
+        />
 
 
         <com.example.odm.garbagesorthelper.widget.FocusCircleView

@@ -1,6 +1,7 @@
 package com.example.odm.garbagesorthelper.ui.search
 
 import android.Manifest
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +33,7 @@ import com.iflytek.cloud.ui.RecognizerDialog
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.stx.xhb.androidx.XBanner
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.xuexiang.xui.widget.button.ButtonView
 import com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar
@@ -49,8 +52,8 @@ class SearchFragment : BaseFragment() {
     //控件变量
     lateinit var etSearch : ClearEditText
     lateinit var banner : XBanner
-    lateinit var btnOpenRecorder : ShadowButton
-    lateinit var btnOpenCamera : ShadowButton
+    lateinit var btnOpenRecorder : Button
+    lateinit var btnOpenCamera : Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
@@ -77,8 +80,8 @@ class SearchFragment : BaseFragment() {
     fun initViews() {
         etSearch = activity?.findViewById(R.id.etSearch) ?: ClearEditText(activity)
         banner = activity?.findViewById(R.id.banner) ?: XBanner(activity)
-        btnOpenCamera = activity?.findViewById(R.id.btnOpenCamera) ?: ShadowButton(activity)
-        btnOpenRecorder = activity?.findViewById(R.id.btnOpenRecorder) ?: ShadowButton(activity)
+        btnOpenCamera = activity?.findViewById(R.id.btnOpenCamera) ?: Button(activity)
+        btnOpenRecorder = activity?.findViewById(R.id.btnOpenRecorder) ?: Button(activity)
 
         /*
          * 语音按钮的点击事件
@@ -187,7 +190,13 @@ class SearchFragment : BaseFragment() {
                                     ?.setCustomAnimations(R.anim.push_up_in ,R.anim.push_down_out)
                                     ?.add(R.id.rl_root, cameraFragment, "CameraFragment")
                                     ?.commitAllowingStateLoss()*/
-                            startActivity(Intent(this.context,CameraActivity::class.java))
+
+                            val sharedView = btnOpenCamera;
+                            val transitionName = getString(R.string.share_view_button_camera);
+
+                            val transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
+                            startActivity(Intent(this.context,CameraActivity::class.java), transitionActivityOptions.toBundle());
+//                            startActivity(Intent(this.context,CameraActivity::class.java))
                             searchViewModel?.isOpenCamera?.setValue(false)
                         } else {
                             Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()

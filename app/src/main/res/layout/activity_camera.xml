@@ -15,16 +15,17 @@ android:layout_height="match_parent">
         android:layout_height="match_parent"
         />
 
-        <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+        <Button
         android:id="@+id/btnCapture"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:background="@drawable/module_camera_button_takephoto_"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/camera_2"
         android:layout_alignBottom="@id/previewContainer"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="25dp"
         android:visibility="invisible"
-        app:sb_shape_type="round"/>
+        android:transitionName="@string/share_view_button_camera"
+        />
 
 
         <com.example.odm.garbagesorthelper.widget.FocusCircleView

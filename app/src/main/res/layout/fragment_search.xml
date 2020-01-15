@@ -44,26 +44,27 @@
         app:pointsPosition = "CENTER"
         app:tipTextSize = "0sp" />
 
-        <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+        <Button
         android:id = "@+id/btnOpenCamera"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
+        android:layout_width = "120dp"
+        android:layout_height = "120dp"
         android:layout_below = "@id/etSearch"
         android:layout_alignStart = "@id/etSearch"
         android:layout_marginStart = "10dp"
-        android:background = "@drawable/module_search_jump_to_camera"
-        app:sb_shape_type = "rectangle" />
+        android:background = "@drawable/camera_2"
+        android:shadowRadius="22"
+        />
 
-        <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
+        <Button
         android:id = "@+id/btnOpenRecorder"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
+        android:layout_width = "110dp"
+        android:layout_height = "110dp"
         android:layout_below = "@id/etSearch"
         android:layout_alignEnd = "@id/etSearch"
         android:layout_marginStart = "10dp"
         android:layout_marginEnd = "10dp"
-        android:background = "@drawable/module_search_open_recording"
-        app:sb_shape_type = "rectangle" />
+        android:background = "@drawable/microphone_1"
+        />
 
 
 
