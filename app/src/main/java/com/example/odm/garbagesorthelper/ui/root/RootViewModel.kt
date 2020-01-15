@@ -1,4 +1,4 @@
-package com.example.odm.garbagesorthelper.ui
+package com.example.odm.garbagesorthelper.ui.root
 
 import android.app.Application
 import androidx.annotation.ColorRes
@@ -12,8 +12,7 @@ import com.example.odm.garbagesorthelper.base.BaseModel
 import com.example.odm.garbagesorthelper.base.BaseViewModel
 import com.example.odm.garbagesorthelper.ui.about.AboutFragment
 import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment
-import com.example.odm.garbagesorthelper.ui.search.SearchFragment
-import com.orhanobut.logger.Logger
+import com.example.odm.garbagesorthelper.ui.home.HomeFragment
 import java.util.*
 
 /**
@@ -46,7 +45,7 @@ class RootViewModel(application: Application?) : BaseViewModel<BaseModel?>(appli
      */
     fun initFragmentData() {
         mFragments = ArrayList()
-        mFragments?.add(SearchFragment())
+        mFragments?.add(HomeFragment())
         mFragments?.add(KnowLedgeFragment())
         mFragments?.add(AboutFragment())
     }

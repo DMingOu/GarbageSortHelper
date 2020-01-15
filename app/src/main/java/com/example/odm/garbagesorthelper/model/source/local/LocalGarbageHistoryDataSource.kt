@@ -11,7 +11,7 @@ import io.reactivex.Single
  * @date: 2019/11/10
  */
 class LocalGarbageHistoryDataSource(private val mDao: GarbageHistoryDao ?) : GarbageHistoryDataSource {
-    override val allGarbageHistory: Flowable<List<GarbageSearchHistory?>?>?
+    override val allGarbageHistory: Flowable<MutableList<GarbageSearchHistory> > ?
         get() = mDao?.allGarbageHistory
 
     override fun deleteAllGarbageHistory(): Completable? {

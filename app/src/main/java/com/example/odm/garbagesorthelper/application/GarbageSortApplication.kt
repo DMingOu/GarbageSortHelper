@@ -2,10 +2,9 @@ package com.example.odm.garbagesorthelper.application
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.example.odm.garbagesorthelper.R
-import com.example.odm.garbagesorthelper.ui.RootActivity
+import com.example.odm.garbagesorthelper.ui.root.RootActivity
 import com.iflytek.cloud.SpeechConstant
 import com.iflytek.cloud.SpeechUtility
 import com.orhanobut.logger.AndroidLogAdapter

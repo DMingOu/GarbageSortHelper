@@ -5,6 +5,7 @@ import com.example.odm.garbagesorthelper.model.SearchDataRepository
 import com.example.odm.garbagesorthelper.model.SearchDataRepository.Companion.getInstance
 import com.example.odm.garbagesorthelper.model.source.local.GarbageHistoryDatabase.Companion.getInstance
 import com.example.odm.garbagesorthelper.model.source.local.LocalGarbageHistoryDataSource
+import com.example.odm.garbagesorthelper.ui.home.HomeViewModelFactory
 import com.example.odm.garbagesorthelper.ui.search.SearchViewModelFactory
 
 /**
@@ -21,6 +22,11 @@ object InjectorUtils {
     fun provideSearchViewModelFactory(context: Context): SearchViewModelFactory {
         val repository = getSearchRepository(context)
         return SearchViewModelFactory(repository!!)
+    }
+
+    fun provideHomeViewModelFactory(context: Context) : HomeViewModelFactory {
+        val repository = getSearchRepository(context)
+        return HomeViewModelFactory(repository!!)
     }
 
     fun provideGarbageHistoryDataSource(context: Context): LocalGarbageHistoryDataSource {

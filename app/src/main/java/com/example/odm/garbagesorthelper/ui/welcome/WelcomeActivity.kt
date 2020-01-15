@@ -1,26 +1,20 @@
-package com.example.odm.garbagesorthelper.ui
+package com.example.odm.garbagesorthelper.ui.welcome
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.CalendarContract
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.transition.Slide
 import com.example.odm.garbagesorthelper.R
+import com.example.odm.garbagesorthelper.ui.root.RootActivity
 import com.orhanobut.logger.Logger
-import com.tbruyelle.rxpermissions2.RxPermissions
 import com.xuexiang.xui.utils.StatusBarUtils
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
-import site.gemus.openingstartanimation.LineDrawStrategy
 import site.gemus.openingstartanimation.OpeningStartAnimation
 import site.gemus.openingstartanimation.RedYellowBlueDrawStrategy
 
-import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.system.exitProcess
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -28,6 +22,8 @@ class WelcomeActivity : AppCompatActivity() {
     companion object{
         val TAG = "WelcomeActivity"
     }
+    //控制 当前时刻是否进入 首页
+    var isBoost : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +34,16 @@ class WelcomeActivity : AppCompatActivity() {
         showWelcomePage()
     }
 
-    private fun showWelcomePage() {
+    override fun onRestart() {
+        super.onRestart()
+        Logger.d("onRestart ")
+        if(isBoost) {
+            enterHomePage()
+        }
+    }
 
+    private fun showWelcomePage() {
+        //初始化 欢迎页动画
         val openingStartAnimation = OpeningStartAnimation.Builder(this)
                 .setAppIcon(getDrawable(R.drawable.icon_garbagesort_app)) //设置图标
                 .setColorOfAppIcon( Color.GREEN) //设置绘制图标线条的颜色
@@ -51,19 +55,29 @@ class WelcomeActivity : AppCompatActivity() {
                 .setDrawStategy(RedYellowBlueDrawStrategy())
                 .setAnimationFinishTime(2500) // 设置动画的消失时长
                 .create()
+        //设置延时任务 2600ms 后 跳转到 首页
         Observable.timer(2600, TimeUnit.MILLISECONDS).subscribe {
-            val intent = Intent()
-            //必须同时设置这两个 Flag 才可以生效返回不进入 欢迎页
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.setClass(this,RootActivity::class.java)
-            startActivity(intent)
-            //设置 转场到 主活动 的动画为 淡入淡出
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            isBoost = true
+            enterHomePage()
         }.isDisposed
-
-
+        //启动 欢迎页动画
         openingStartAnimation.show(this)
+    }
+
+    private fun enterHomePage() {
+        val intent = Intent()
+        //必须同时设置这两个 Flag 才可以生效返回不进入 欢迎页
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.setClass(this, RootActivity::class.java)
+        startActivity(intent)
+        //设置 转场到 主活动 的动画为 淡入淡出
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exitProcess(0)
     }
 
     /**

@@ -26,76 +26,37 @@ import java.util.*
  * author: ODM
  * date: 2019/9/19
  */
-class SearchViewModel(
-//    public SearchViewModel(Application application) {
-//        super(application);
-//    }
-            private val repository: SearchDataRepository) : ViewModel() {
+class SearchViewModel(private val repository: SearchDataRepository) : ViewModel() {
+
+
     /**
      * 用户搜索框搜索内容--垃圾名
      */
-    var garbageName: LiveData<String> = MutableLiveData()
-    /**
-     * 开启摄像头的变量
-     */
-    var isOpenCamera = MutableLiveData(false)
-    /**
-     * 开启麦克风的控制变量
-     */
-    var isOpenRecorder = MutableLiveData(false)
+    var currentSearch: String ?= null
+
     /**
      * 用户搜索结果--分类垃圾列表
      */
     var sortedList = MutableLiveData<List<DataBean>>()
-    /*
-     * 垃圾分类识别实体类对象
-     */
-    var imageClassifyGarbage = MutableLiveData<ResultBean>()
-    /**
-     * 语音识别结果的垃圾名
-     */
-    var voiceGarbageName = MutableLiveData("")
-    var searching = false
-    var liveEventTime: Long = 0
-    /**
-     * 初始化语音听写监听器。
-     */
-    var mInitListener = InitListener { code ->
-        if (code != ErrorCode.SUCCESS) {
-            Logger.d("初始化失败，错误码：$code,请点击网址https://www.xfyun.cn/document/error-code查询解决方案")
-        }
-    }
-    /**
-     * 初始化听写UI监听器 讯飞，处理数据
-     */
-    var mRecognizerDialogListener: RecognizerDialogListener = object : RecognizerDialogListener {
-        /**
-         * 接收语音听写回调信息
-         * @param recognizerResult 回调结果
-         * @param b 是否翻译
-         */
-        override fun onResult(recognizerResult: RecognizerResult, b: Boolean) {
-            Logger.d(recognizerResult.resultString.toString())
-            val data = GsonUtils.GsonToBean(recognizerResult.resultString, VoiceRecognizedData::class.java)
-            if ("。" == data?.ws?.get(0)?.cw?.get(0)?.w ?: "。") {
-                Logger.d("接收到结果为  。 ,则排除掉它")
-            } else {
-                searching = true
-                voiceGarbageName.setValue(getGarbageFromVoiceRecdata(data ))
-            }
-        }
 
-        /**
-         * 识别回调错误.
-         */
-        override fun onError(error: SpeechError) {
-            if (error.errorCode == 14002) {
-                Logger.d(error.getPlainDescription(true) + "\n请确认是否已开通翻译功能")
-            } else {
-                Logger.d(error.getPlainDescription(true))
-            }
-        }
+
+
+    var searching = false
+
+    var liveEventTime: Long = 0
+
+
+    private var _searchHistoryData  = MutableLiveData<MutableList<GarbageSearchHistory>>()
+    val searchHistoryData : LiveData<MutableList<GarbageSearchHistory>>  = _searchHistoryData
+
+    companion object {
+        private const val TAG = "SearchViewModel"
     }
+
+    init {
+        allGarbageSearchHistory
+    }
+
 
     /**
      * 调用垃圾分类查询接口，通过垃圾名 获取垃圾所属分类
@@ -103,6 +64,7 @@ class SearchViewModel(
      * @param garbageName the garbage name
      */
     fun onSearch(garbageName: String) {
+
         repository.getGarbageDataResult(garbageName)
                 ?.subscribe(object : ObserverManager<GarbageData?>() {
                     override fun onError(httpThrowable: HttpThrowable ) {
@@ -111,17 +73,11 @@ class SearchViewModel(
                     
 
                     override fun onNext(t: GarbageData?) {
+//                        sortedList.value = null
                         sortedList.value = t?.data
-                        findGarbageSearchHistory(garbageName, t!!.data[0].type)
+                        findGarbageSearchHistory(garbageName, t?.data?.get(0)?.type ?: 5 )
                     }
 
-//                    override fun onNext(garbageData: GarbageData) {
-//                        if (garbageData != null) { //将成功查询到的 列表加入 垃圾分类列表中
-////                                Logger.d("返回搜索结果   " + garbageData.getData().get(0).getName() );
-//                            sortedList.value = garbageData.data
-//                            findGarbageSearchHistory(garbageName, garbageData.data[0].type)
-//                        }
-//                    }
                 })
     }
 
@@ -147,71 +103,17 @@ class SearchViewModel(
         }
     }
 
-    fun openCamera() {
-
-        isOpenCamera.value = true
-    }
-
-    /**
-     * 调用百度的接口获取图片识别的数据
-     *
-     * @param imageName the image name
-     */
-    fun imageClassifyFromBaiDu(imageName: String?) {
-        repository.getImageClassifyResult(imageName ?: "")
-                ?.subscribe(object : ObserverManager<ImageClassifyBean?>() {
-                    override fun onError(httpThrowable: HttpThrowable) {
-                        Logger.d(httpThrowable.message)
-                    }
-
-                    override fun onNext(t: ImageClassifyBean?) {
-                        //非null才赋值
-                        t?.result?.get(0)?.let {
-                            imageClassifyGarbage.postValue(it)
-                            searching = true
-                        }
-                    }
-                })
-    }
-
-    private fun getGarbageFromVoiceRecdata(recognizedData: VoiceRecognizedData ?): String ?{
-        return recognizedData?.ws?.get(0)?.cw?.get(0)?.w
-    }
-
-    fun initRecorderDialog(mIatDialog: RecognizerDialog ?) {
-        mIatDialog?.setParameter(SpeechConstant.RESULT_TYPE, "json")
-        //设置语音输入语言，zh_cn为简体中文
-        mIatDialog?.setParameter(SpeechConstant.LANGUAGE, "zh_cn")
-        //设置结果返回语言
-        mIatDialog?.setParameter(SpeechConstant.ACCENT, "mandarin")
-        // 设置语音前端点:静音超时时间，单位ms，即用户多长时间不说话则当做超时处理
-        //取值范围{1000～10000}
-        mIatDialog?.setParameter(SpeechConstant.VAD_BOS, "4500")
-        //设置语音后端点:后端点静音检测时间，单位ms，即用户停止说话多长时间内即认为不再输入，
-        //自动停止录音，范围{0~10000}
-        mIatDialog?.setParameter(SpeechConstant.VAD_EOS, "1500")
-        //高阶动态修正-->会导致接收多条结果，适合实时显示说话内容，暂不启用此功能
-        // mIatDialog.setParameter("dwa", "wpgs");
-        //开始识别并设置监听器
-        mIatDialog?.setListener(mRecognizerDialogListener)
-    }
-
-    /*
-     * 初始化页面轮播图数据
-     */
-    val bannerDataList: List<BannerData>
-        get() {
-            val dataList: MutableList<BannerData> = ArrayList()
-            val a = BannerData("https://ae01.alicdn.com/kf/H69de6a06f25c43679ccc44a0669a442ax.jpg")
-            val b = BannerData("https://ae01.alicdn.com/kf/H1105244b986e4b8f9ba8c0f9f6022708R.jpg")
-            val c = BannerData("https://ae01.alicdn.com/kf/Hbf77e31ac3ed49c6b11c7c6caacbb142L.jpg")
-            val d = BannerData("https://ae01.alicdn.com/kf/H690c8a6211ee4e47ba59b32ee003e809l.jpg")
-            dataList.add(a)
-            dataList.add(b)
-            dataList.add(c)
-            dataList.add(d)
-            return dataList
+    fun getGarbageClass(garbageType: Int) : Int {
+        return when(garbageType) {
+            0 ->  R.string.other_garbage
+            1 ->  R.string.dry_garbage
+            2 ->  R.string.wet_garbage
+            3 ->  R.string.recycle_garbage
+            4 ->  R.string.harmful_garbage
+            else -> R.string.other_garbage
         }
+    }
+
 
     /**
      * 插入垃圾搜索历史
@@ -241,7 +143,8 @@ class SearchViewModel(
         repository.getGarbageHistoryByName(garbageName)
                 ?.subscribe(object : SingleObserver<GarbageSearchHistory?> {
                     override fun onSubscribe(d: Disposable) {}
-                    override fun onSuccess(garbageSearchHistory: GarbageSearchHistory) { //有则删除掉
+                    override fun onSuccess(garbageSearchHistory: GarbageSearchHistory) {
+                        //有则删除掉
                         repository.deleteGarbageHistory(garbageSearchHistory)
                         Log.e(TAG, "删掉了名为 " + garbageSearchHistory.garbageName + " 的垃圾")
                         insertGarbageSearchHistory(garbageName, garbageType)
@@ -258,7 +161,7 @@ class SearchViewModel(
      * 获取Room中所有 垃圾搜索历史
      *
      */
-    val allGarbageSearchHistory: Unit
+    private val allGarbageSearchHistory: Unit
         get() {
             val disposable = repository.allGarbageHistory?.subscribe { garbageSearchHistories ->
 
@@ -269,17 +172,14 @@ class SearchViewModel(
                         stringBuilder.append("  ")
                     }
                     Log.e(TAG, "数据库展示： $stringBuilder")
+                    val data = it.toMutableList()
+                    data.reverse()
+                    _searchHistoryData.value =  data
                 }
 
             }
         }
 
-    companion object {
-        private const val TAG = "SearchViewModel"
-    }
 
-    init {
-        allGarbageSearchHistory
-    }
 }
 

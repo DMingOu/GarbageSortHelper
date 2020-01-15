@@ -123,13 +123,4 @@ class CameraActivity : AppCompatActivity() {
        }
    }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Logger.d("onBackPressed 被调用")
-    }
-
-    override fun finish() {
-        super.finish()
-        Logger.d("finish 被调用")
-    }
 }

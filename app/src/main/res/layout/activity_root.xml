@@ -5,7 +5,7 @@
     <data>
 <!--        <variable-->
 <!--            name="viewModel"-->
-<!--            type="com.example.odm.garbagesorthelper.ui.RootViewModel" />-->
+<!--            type="com.example.odm.garbagesorthelper.ui.root.RootViewModel" />-->
         <import type="com.example.odm.garbagesorthelper.utils.StatusBarUtils"/>
     </data>
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.RootActivity">
+        tools:context=".ui.root.RootActivity">
 
         <com.wuhenzhizao.titlebar.widget.CommonTitleBar
             xmlns:titlebar="http://schemas.android.com/apk/res-auto"

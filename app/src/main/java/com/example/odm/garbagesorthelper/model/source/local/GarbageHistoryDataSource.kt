@@ -11,7 +11,7 @@ import io.reactivex.Single
  * @date: 2019/11/10
  */
 interface GarbageHistoryDataSource {
-    val allGarbageHistory: Flowable<List<GarbageSearchHistory?>?>?
+    val allGarbageHistory: Flowable<MutableList<GarbageSearchHistory>>?
     fun deleteAllGarbageHistory(): Completable?
     fun insertGarbageHistory(vararg histories: GarbageSearchHistory?): Completable?
     fun delete(vararg histories: GarbageSearchHistory?): Completable?

@@ -1,9 +1,17 @@
 <resources>
     <string name = "app_name">GarbageSortHelper</string>
     <string name = "app_name_chinese">垃圾分类小助手</string>
+
+    <string name = "recycle_garbage">可回收垃圾</string>
+    <string name = "harmful_garbage">有害垃圾</string>
+    <string name = "wet_garbage">湿垃圾</string>
+    <string name = "dry_garbage">干垃圾</string>
+    <string name = "other_garbage">其他垃圾</string>
+
     <string name = "bottom_navigation_search">查询</string>
     <string name = "bottom_navigation_about">关于</string>
     <string name = "bottom_navigation_knowledge">知识</string>
+
     <string name = "searchview_hint">请输入你要查询的垃圾名</string>
     <string name = "known">我已知晓</string>
     <string name = "share_wechat">分享给微信好友</string>

@@ -1,9 +1,7 @@
-package com.example.odm.garbagesorthelper.ui
+package com.example.odm.garbagesorthelper.ui.root
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.graphics.Camera
-import android.opengl.Visibility
 import android.os.Bundle
 import android.transition.Fade
 import android.util.Log
@@ -18,13 +16,10 @@ import com.example.odm.garbagesorthelper.base.BaseActivity
 import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.base.IHideInterface
 import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding
-import com.example.odm.garbagesorthelper.ui.RootActivity
-import com.example.odm.garbagesorthelper.ui.knowledge.KnowLedgeFragment
-import com.example.odm.garbagesorthelper.ui.search.CameraFragment
-import com.example.odm.garbagesorthelper.utils.singleClick
 import com.orhanobut.logger.Logger
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.xuexiang.xui.utils.StatusBarUtils
+
 
 class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
     //DataBinding变量
@@ -117,17 +112,8 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
      * Note：若不重写此 onBackPressed 函数会导致 supportFragmentManager.beginTransaction().addToBackStack(null) 添加后回退键会回到上一个添加的Fragment
      */
     override fun onBackPressed() { //若当前页面为拍摄页面，监听返回键事件--返回拍摄页面
-        if (rootViewModel?.backFragment != null && (rootViewModel?.backFragment as CameraFragment).onBackPressed()) {
-//            showBottomNavigation()
-//            showTitleBar()
-            setFragmentByPosition(0)
-            rootViewModel?.backFragment = null
-        } else {
-            Logger.d("其他页面触发返回键")
-            //若当前页面为其他页面，监听返回键事件--退出APP
-            super.onBackPressed()
-            finish()
-        }
+        super.onBackPressed()
+        finish()
     }
 
 

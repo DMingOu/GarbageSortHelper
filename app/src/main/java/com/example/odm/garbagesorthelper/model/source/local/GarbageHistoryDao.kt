@@ -18,7 +18,7 @@ interface GarbageHistoryDao {
      * @return
      */
     @get:Query("SELECT * FROM garbage")
-    val allGarbageHistory: Flowable<List<GarbageSearchHistory?>?>?
+    val allGarbageHistory: Flowable<MutableList<GarbageSearchHistory> >?
 
     /**
      * 删除全部数据

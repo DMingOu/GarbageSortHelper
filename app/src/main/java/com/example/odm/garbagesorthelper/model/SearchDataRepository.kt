@@ -72,7 +72,7 @@ class SearchDataRepository private constructor(private val historyDataSource: Lo
      * Flowable 背压，第一次启动后，每次Flowable内部数据有变动，都会执行一次方法
      * @return 数据库中所有垃圾搜索分类历史
      */
-    val allGarbageHistory: Flowable<List<GarbageSearchHistory?> ? > ?
+    val allGarbageHistory: Flowable<MutableList<GarbageSearchHistory>> ?
         get() = historyDataSource
                 .allGarbageHistory
                 ?.subscribeOn(Schedulers.io())
