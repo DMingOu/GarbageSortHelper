@@ -5,9 +5,9 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="bottom_navigation_search">#008577</color>
-    <color name="bottom_navigation_about">#DCDCDC</color>
+    <color name="bottom_navigation_about">#11b9b2</color>
     <color name="bottom_navigation_knowledge">#6A5ACD</color>
 
-    <color name="fragment_search_background">#DCDCDC</color>
+    <color name="fragment_about_background">#DCDCDC</color>
     <color name = "title_bar_activity_search">#05d38c</color>
 </resources>

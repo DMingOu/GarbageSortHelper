@@ -10,7 +10,6 @@
 
     <RelativeLayout
         android:orientation="vertical"
-        android:background="@color/fragment_search_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -43,19 +42,21 @@
          android:layout_marginTop="5dp"
          android:layout_below="@id/tv_about_app_name"
          android:layout_centerHorizontal="true"
-         android:textColor="@color/xui_config_color_white"
+         android:textColor="@color/xui_config_color_black"
          />
 
 
 
     <LinearLayout
+    android:id="@+id/ll_function_about"
     android:layout_width = "match_parent"
-    android:layout_height = "match_parent"
+    android:layout_height = "wrap_content"
     android:layout_below = "@id/tv_about_app_versioncode"
     android:layout_alignParentEnd = "true"
     android:layout_marginTop = "51dp"
     android:layout_marginEnd = "0dp"
-    android:background = "@color/fragment_search_background"
+    android:background = "@color/fragment_about_background"
+    android:visibility="gone"
     android:orientation = "vertical">
         <RelativeLayout
         android:id = "@+id/ral_about_app_update"
@@ -183,9 +184,21 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/bottom_navigation_height"
         android:text = "@string/app_statement_2"
-        android:textSize = "13sp"
+        android:textSize = "10sp"
         android:layout_centerHorizontal="true"
         />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/ll_function_about"
+            android:layout_marginTop="10dp"
+            style="@style/ScrollViewStyle">
+
+            <com.xuexiang.xui.widget.grouplist.XUIGroupListView
+            android:id="@+id/glv_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 

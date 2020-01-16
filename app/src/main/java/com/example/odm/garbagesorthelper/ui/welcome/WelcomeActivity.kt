@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.transition.Slide
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.ui.root.RootActivity
+import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.orhanobut.logger.Logger
 import com.xuexiang.xui.utils.StatusBarUtils
 import io.reactivex.Observable
@@ -43,25 +44,31 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun showWelcomePage() {
-        //初始化 欢迎页动画
-        val openingStartAnimation = OpeningStartAnimation.Builder(this)
-                .setAppIcon(getDrawable(R.drawable.icon_garbagesort_app)) //设置图标
-                .setColorOfAppIcon( Color.GREEN) //设置绘制图标线条的颜色
-                .setAppName("垃圾分类小助手") //设置app名称
-                .setColorOfAppName(R.color.colorPrimary) //设置app名称颜色
-                .setAppStatement("让垃圾分类也能轻松愉快") //设置一句话描述
-                .setColorOfAppStatement(Color.BLACK) // 设置一句话描述的颜色
-                .setAnimationInterval(2500) // 设置动画时间间隔
-                .setDrawStategy(RedYellowBlueDrawStrategy())
-                .setAnimationFinishTime(2500) // 设置动画的消失时长
-                .create()
-        //设置延时任务 2600ms 后 跳转到 首页
-        Observable.timer(2600, TimeUnit.MILLISECONDS).subscribe {
-            isBoost = true
+        if(SharePreferencesUtil.getInstance().contains("isSkipWelcomeAnimation")
+                && SharePreferencesUtil.getInstance().getBoolean("isSkipWelcomeAnimation")) {
+            //直接进入页面
             enterHomePage()
-        }.isDisposed
-        //启动 欢迎页动画
-        openingStartAnimation.show(this)
+        }else {
+            //初始化 欢迎页动画
+            val openingStartAnimation = OpeningStartAnimation.Builder(this)
+                    .setAppIcon(getDrawable(R.drawable.icon_garbagesort_app)) //设置图标
+                    .setColorOfAppIcon( Color.GREEN) //设置绘制图标线条的颜色
+                    .setAppName("垃圾分类小助手") //设置app名称
+                    .setColorOfAppName(R.color.colorPrimary) //设置app名称颜色
+                    .setAppStatement("让垃圾分类也能轻松愉快") //设置一句话描述
+                    .setColorOfAppStatement(Color.BLACK) // 设置一句话描述的颜色
+                    .setAnimationInterval(2500) // 设置动画时间间隔
+                    .setDrawStategy(RedYellowBlueDrawStrategy())
+                    .setAnimationFinishTime(2500) // 设置动画的消失时长
+                    .create()
+            //设置延时任务 2600ms 后 跳转到 首页
+            Observable.timer(2600, TimeUnit.MILLISECONDS).subscribe {
+                isBoost = true
+                enterHomePage()
+            }.isDisposed
+            //启动 欢迎页动画
+            openingStartAnimation.show(this)
+        }
     }
 
     private fun enterHomePage() {
