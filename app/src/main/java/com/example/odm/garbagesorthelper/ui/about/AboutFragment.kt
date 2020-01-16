@@ -11,6 +11,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.blankj.utilcode.util.CacheDiskStaticUtils
+import com.blankj.utilcode.util.CacheDiskUtils
+import com.blankj.utilcode.util.CleanUtils
+import com.blankj.utilcode.util.FileUtils
+import com.bumptech.glide.Glide
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseFragment
 import com.example.odm.garbagesorthelper.databinding.FragmentAboutBinding
@@ -39,6 +44,8 @@ class AboutFragment : BaseFragment() {
 
     private lateinit var mGroupListView : XUIGroupListView
 
+    private lateinit var itemWithCityPicker : XUICommonListItemView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
         initView()
@@ -57,32 +64,31 @@ class AboutFragment : BaseFragment() {
     }
 
     private fun initData() {
-        aboutViewModel?.versionName?.value = aboutViewModel?.version
+//        aboutViewModel?.versionName?.value = aboutViewModel?.version
     }
 
     private fun initGroupListView() {
 
         val itemWithCheckUpdate: XUICommonListItemView = mGroupListView.createItemView(
                 ContextCompat.getDrawable(context!!, R.drawable.check_update_64),
-                "检查最新版本",
-                "当前已是最新版本",
+                getString(R.string.update_version),
+                getString(R.string.version_latest),
                 XUICommonListItemView.HORIZONTAL,
                 XUICommonListItemView.ACCESSORY_TYPE_NONE)
 
-        val itemWithCityPicker: XUICommonListItemView = mGroupListView.createItemView("选择当前城市")
+        itemWithCityPicker = mGroupListView.createItemView(getString(R.string.chose_address))
         itemWithCityPicker.setImageDrawable(ContextCompat.getDrawable(requireContext() ,R.drawable.city_pick_64))
         itemWithCityPicker.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_CHEVRON
         itemWithCityPicker.orientation = XUICommonListItemView.VERTICAL
-        itemWithCityPicker.detailText = "未选择"
+        itemWithCityPicker.detailText = aboutViewModel?.getRetainAddressValue()
 
-        val itemWithCleanCache: XUICommonListItemView = mGroupListView.createItemView("清除缓存")
+        val itemWithCleanCache: XUICommonListItemView = mGroupListView.createItemView(getString(R.string.clean_cache))
         itemWithCleanCache.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_CHEVRON
         itemWithCleanCache.setImageDrawable(ContextCompat.getDrawable(requireContext() ,R.drawable.clean_cache_64))
 
-        val itemWithWelComeAnimation: XUICommonListItemView = mGroupListView.createItemView("关闭启动页动画")
+        val itemWithWelComeAnimation: XUICommonListItemView = mGroupListView.createItemView(getString(R.string.skip_welcome_animation))
         itemWithWelComeAnimation.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_SWITCH
         itemWithWelComeAnimation.switch.isChecked = SharePreferencesUtil.getInstance().getBoolean("isSkipWelcomeAnimation")
-        Logger.d("现在是否跳过动画 " + SharePreferencesUtil.getInstance().getBoolean("isSkipWelcomeAnimation"))
         itemWithWelComeAnimation.switch.setOnCheckedChangeListener { buttonView, isChecked ->
             SharePreferencesUtil.getInstance().put("isSkipWelcomeAnimation" , isChecked)
         }
@@ -94,25 +100,24 @@ class AboutFragment : BaseFragment() {
         val checkUpdateListener = View.OnClickListener { v ->
             if (v is XUICommonListItemView) {
 
-                XToast.info(requireContext(),"当前版本已是最新版本").show()
+                XToast.info(requireContext(),getString(R.string.version_latest)).show()
             }
         }
 
         val cleanCacheListener = View.OnClickListener {
             if(it is XUICommonListItemView) {
-                //Todo 清除缓存的操作
-                XToast.success(requireContext() ,"已清除缓存！").show()
+                aboutViewModel?.cleanCache(Glide.get(requireContext()))
+                XToast.success(requireContext() ,getString(R.string.cache_clean_completed)).show()
             }
         }
         val cityPickerListener = View.OnClickListener { v->
             if( v is XUICommonListItemView) {
-                Logger.d("选择城市")
-                itemWithCityPicker.detailText = "我已经选择城市"
+                showPickerView(false)
             }
         }
         val itemWithAboutAuthor: XUICommonListItemView = mGroupListView.createItemView(
                 ContextCompat.getDrawable(requireContext(), R.drawable.about_author_64),
-                "关于开发者",
+                getString(R.string.about_author),
                 null,
                 XUICommonListItemView.HORIZONTAL,
                 XUICommonListItemView.ACCESSORY_TYPE_CHEVRON)
@@ -144,30 +149,32 @@ class AboutFragment : BaseFragment() {
     private fun initView() {
         if (mBinding != null) {
             dialogBuilder = MaterialDialog.Builder(context!!)
-
+            mBinding?.tvAboutAppVersioncode?.text = aboutViewModel?.versionName?.value
             mBinding?.ralAboutAppAuthor?.setOnClickListener { v: View? -> showAuthorDialog() }
             mBinding?.ralAboutAppIntroduction?.setOnClickListener { v: View? -> showIntroductionDialog() }
-            mBinding?.ralAboutAppUpdate?.setOnClickListener { v: View? -> Toast.makeText(context, "已经是最新版本了", Toast.LENGTH_SHORT).show() }
+            mBinding?.ralAboutAppUpdate?.setOnClickListener { v: View? -> Toast.makeText(context, getString(R.string.version_latest), Toast.LENGTH_SHORT).show() }
         }
         mGroupListView = mBinding?.glvAbout!!
     }
 
-
+    // 弹出选择器
     private fun showPickerView(isDialog: Boolean) {
-        // 弹出选择器
-        if (aboutViewModel?.mHasLoaded ?: false) {
+
+/*        if (aboutViewModel?.mHasLoaded ?: false) {
             Logger.d("正在加载地址数据")
             return
-        }
+        }*/
 //        val defaultSelectOptions: IntArray = getDefaultCity()
         val cityPickerOptions: OptionsPickerView<Any> = OptionsPickerBuilder(
                 context, OnOptionsSelectListener { options1, options2, options3, v ->
                     //返回的分别是三个级别的选中位置
-                    val tx: String = aboutViewModel?.options1Items?.get(options1).toString() + "-" +
+                    val chosenString: String = aboutViewModel?.options1Items?.get(options1).toString() + "-" +
                             aboutViewModel?.options2Items?.get(options1)?.get(options2) + "-" +
                             aboutViewModel?.options3Items?.get(options1)?.get(options2)?.get(options3)
-                            Logger.d("选中了") })
-                .setTitleText("城市选择")
+                    //更改当前的城市
+                    addressPicked(chosenString)
+                               })
+                .setTitleText(getString(R.string.chose_address))
                 .setDividerColor(Color.BLACK) //切换选项时，还原到第一项
                 .isRestoreItem(true) //设置选中项文字颜色
                 .setTextColorCenter(Color.BLACK)
@@ -181,12 +188,17 @@ class AboutFragment : BaseFragment() {
         cityPickerOptions.show()
     }
 
+    private fun addressPicked(address : String) {
+        itemWithCityPicker.detailText = address
+        aboutViewModel?.retainAddressPickedValue(address)
+    }
+
 
 
     private fun showAuthorDialog() {
         if (dialogBuilder != null) {
             dialogBuilder?.title("我是谁?")
-                    ?.content("我是来自广东工业大学的客户端开发者DMingO,独立开发了垃圾分类小助手APP。" + "\n" + resources.getString(R.string.welcome_contact_to_me) + "\n" + resources.getString(R.string.my_email_address))
+                    ?.content(resources.getString(R.string.author_introduction_self) + "\n" + resources.getString(R.string.welcome_contact_to_me) + "\n" + resources.getString(R.string.my_email_address))
                     ?.positiveText(R.string.known)
                     ?.show()
         }

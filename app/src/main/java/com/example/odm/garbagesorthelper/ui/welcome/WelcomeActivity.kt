@@ -48,6 +48,7 @@ class WelcomeActivity : AppCompatActivity() {
                 && SharePreferencesUtil.getInstance().getBoolean("isSkipWelcomeAnimation")) {
             //直接进入页面
             enterHomePage()
+            isBoost = true
         }else {
             //初始化 欢迎页动画
             val openingStartAnimation = OpeningStartAnimation.Builder(this)

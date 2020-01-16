@@ -166,12 +166,12 @@ class SearchViewModel(private val repository: SearchDataRepository) : ViewModel(
             val disposable = repository.allGarbageHistory?.subscribe { garbageSearchHistories ->
 
                 garbageSearchHistories?.let {
-                    val stringBuilder = StringBuilder()
+/*                    val stringBuilder = StringBuilder()
                     for (g in it){
                         stringBuilder.append(g?.garbageName)
                         stringBuilder.append("  ")
                     }
-                    Log.e(TAG, "数据库展示： $stringBuilder")
+                    Log.e(TAG, "数据库展示： $stringBuilder")*/
                     val data = it.toMutableList()
                     data.reverse()
                     _searchHistoryData.value =  data

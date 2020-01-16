@@ -47,7 +47,6 @@ class CameraActivity : AppCompatActivity() {
 
         btnCapture?.setOnClickListener { v: View? ->
         //创建要存照片的File
-        Logger.d("点击了拍照按钮")
         val currentTime = System.currentTimeMillis()
         val imageName = "garbagesorthelper_$currentTime.png"
         cameraViewModel?.imageCapture?.takePicture(cameraViewModel?.createImageFile(imageName), object : ImageCapture.OnImageSavedListener {

@@ -16,14 +16,22 @@
     <string name = "known">我已知晓</string>
     <string name = "share_wechat">分享给微信好友</string>
     <string name = "update_version">版本更新</string>
-    <string name = "about_author">关于作者</string>
+    <string name = "about_author">关于开发者</string>
     <string name = "version_latest">已是最新版本</string>
+    <string name = "chose_address">选择区域</string>
+    <string name = "clean_cache">清除缓存</string>
+    <string name = "cache_clean_completed">已清除缓存！</string>
+    <string name = "skip_welcome_animation">跳过启动页动画</string>
+
+
     <string name = "function_introduction">功能介绍</string>
     <string name = "tips">提示</string>
     <string name = "content_wait_for_receive_data">正在飞快地为您查询</string>
     <string name = "icon">图标</string>
     <string name = "recorder_dialog_textview_text">请用普通话说出您想要查询的垃圾名称</string>
     <string name = "show_dialog_about">关于页面呼出对话框</string>
+
+    <string name = "author_introduction_self">我是来自广东工业大学的客户端开发者DMingO,独立开发了垃圾分类小助手APP。</string>
     <string name = "welcome_contact_to_me">欢迎您通过我的邮箱与我联系</string>
     <string name = "my_email_address">DMingOu0529@gmail.com</string>
     <string name = "app_statement_1">爱护环境 人人有责</string>
