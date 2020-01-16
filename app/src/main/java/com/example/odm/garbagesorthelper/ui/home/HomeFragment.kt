@@ -25,6 +25,7 @@ import com.example.odm.garbagesorthelper.utils.InjectorUtils
 import com.example.odm.garbagesorthelper.widget.ClearEditText
 import com.iflytek.cloud.ui.RecognizerDialog
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.orhanobut.logger.Logger
 import com.stx.xhb.androidx.XBanner
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
@@ -155,6 +156,7 @@ class HomeFragment : BaseFragment() {
             if (dataBeans?.isEmpty() == false) {
                 if (viewModel?.searching ?: false) {
                     viewModel?.searching = false
+                    Logger.d("展示垃圾分类的结果")
                     showGarbageResultBar()
                 }
             }

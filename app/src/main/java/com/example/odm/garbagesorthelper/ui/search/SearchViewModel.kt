@@ -157,6 +157,10 @@ class SearchViewModel(private val repository: SearchDataRepository) : ViewModel(
                 })
     }
 
+    fun deleteAllSearchHistory(){
+        repository.deleteAllGarbageHistory()
+    }
+
     /**
      * 获取Room中所有 垃圾搜索历史
      *
