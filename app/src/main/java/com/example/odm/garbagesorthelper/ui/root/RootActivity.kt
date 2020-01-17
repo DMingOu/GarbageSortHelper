@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-//import com.example.odm.garbagesorthelper.BR
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseActivity
 import com.example.odm.garbagesorthelper.base.IBackInterface
@@ -95,7 +94,7 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
     fun initPermissions() {
         //动态获取拍摄,录音权限
         val rxPermissions = RxPermissions(this)
-        rxPermissions.request( Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        rxPermissions.request( Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA )
                 .subscribe { aBoolean ->
                     //检查权限是否获取，提醒用户
                     if (aBoolean) {

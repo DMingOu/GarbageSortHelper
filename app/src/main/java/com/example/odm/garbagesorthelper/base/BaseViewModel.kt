@@ -2,7 +2,7 @@ package com.example.odm.garbagesorthelper.base
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.trello.rxlifecycle2.LifecycleProvider
+//import com.trello.rxlifecycle2.LifecycleProvider
 import java.lang.ref.WeakReference
 
 /**
@@ -14,7 +14,7 @@ open class BaseViewModel<M : BaseModel?>(application: Application) : AndroidView
 
     protected var model: M? = null
 
-    //弱引用持有
+/*    //弱引用持有
     private var lifecycle: WeakReference<LifecycleProvider<*>>? = null
 
     //    public BaseViewModel(@NonNull Application application , M model) {
@@ -22,17 +22,17 @@ open class BaseViewModel<M : BaseModel?>(application: Application) : AndroidView
 //        this.model = model;
 //    }
 
-    /**
+    *//**
      * 注入RxLifecycle生命周期
      *
      * @param lifecycle
-     */
+     *//*
     fun injectLifecycleProvider(lifecycle: LifecycleProvider<*>) {
         this.lifecycle = WeakReference(lifecycle)
     }
 
     val lifecycleProvider: LifecycleProvider<*>
-        get() = lifecycle!!.get()!!
+        get() = lifecycle!!.get()!!*/
 
     override fun onCleared() {
         super.onCleared()

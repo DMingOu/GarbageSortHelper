@@ -39,7 +39,7 @@ class AnchorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         Glide.with(context.applicationContext)
                 .load(imgUtl)
                 .placeholder(R.drawable.module_glide_load_default_image)
-                .error(R.drawable.error_image)
+                .error(R.drawable.banner_error_load)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(ivContent!!)
     }

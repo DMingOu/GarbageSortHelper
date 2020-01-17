@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseFragment
 import com.example.odm.garbagesorthelper.core.Constants
-//import com.example.odm.garbagesorthelper.databinding.FragmentSearchBinding
 import com.example.odm.garbagesorthelper.model.entity.BannerData
 import com.example.odm.garbagesorthelper.model.entity.GarbageData.DataBean
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean.ResultBean
@@ -103,10 +102,22 @@ class HomeFragment : BaseFragment() {
          * 设置跳转拍摄开关为true->跳转拍摄页面
          */
         btnOpenCamera.setOnClickListener {
-            viewModel?.openCamera()
-            }
+//            viewModel?.openCamera()
+           val rxPermissions = RxPermissions(activity?: RootActivity())
 
+                        if ( rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            Logger.d("跳转到拍摄页面")
+                            val sharedView = btnOpenCamera
+                            val transitionName = getString(R.string.share_view_button_camera)
 
+                            val transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName)
+                            startActivity(Intent(this.context,CameraActivity::class.java), transitionActivityOptions.toBundle())
+//                            viewModel?.isOpenCamera?.setValue(false)
+                        } else {
+                            Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()
+                        }
+                }
         }
 
     override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
@@ -143,7 +154,7 @@ class HomeFragment : BaseFragment() {
             Glide.with(this@HomeFragment)
                     .load((model as BannerData).xBannerUrl)
                     .placeholder(R.drawable.module_glide_load_default_image)
-                    .error(R.drawable.error_image)
+                    .error(R.drawable.banner_error_load)
                     .into((view as ImageView))
         }
     }
@@ -156,34 +167,16 @@ class HomeFragment : BaseFragment() {
             if (dataBeans?.isEmpty() == false) {
                 if (viewModel?.searching ?: false) {
                     viewModel?.searching = false
-                    Logger.d("展示垃圾分类的结果")
                     showGarbageResultBar()
                 }
             }
         })
-        //跳转到拍摄页面
-        viewModel?.isOpenCamera?.observe(this, Observer { isOpenCamera: Boolean ->
-            if (isOpenCamera) {
-                val rxPermissions = RxPermissions(activity?: RootActivity())
-                rxPermissions.request(Manifest.permission.CAMERA).subscribe {
-                    if (it) {
-                        if (rxPermissions.isGranted(Manifest.permission.CAMERA) && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                && rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            val sharedView = btnOpenCamera;
-                            val transitionName = getString(R.string.share_view_button_camera);
-
-                            val transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
-                            startActivity(Intent(this.context,CameraActivity::class.java), transitionActivityOptions.toBundle());
-                            viewModel?.isOpenCamera?.setValue(false)
-                        } else {
-                            Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！请在应用管理中打开", Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        Toast.makeText(activity?.applicationContext, "未获取相关权限，无法开启拍照识别！", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        })
+//        //跳转到拍摄页面
+//        viewModel?.isOpenCamera?.observe(this, Observer { isOpenCamera: Boolean ->
+//            if (isOpenCamera) {
+//
+//            }
+//        })
         //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
         viewModel?.imageClassifyGarbage?.observe(this, Observer { bean: ResultBean ->
             val keyGarbageName = bean.keyword

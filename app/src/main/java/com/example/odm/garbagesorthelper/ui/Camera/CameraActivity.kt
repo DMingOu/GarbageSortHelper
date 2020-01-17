@@ -16,7 +16,6 @@ import com.example.odm.garbagesorthelper.widget.FocusCircleView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.orhanobut.logger.Logger
 import com.xuexiang.xui.utils.StatusBarUtils
-import com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
 import java.io.File
 
 class CameraActivity : AppCompatActivity() {

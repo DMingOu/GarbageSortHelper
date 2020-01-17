@@ -19,7 +19,7 @@
             android:id="@+id/btnCamera"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:background="@drawable/module_search_jump_to_camera"
+            android:background="@drawable/camera_2"
             android:layout_alignBottom="@id/containerCamera"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"

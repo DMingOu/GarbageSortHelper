@@ -26,7 +26,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -40,11 +40,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-//    sourceSets {
-//        main{
-//            jniLibs.srcDirs = ['libs']
-//        }
-//    }
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 //    def SDK_DES = "build/outputs/jar/"
 //    def JAR_FILE = "build/intermediates/packaged-classes/release/classes.jar"
 //    def JAR_NAME = "garbagesorthelper"
@@ -67,41 +67,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0'
-
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.10" // 必要rxjava2依赖
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1" // 必要rxandrroid依赖，切线程时需要用到
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
-
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
-
-    //BaseAdapter
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
-    //log
-    implementation 'com.orhanobut:logger:2.2.0'
-
-    //MD风格底部导航
-    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
-    //crash页面跳转
-    implementation 'cat.ereza:customactivityoncrash:2.2.0'
-
-    //1.0.5版本后只支持androidx
-    implementation 'com.github.xuexiangjys:XUI:1.0.7'
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
-    //标题栏
-    implementation 'com.wuhenzhizao:titlebar:1.1.4'
     // CameraX core library
     def camerax_version = "1.0.0-alpha05"
     // CameraX view library
@@ -115,19 +85,13 @@ dependencies {
     implementation "androidx.camera:camera-view:$camerax_view_version"
     // If you to use Camera Extensions
     implementation "androidx.camera:camera-extensions:$camerax_ext_version"
-    //申请权限
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
-    //轮播图
-    implementation 'com.github.xiaohaibin:XBanner:androidx_v1.0.2'
-    //图片加载
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    //讯飞API
-    implementation files('libs/Msc.jar')
-    //美团消息总线
-    implementation 'com.jeremyliao:live-event-bus-x:1.5.0'
-    //图片加载、缓存
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
     //Room数据库
     def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
@@ -136,6 +100,47 @@ dependencies {
 //    kapt "android.arch.persistence.room:compiler:2.2.1"
     kapt "androidx.room:room-compiler:$room_version"
 
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10" // 必要rxjava2依赖
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1" // 必要rxandrroid依赖，切线程时需要用到
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
+
+
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+
+    //BaseAdapter （混淆：自带）
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
+    //log （混淆：有）
+    implementation 'com.orhanobut:logger:2.2.0'
+
+    //MD风格底部导航 (混淆：无)
+    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    //crash页面跳转 （无需混淆）
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
+
+    //1.0.5版本后只支持androidx （混淆：无）
+    implementation 'com.github.xuexiangjys:XUI:1.0.7'
+    //标题栏（混淆：无）
+    implementation 'com.wuhenzhizao:titlebar:1.1.4'
+
+    //申请权限 （混淆：无）
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
+    //轮播图 （混淆：无）
+    implementation 'com.github.xiaohaibin:XBanner:androidx_v1.0.2'
+
+    //讯飞语音SDK （混淆：有）
+    implementation files('libs/Msc.jar')
+    //美团消息总线（混淆：有）
+    implementation 'com.jeremyliao:live-event-bus-x:1.5.0'
+    //图片加载、缓存 （混淆：有）
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    //启动页欢迎动画 （混淆：无）
     implementation 'site.gemus:openingstartanimation:1.0.0'
 
     //工具类集合

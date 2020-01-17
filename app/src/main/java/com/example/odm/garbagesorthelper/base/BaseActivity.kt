@@ -9,7 +9,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+//import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import java.util.*
 
 /**
@@ -17,7 +18,7 @@ import java.util.*
  * @author: ODM
  * @date: 2019/9/17
  */
-abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
+abstract class BaseActivity : AppCompatActivity(), IBaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //锁定旋转屏幕--只能竖屏使用

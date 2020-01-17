@@ -200,6 +200,7 @@ class AboutFragment : BaseFragment() {
             dialogBuilder?.title("我是谁?")
                     ?.content(resources.getString(R.string.author_introduction_self) + "\n" + resources.getString(R.string.welcome_contact_to_me) + "\n" + resources.getString(R.string.my_email_address))
                     ?.positiveText(R.string.known)
+                    ?.positiveColor(resources.getColor(R.color.bottom_navigation_about))
                     ?.show()
         }
     }
