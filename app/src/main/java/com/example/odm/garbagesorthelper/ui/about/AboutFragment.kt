@@ -22,6 +22,8 @@ import com.example.odm.garbagesorthelper.databinding.FragmentAboutBinding
 import com.example.odm.garbagesorthelper.model.entity.ProvinceInfo
 import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.orhanobut.logger.Logger
+import com.tencent.bugly.beta.Beta
+import com.tencent.bugly.beta.UpgradeInfo
 import com.xuexiang.xui.utils.DensityUtils
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog
 import com.xuexiang.xui.widget.grouplist.XUICommonListItemView
@@ -49,7 +51,6 @@ class AboutFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initViewDataBinding(inflater, container)
         initView()
-        initData()
         initGroupListView()
         return mBinding?.root
     }
@@ -63,16 +64,16 @@ class AboutFragment : BaseFragment() {
         mBinding?.setLifecycleOwner(this)
     }
 
-    private fun initData() {
-//        aboutViewModel?.versionName?.value = aboutViewModel?.version
-    }
 
+    /**
+     * 初始化GroupListView
+     */
     private fun initGroupListView() {
 
         val itemWithCheckUpdate: XUICommonListItemView = mGroupListView.createItemView(
-                ContextCompat.getDrawable(context!!, R.drawable.check_update_64),
+                ContextCompat.getDrawable(requireContext(), R.drawable.check_update_64),
                 getString(R.string.update_version),
-                getString(R.string.version_latest),
+                aboutViewModel?.versionUpdateInfo,
                 XUICommonListItemView.HORIZONTAL,
                 XUICommonListItemView.ACCESSORY_TYPE_NONE)
 
@@ -99,8 +100,9 @@ class AboutFragment : BaseFragment() {
 
         val checkUpdateListener = View.OnClickListener { v ->
             if (v is XUICommonListItemView) {
-
-                XToast.info(requireContext(),getString(R.string.version_latest)).show()
+                //手动获取更新
+                Beta.checkUpgrade()
+                itemWithCheckUpdate.detailText = aboutViewModel?.getUpdateInfo()
             }
         }
 
@@ -176,6 +178,7 @@ class AboutFragment : BaseFragment() {
                 .setDividerColor(Color.BLACK) //切换选项时，还原到第一项
                 .isRestoreItem(true) //设置选中项文字颜色
                 .setTextColorCenter(Color.BLACK)
+                .setSubmitColor(resources.getColor(R.color.bottom_navigation_about))
                 .setContentTextSize(20)
                 .isDialog(isDialog)
 //                .setSelectOptions(defaultSelectOptions[0], defaultSelectOptions[1], defaultSelectOptions[2])
@@ -196,7 +199,10 @@ class AboutFragment : BaseFragment() {
     private fun showAuthorDialog() {
         if (dialogBuilder != null) {
             dialogBuilder?.title("我是谁?")
-                    ?.content(resources.getString(R.string.author_introduction_self) + "\n" + resources.getString(R.string.welcome_contact_to_me) + "\n" + resources.getString(R.string.my_email_address))
+                    ?.content(resources.getString(R.string.author_introduction_self) + "\n" +
+                            resources.getString(R.string.safe_introduction)+"\n"+
+                            resources.getString(R.string.welcome_contact_to_me) + "\n" +
+                            resources.getString(R.string.my_email_address))
                     ?.positiveText(R.string.known)
                     ?.positiveColor(resources.getColor(R.color.bottom_navigation_about))
                     ?.show()

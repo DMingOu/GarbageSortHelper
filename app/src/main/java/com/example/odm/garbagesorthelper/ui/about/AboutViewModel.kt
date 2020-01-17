@@ -17,6 +17,7 @@ import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.orhanobut.logger.Logger
+import com.tencent.bugly.beta.Beta
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Scheduler
@@ -35,8 +36,9 @@ import kotlin.collections.ArrayList
  * date: 2019/9/19
  */
 class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(application!!) {
-    public var versionName = MutableLiveData<String>()
+     var versionName = MutableLiveData<String>()
 
+    var versionUpdateInfo : String
 
     //Note：不初始化MutableList，就算后面add ，也始终会是null
      var options1Items: MutableList<String> = ArrayList()
@@ -53,6 +55,15 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             SharePreferencesUtil.getInstance().put("address_picked" , "未选择地址")
         }
         versionName.value = version
+
+        /***** 获取升级信息 *****/
+        val upgradeInfo  = Beta.getUpgradeInfo()
+
+        if (upgradeInfo == null) {
+            versionUpdateInfo = "已是最新版本"
+        } else {
+            versionUpdateInfo = upgradeInfo.versionName+"."+upgradeInfo.versionCode + " 有更新"
+        }
     }
 
 
@@ -111,11 +122,12 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             val manager = getApplication<Application>().packageManager
             val info = manager.getPackageInfo(getApplication<Application>().packageName, 0)
             val version = info.versionName
-            Logger.d("获取到的版本号为${version}")
-            "version  $version"
+            val versionCode = info.versionCode
+            Logger.d("获取到的版本号为${version}.${versionCode}")
+            "version  ${version}.${versionCode}"
         } catch (e: Exception) {
             e.printStackTrace()
-            "无法得到当前版本"
+            "无法获取当前版本"
         }
 
     /**
@@ -131,6 +143,18 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {}
                 .isDisposed
+    }
+
+    fun getUpdateInfo() : String {
+        /***** 获取升级信息 *****/
+        val upgradeInfo  = Beta.getUpgradeInfo()
+
+        if (upgradeInfo == null) {
+            versionUpdateInfo = "已是最新版本"
+        } else {
+            versionUpdateInfo = upgradeInfo.versionName+"."+upgradeInfo.versionCode + " 有更新"
+        }
+        return  versionUpdateInfo
     }
 
 }

@@ -15,7 +15,7 @@ android {
         applicationId "com.example.odm.garbagesorthelper"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
+        versionCode 8
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -145,5 +145,9 @@ dependencies {
 
     //工具类集合
     implementation  'com.blankj:utilcodex:1.26.0'
+
+    //Bugly 异常上报 应用升级
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 
 }
