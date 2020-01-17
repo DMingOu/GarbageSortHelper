@@ -16,9 +16,9 @@
 
      <ImageView
          android:id="@+id/iv_about_app_icon"
-         android:layout_width="90dp"
-         android:layout_height="90dp"
-         android:layout_marginTop="20dp"
+         android:layout_width="@dimen/dp_90"
+         android:layout_height="@dimen/dp_90"
+         android:layout_marginTop="@dimen/dp_20"
          android:layout_centerHorizontal="true"
          android:src="@drawable/icon_garbagesort_app"
          android:contentDescription="@string/icon"
@@ -30,7 +30,7 @@
          android:id="@+id/tv_about_app_name"
          android:layout_below="@id/iv_about_app_icon"
          android:layout_centerHorizontal="true"
-         android:textSize="22sp"
+         android:textSize="@dimen/sp_22"
          android:textColor="@color/xui_config_color_black"
          android:visibility="gone"
          />
@@ -38,136 +38,12 @@
          android:id="@+id/tv_about_app_versioncode"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:textSize="20sp"
-         android:layout_marginTop="5dp"
+         android:textSize="@dimen/sp_20"
+         android:layout_marginTop="@dimen/dp_5"
          android:layout_below="@id/tv_about_app_name"
          android:layout_centerHorizontal="true"
          android:textColor="@color/xui_config_color_black"
      />
-
-
-
-    <LinearLayout
-    android:id="@+id/ll_function_about"
-    android:layout_width = "match_parent"
-    android:layout_height = "wrap_content"
-    android:layout_below = "@id/tv_about_app_versioncode"
-    android:layout_alignParentEnd = "true"
-    android:layout_marginTop = "51dp"
-    android:layout_marginEnd = "0dp"
-    android:background = "@color/fragment_about_background"
-    android:visibility="gone"
-    android:orientation = "vertical">
-        <RelativeLayout
-        android:id = "@+id/ral_about_app_update"
-        android:layout_width = "wrap_content"
-        android:layout_height = "55dp"
-        android:background = "?attr/selectableItemBackground"
-        android:clickable = "true"
-        android:focusable = "true">
-
-            <TextView
-            android:id = "@+id/tv_about_app_update_version"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_alignParentStart = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginStart = "25dp"
-            android:layout_marginEnd = "227dp"
-            android:text = "@string/update_version"
-            android:textColor = "@color/xui_config_color_black"
-            android:textSize = "17sp" />
-            <TextView
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_alignParentEnd = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginEnd = "20dp"
-            android:text = "@string/version_latest"
-            android:textSize = "13sp" />
-            <View
-            android:layout_width = "match_parent"
-            android:layout_height = "1dp"
-            android:layout_alignStart = "@id/tv_about_app_update_version"
-            android:layout_alignParentBottom = "true"
-            android:layout_marginEnd = "20dp"
-            android:background = "@color/xui_btn_gray_normal_color" />
-        </RelativeLayout>
-
-        <RelativeLayout
-        android:id = "@+id/ral_about_app_introduction"
-        android:layout_width = "wrap_content"
-        android:layout_height = "55dp"
-        android:background = "?attr/selectableItemBackground"
-        android:clickable = "true"
-        android:focusable = "true">
-
-            <TextView
-            android:id = "@+id/tv_about_app_introduction"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_alignParentStart = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginStart = "25dp"
-            android:text = "@string/function_introduction"
-            android:textColor = "@color/xui_config_color_black"
-            android:textSize = "17sp" />
-            <ImageView
-            android:id = "@+id/iv_about_app_introduction"
-            android:layout_width = "15dp"
-            android:layout_height = "15dp"
-            android:layout_alignParentEnd = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginEnd = "20dp"
-            android:contentDescription = "@string/show_dialog_about"
-            android:src = "@drawable/module_about_arrow_right" />
-            <View
-            android:layout_width = "match_parent"
-            android:layout_height = "1dp"
-            android:layout_alignStart = "@id/tv_about_app_introduction"
-            android:layout_alignEnd = "@+id/iv_about_app_introduction"
-            android:layout_alignParentBottom = "true"
-            android:background = "@color/xui_btn_gray_normal_color" />
-
-        </RelativeLayout>
-        <RelativeLayout
-        android:id = "@+id/ral_about_app_author"
-        android:layout_width = "wrap_content"
-        android:layout_height = "55dp"
-        android:background = "?attr/selectableItemBackground"
-        android:clickable = "true"
-        android:focusable = "true">
-
-            <TextView
-            android:id = "@+id/tv_about_app_author"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_alignParentStart = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginStart = "25dp"
-            android:text = "@string/about_author"
-            android:textColor = "@color/xui_config_color_black"
-            android:textSize = "17sp" />
-            <ImageView
-            android:id = "@+id/iv_about_author"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_alignParentEnd = "true"
-            android:layout_centerVertical = "true"
-            android:layout_marginEnd = "20dp"
-            android:contentDescription = "@string/show_dialog_about"
-            android:src = "@drawable/module_about_arrow_right" />
-            <View
-            android:layout_width = "match_parent"
-            android:layout_height = "1dp"
-            android:layout_alignStart = "@id/tv_about_app_author"
-            android:layout_alignEnd = "@+id/iv_about_author"
-            android:layout_alignParentBottom = "true"
-            android:background = "@color/xui_btn_gray_normal_color" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
 
         <TextView
         android:layout_width = "wrap_content"
@@ -182,15 +58,15 @@
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bottom_navigation_height"
+        android:layout_marginBottom="@dimen/dp_50"
         android:text = "@string/app_statement_2"
-        android:textSize = "10sp"
+        android:textSize = "@dimen/sp_10"
         android:layout_centerHorizontal="true"
         />
 
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@id/ll_function_about"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/tv_about_app_versioncode"
+            android:layout_marginTop="@dimen/dp_20"
             style="@style/ScrollViewStyle">
 
             <com.xuexiang.xui.widget.grouplist.XUIGroupListView

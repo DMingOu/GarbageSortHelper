@@ -17,12 +17,12 @@
 
         <com.xuexiang.xui.widget.button.shadowbutton.ShadowButton
             android:id="@+id/btnCamera"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_75"
             android:background="@drawable/camera_2"
             android:layout_alignBottom="@id/containerCamera"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/dp_20"
             android:visibility="invisible"
             app:sb_shape_type="round"
             android:transitionName="@string/share_view_button_camera"

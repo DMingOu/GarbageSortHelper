@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="321dp"
-    android:layout_height="456dp"
+    android:layout_width="@dimen/dp_321"
+    android:layout_height="@dimen/dp_500"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center_horizontal"
-    app:cardCornerRadius="7dp"
-    app:elevation="10dp"
+    app:cardCornerRadius="@dimen/dp_7"
+    app:elevation="@dimen/dp_10"
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
             android:gravity="center_horizontal"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:textSize="30sp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textSize="@dimen/sp_30"
             />
         <RelativeLayout
             android:id="@+id/cv_rl_bottom"
@@ -47,7 +47,7 @@
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="@dimen/dp_1"
             android:background="#b2b2b2"
             android:layout_alignParentBottom="true"
             />

@@ -20,7 +20,7 @@
             xmlns:titlebar="http://schemas.android.com/apk/res-auto"
             android:id="@+id/root_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="89dp"
+            android:layout_height="@dimen/dp_89"
             titlebar:fillStatusBar="true"
             titlebar:statusBarColor = "@color/bottom_navigation_search"
             titlebar:titleBarColor = "@color/bottom_navigation_search"
@@ -29,7 +29,7 @@
             titlebar:centerTextColor="@color/xui_config_color_white"
             titlebar:centerTextMarquee="false"
             titlebar:leftType="none"
-            titlebar:titleBarHeight="70dp"
+            titlebar:titleBarHeight="@dimen/dp_70"
             />
 
         <FrameLayout
@@ -42,7 +42,7 @@
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/root_bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_navigation_height"
+            android:layout_height="@dimen/dp_50"
             android:layout_alignParentBottom="true"
             />
 

@@ -16,12 +16,12 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_knowledge"
             android:layout_width="match_parent"
-            android:layout_height="89dp"
+            android:layout_height="@dimen/dp_89"
             android:background="@color/bottom_navigation_knowledge"
             app:tabIndicatorColor="@color/xui_config_color_red"
             app:tabIndicatorFullWidth="false"
-            app:tabPaddingBottom="3dp"
-            app:tabIndicatorHeight="4dp"
+            app:tabPaddingBottom="@dimen/dp_3"
+            app:tabIndicatorHeight="@dimen/dp_4"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/colorPrimary"
             />
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tab_knowledge"
-            android:layout_marginBottom="@dimen/bottom_navigation_height"
+            android:layout_marginBottom="@dimen/dp_50"
             />
 
 

@@ -150,9 +150,7 @@ class AboutFragment : BaseFragment() {
         if (mBinding != null) {
             dialogBuilder = MaterialDialog.Builder(context!!)
             mBinding?.tvAboutAppVersioncode?.text = aboutViewModel?.versionName?.value
-            mBinding?.ralAboutAppAuthor?.setOnClickListener { v: View? -> showAuthorDialog() }
-            mBinding?.ralAboutAppIntroduction?.setOnClickListener { v: View? -> showIntroductionDialog() }
-            mBinding?.ralAboutAppUpdate?.setOnClickListener { v: View? -> Toast.makeText(context, getString(R.string.version_latest), Toast.LENGTH_SHORT).show() }
+
         }
         mGroupListView = mBinding?.glvAbout!!
     }

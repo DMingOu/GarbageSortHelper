@@ -4,17 +4,17 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="wrap_content"
-    android:layout_height="105dp">
+    android:layout_height="@dimen/dp_105">
 
     <ImageView
         android:id="@+id/iv_tab_icon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_70"
         android:src="@drawable/module_search_cookiebar_dry_garbage"/>
 
 <TextView
     android:id="@+id/tv_tab_title"
-    android:textSize="13sp"
+    android:textSize="@dimen/sp_13"
     android:textColor="@color/xui_config_color_white"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
