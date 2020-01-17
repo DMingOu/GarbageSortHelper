@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment() {
         initViewDataBinding(inflater, container)
 
         //        首先通过DataBindingUtil.inflate初始化binding对象，然后通过.getRoot()获取操作视图，并且在onCreateView中返回该视图。否则会导致binding不生效。
-        return layoutInflater.inflate(R.layout.fragment_search , container ,false)
+        return layoutInflater.inflate(R.layout.fragment_home , container ,false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -116,7 +116,7 @@ class HomeFragment : BaseFragment() {
 
 
     override val layoutId: Int
-        get() = R.layout.fragment_search
+        get() = R.layout.fragment_home
 
     private fun initEditText() {
         //点击搜索框跳转 SearchActivity 事件

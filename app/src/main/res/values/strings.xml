@@ -12,7 +12,15 @@
     <string name = "bottom_navigation_about">关于</string>
     <string name = "bottom_navigation_knowledge">知识</string>
 
+    <string name = "yes_1">确认</string>
+    <string name = "yes_2">好的</string>
+    <string name = "yes_3">是的</string>
+
+    <string name = "no_1">取消</string>
+
+
     <string name = "searchview_hint">请输入你要查询的垃圾名</string>
+    <string name = "confirm_clean_all_history">确认清空搜索历史吗</string>
     <string name = "known">我已知晓</string>
     <string name = "share_wechat">分享给微信好友</string>
     <string name = "update_version">版本更新</string>

@@ -71,7 +71,6 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             for (city in province.city) {
                 //添加城市
                 val cityName: String = city.name
-//                Log.e("添加城市" , cityName)
                 cityList.add(cityName)
                 //该城市的所有地区列表
                 val cityAreaList: MutableList<String> = ArrayList()
@@ -83,15 +82,12 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
                 }
                 //添加该省所有地区数据
                 areaList.add(cityAreaList)
-//                Log.e("添加${cityName}的区域",cityAreaList.toString())
             }
             options1Items.add(province.name)
             //添加城市数据
             options2Items.add(cityList)
-//            Log.e("当前城市数据" , options2Items.toString() ?: "无数据")
             //添加地区数据
             options3Items.add(areaList)
-//            Log.e("当前区域数据" , options3Items.toString() ?: "无数据")
         }
 
         mHasLoaded = true

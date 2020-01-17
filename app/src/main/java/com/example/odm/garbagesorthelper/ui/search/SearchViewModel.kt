@@ -8,13 +8,8 @@ import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.model.SearchDataRepository
 import com.example.odm.garbagesorthelper.model.entity.*
 import com.example.odm.garbagesorthelper.model.entity.GarbageData.DataBean
-import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean.ResultBean
 import com.example.odm.garbagesorthelper.model.source.net.HttpThrowable
 import com.example.odm.garbagesorthelper.model.source.net.ObserverManager
-import com.example.odm.garbagesorthelper.utils.GsonUtils
-import com.iflytek.cloud.*
-import com.iflytek.cloud.ui.RecognizerDialog
-import com.iflytek.cloud.ui.RecognizerDialogListener
 import com.orhanobut.logger.Logger
 import io.reactivex.CompletableObserver
 import io.reactivex.SingleObserver
@@ -39,6 +34,10 @@ class SearchViewModel(private val repository: SearchDataRepository) : ViewModel(
      */
     var sortedList = MutableLiveData<List<DataBean>>()
 
+    /**
+     * 热门搜索数据
+     */
+    var hotSearchData : MutableList<String> ?= null
 
 
     var searching = false
@@ -55,6 +54,7 @@ class SearchViewModel(private val repository: SearchDataRepository) : ViewModel(
 
     init {
         allGarbageSearchHistory
+        initHotSearchData()
     }
 
 
@@ -183,6 +183,20 @@ class SearchViewModel(private val repository: SearchDataRepository) : ViewModel(
 
             }
         }
+
+    private  fun  initHotSearchData(){
+        hotSearchData = arrayListOf()
+        hotSearchData?.add("小龙虾")
+        hotSearchData?.add("电池")
+        hotSearchData?.add("西瓜皮")
+        hotSearchData?.add("废纸")
+        hotSearchData?.add("龙虾")
+        hotSearchData?.add("肉")
+        hotSearchData?.add("塑料袋")
+        hotSearchData?.add("光盘")
+        hotSearchData?.add("口红")
+        hotSearchData?.add("奶茶")
+    }
 
 
 }
