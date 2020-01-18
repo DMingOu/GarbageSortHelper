@@ -18,7 +18,6 @@ var <T : View> T.lastClickTime: Long
 // 重复点击事件绑定,相当于绑定了点击事件
 inline fun <T : View> T.singleClick(interval: Long = 500, crossinline block: (T) -> Unit) {
     val currentTimeMillis = System.currentTimeMillis()
-//    Log.e("单次点击事件扩展属性" , "current  "+currentTimeMillis + "      lastClickTime " + lastClickTime)
     //两次点击事件时间间隔大于时间差 || 控件属于选择框一类可多次点击
     if (currentTimeMillis - lastClickTime > interval || this is Checkable) {
         lastClickTime = currentTimeMillis

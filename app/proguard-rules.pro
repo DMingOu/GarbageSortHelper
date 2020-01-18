@@ -272,20 +272,15 @@
 #utilcodex
 -keep class  com.blankj.utilcode.util.** { *; }
 
-#启动页动画
+#
 -keep class site.gemus.** { *; }
 
 #XUI
 -keep class com.xuexiang.xui.** { *; }
 
-
 #讯飞SDK
 -libraryjars libs/Msc.jar
-#-libraryjars libs/armeabi-v7a/libmsc.so
-#-libraryjars libs/armeabi-v7a/libmsc.so
 -libraryjars src/main/jniLibs/Msc.jar
-#-libraryjars src/main/jniLibs/armeabi-v7a/libmsc.so
-#-libraryjars src/main/jniLibs/armeabi-v8a/libmsc.so
 -keep class com.iflytek.**{*;}
 -keepattributes Signature
 
@@ -298,14 +293,6 @@
 #底部导航栏
 -keep class com.aurelhubert.ahbottomnavigation.** { *; }
 
-#CameraX
--keep class androidx.camera.** { *; }
-
-#Room
--keep class androidx.room.** { *; }
-
-#LifeCycle
--keep class androidx.lifecycle.** { *; }
 
 #Bugly SDK
 -dontwarn com.tencent.bugly.**

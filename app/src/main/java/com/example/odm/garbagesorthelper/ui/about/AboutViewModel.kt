@@ -69,10 +69,7 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
 
     //加载数据
     private fun loadData(provinceInfo: List<ProvinceInfo>) {
-        /**
-         * 添加省份数据
-         */
-//        options1Items = provinceInfo.toMutableList()
+
         //遍历省份（第一级）
         for (province in provinceInfo) {
             //该省的城市列表（第二级）
@@ -123,7 +120,6 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             val info = manager.getPackageInfo(getApplication<Application>().packageName, 0)
             val version = info.versionName
             val versionCode = info.versionCode
-            Logger.d("获取到的版本号为${version}.${versionCode}")
             "version  ${version}.${versionCode}"
         } catch (e: Exception) {
             e.printStackTrace()
@@ -138,11 +134,10 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             FileUtils.deleteFilesInDir(File(Environment.getExternalStorageDirectory().toString() + "/GarbageSortHelper/ImageCache/"))
             glide.clearDiskCache()
             glide.clearMemory()
-
-            }   .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {}
-                .isDisposed
+        }   .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {}
+            .isDisposed
     }
 
     fun getUpdateInfo() : String {

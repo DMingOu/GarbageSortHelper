@@ -7,24 +7,23 @@ import android.transition.Fade
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseActivity
 import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.base.IHideInterface
-import com.example.odm.garbagesorthelper.databinding.ActivityRootBinding
 import com.orhanobut.logger.Logger
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar
 import com.xuexiang.xui.utils.StatusBarUtils
 
 
 class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
-    //DataBinding变量
-    var rootBinding: ActivityRootBinding? = null
-    var rootViewModel: RootViewModel? = null
-
+    private var rootViewModel: RootViewModel? = null
+    private var rootBottomNavigation : AHBottomNavigation?= null
+    private var rootToolbar : CommonTitleBar ?= null
 
     companion object {
         private const val TAG = "RootActivity"
@@ -34,20 +33,14 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
         super.onCreate(savedInstanceState)
         //设置沉浸式状态栏
         StatusBarUtils.translucent(this)
-//        StatusBarUtils.setStatusBarLightMode(this)
         setContentView(R.layout.activity_root)
-//        setupWindowAnimations()
-        initViewDataBinding()
-//        while (supportFragmentManager.backStackEntryCount > 0) {
-//            supportFragmentManager.popBackStackImmediate()
-//        }
-        //手动设置显示第一个页面(保险)防止加载页面时Fragment尚未添加
-//        setFragmentByPosition(0)
+        rootViewModel = ViewModelProviders.of(this).get(RootViewModel::class.java)
+
         //添加Fragment对象数据，加载 Fragment
         initFragmentData()
         //手动设置展示第一个Fragment
         setFragmentByPosition(0)
-        initBottomNavigation()
+        initViews()
         initPermissions()
     }
 
@@ -56,12 +49,6 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
     }
 
 
-
-    override fun initViewDataBinding() {
-        rootBinding = DataBindingUtil.setContentView(this, layoutId)
-        rootViewModel = ViewModelProviders.of(this).get(RootViewModel::class.java)
-//        rootBinding?.setVariable(BR.viewModel, rootViewModel)
-    }
 
     fun setFragmentByPosition(position: Int) {
 
@@ -116,21 +103,24 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
     }
 
 
-    fun initBottomNavigation() {
+    fun initViews() {
+        rootBottomNavigation = findViewById(R.id.root_bottom_navigation)
+        rootToolbar = findViewById(R.id.root_toolbar)
+
         // 底部导航添加子项
-        rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search))
-        rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge))
-        rootBinding?.rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about))
-        rootBinding?.rootBottomNavigation?.isColored = true
+        rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_search, R.drawable.root_bottom_search, R.color.bottom_navigation_search))
+        rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_knowledge, R.drawable.root_bottom_knowledge, R.color.bottom_navigation_knowledge))
+        rootBottomNavigation?.addItem(rootViewModel?.createBottomNavigationItem(R.string.bottom_navigation_about, R.drawable.root_bottom_about, R.color.bottom_navigation_about))
+        rootBottomNavigation?.isColored = true
 
         // 监控底部导航栏的点击事件
-        rootBinding?.rootBottomNavigation?.setOnTabSelectedListener { position: Int, wasSelected: Boolean ->
+        rootBottomNavigation?.setOnTabSelectedListener { position: Int, wasSelected: Boolean ->
             //当前点击tab与目前所处tab不同才触发Fragment事务
             if(! wasSelected) {
                 setFragmentByPosition(position)
                 //改变底部导航栏的颜色
                 rootViewModel?.changeFragmentTitleBarColor(position)
-                rootBinding?.rootToolbar?.setBackgroundColor(resources.getColor(rootViewModel?.titlebarColor?.value?.toInt() ?: 0  )  )
+                rootToolbar?.setBackgroundColor(resources.getColor(rootViewModel?.titlebarColor?.value?.toInt() ?: 0  )  )
             }
             true
         }
@@ -154,22 +144,22 @@ class RootActivity : BaseActivity(), IBackInterface ,IHideInterface{
     }
 
     override fun hideTitleBar() {
-        rootBinding?.rootToolbar?.visibility = View.GONE
+        rootToolbar?.visibility = View.GONE
     }
 
     override fun hideBottomNavigation() {
-        rootBinding?.rootBottomNavigation?.visibility = View.GONE
+        rootBottomNavigation?.visibility = View.GONE
     }
 
     override fun showTitleBar() {
-        if(rootBinding?.rootToolbar?.visibility == View.GONE ||rootBinding?.rootToolbar?.visibility ==  View.INVISIBLE) {
-            rootBinding?.rootToolbar?.visibility = View.VISIBLE
+        if(rootToolbar?.visibility == View.GONE ||rootToolbar?.visibility ==  View.INVISIBLE) {
+            rootToolbar?.visibility = View.VISIBLE
         }
     }
 
     override fun showBottomNavigation() {
-        if(rootBinding?.rootBottomNavigation?.visibility == View.GONE ||rootBinding?.rootToolbar?.visibility ==  View.INVISIBLE) {
-            rootBinding?.rootBottomNavigation?.visibility = View.VISIBLE
+        if(rootBottomNavigation?.visibility == View.GONE ||rootToolbar?.visibility ==  View.INVISIBLE) {
+            rootBottomNavigation?.visibility = View.VISIBLE
         }
     }
 }

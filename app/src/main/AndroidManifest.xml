@@ -30,7 +30,7 @@
     tools:replace = "android:label">
         <activity android:name = ".ui.search.SearchActivity">
         </activity>
-        <activity android:name = ".ui.Camera.CameraActivity">
+        <activity android:name = ".ui.camera.CameraActivity">
         </activity>
         <activity android:name = ".ui.welcome.WelcomeActivity">
             <intent-filter>

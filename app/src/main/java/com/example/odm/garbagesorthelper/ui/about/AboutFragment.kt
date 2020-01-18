@@ -7,18 +7,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.blankj.utilcode.util.CacheDiskStaticUtils
-import com.blankj.utilcode.util.CacheDiskUtils
-import com.blankj.utilcode.util.CleanUtils
-import com.blankj.utilcode.util.FileUtils
 import com.bumptech.glide.Glide
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseFragment
-import com.example.odm.garbagesorthelper.databinding.FragmentAboutBinding
+import com.example.odm.garbagesorthelper.core.Constants
 import com.example.odm.garbagesorthelper.model.entity.ProvinceInfo
 import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.orhanobut.logger.Logger
@@ -40,28 +36,39 @@ import com.xuexiang.xui.widget.toast.XToast
  * date: 2019/9/18
  */
 class AboutFragment : BaseFragment() {
-    private var mBinding: FragmentAboutBinding? = null
+
+    private  var tvAboutAppVersioncode : TextView ?= null
+
     private var aboutViewModel: AboutViewModel? = null
     private var dialogBuilder: MaterialDialog.Builder? = null
 
-    private lateinit var mGroupListView : XUIGroupListView
+    private  var mGroupListView : XUIGroupListView ?= null
 
     private lateinit var itemWithCityPicker : XUICommonListItemView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        initViewDataBinding(inflater, container)
-        initView()
-        initGroupListView()
-        return mBinding?.root
+        aboutViewModel = ViewModelProviders.of(this).get(AboutViewModel::class.java)
+
+        return inflater.inflate(layoutId, container, false)
     }
 
     override val layoutId: Int
         get() = R.layout.fragment_about
 
-    override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        aboutViewModel = ViewModelProviders.of(this).get(AboutViewModel::class.java)
-        mBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        mBinding?.setLifecycleOwner(this)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViews()
+        initGroupListView()
+    }
+
+    override fun initViews(){
+        tvAboutAppVersioncode = activity?.findViewById(R.id.tv_about_app_versioncode)
+
+        dialogBuilder = MaterialDialog.Builder(context!!)
+        tvAboutAppVersioncode?.text = aboutViewModel?.versionName?.value
+
+        mGroupListView = activity?.findViewById(R.id.glv_about)
     }
 
 
@@ -70,24 +77,24 @@ class AboutFragment : BaseFragment() {
      */
     private fun initGroupListView() {
 
-        val itemWithCheckUpdate: XUICommonListItemView = mGroupListView.createItemView(
+        val itemWithCheckUpdate: XUICommonListItemView = mGroupListView?.createItemView(
                 ContextCompat.getDrawable(requireContext(), R.drawable.check_update_64),
                 getString(R.string.update_version),
                 aboutViewModel?.versionUpdateInfo,
                 XUICommonListItemView.HORIZONTAL,
-                XUICommonListItemView.ACCESSORY_TYPE_NONE)
+                XUICommonListItemView.ACCESSORY_TYPE_NONE) ?: XUICommonListItemView(requireContext())
 
-        itemWithCityPicker = mGroupListView.createItemView(getString(R.string.chose_address))
+        itemWithCityPicker = mGroupListView!!.createItemView(getString(R.string.chose_address))
         itemWithCityPicker.setImageDrawable(ContextCompat.getDrawable(requireContext() ,R.drawable.city_pick_64))
         itemWithCityPicker.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_CHEVRON
         itemWithCityPicker.orientation = XUICommonListItemView.VERTICAL
         itemWithCityPicker.detailText = aboutViewModel?.getRetainAddressValue()
 
-        val itemWithCleanCache: XUICommonListItemView = mGroupListView.createItemView(getString(R.string.clean_cache))
+        val itemWithCleanCache: XUICommonListItemView = mGroupListView?.createItemView(getString(R.string.clean_cache))  ?: XUICommonListItemView(requireContext())
         itemWithCleanCache.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_CHEVRON
         itemWithCleanCache.setImageDrawable(ContextCompat.getDrawable(requireContext() ,R.drawable.clean_cache_64))
 
-        val itemWithWelComeAnimation: XUICommonListItemView = mGroupListView.createItemView(getString(R.string.skip_welcome_animation))
+        val itemWithWelComeAnimation: XUICommonListItemView = mGroupListView?.createItemView(getString(R.string.skip_welcome_animation)) ?: XUICommonListItemView(requireContext())
         itemWithWelComeAnimation.accessoryType = XUICommonListItemView.ACCESSORY_TYPE_SWITCH
         itemWithWelComeAnimation.switch.isChecked = SharePreferencesUtil.getInstance().getBoolean("isSkipWelcomeAnimation")
         itemWithWelComeAnimation.switch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -117,7 +124,7 @@ class AboutFragment : BaseFragment() {
                 showPickerView(false)
             }
         }
-        val itemWithAboutAuthor: XUICommonListItemView = mGroupListView.createItemView(
+        val itemWithAboutAuthor: XUICommonListItemView = mGroupListView!!.createItemView(
                 ContextCompat.getDrawable(requireContext(), R.drawable.about_author_64),
                 getString(R.string.about_author),
                 null,
@@ -146,16 +153,6 @@ class AboutFragment : BaseFragment() {
                 .addTo(mGroupListView)
     }
 
-
-
-    private fun initView() {
-        if (mBinding != null) {
-            dialogBuilder = MaterialDialog.Builder(context!!)
-            mBinding?.tvAboutAppVersioncode?.text = aboutViewModel?.versionName?.value
-
-        }
-        mGroupListView = mBinding?.glvAbout!!
-    }
 
     // 弹出选择器
     private fun showPickerView(isDialog: Boolean) {
@@ -198,11 +195,11 @@ class AboutFragment : BaseFragment() {
 
     private fun showAuthorDialog() {
         if (dialogBuilder != null) {
-            dialogBuilder?.title("我是谁?")
+            dialogBuilder?.title(Constants.WHO_AM_I)
                     ?.content(resources.getString(R.string.author_introduction_self) + "\n" +
                             resources.getString(R.string.safe_introduction)+"\n"+
                             resources.getString(R.string.welcome_contact_to_me) + "\n" +
-                            resources.getString(R.string.my_email_address))
+                            resources.getString(R.string.my_github_address))
                     ?.positiveText(R.string.known)
                     ?.positiveColor(resources.getColor(R.color.bottom_navigation_about))
                     ?.show()

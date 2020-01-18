@@ -12,13 +12,12 @@ import androidx.camera.view.TextureViewMeteringPointFactory
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
-//import com.example.odm.garbagesorthelper.BR
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.base.BaseFragment
 import com.example.odm.garbagesorthelper.base.IBackInterface
 import com.example.odm.garbagesorthelper.base.IHideInterface
 import com.example.odm.garbagesorthelper.core.Constants
-import com.example.odm.garbagesorthelper.ui.Camera.CameraViewModel
+import com.example.odm.garbagesorthelper.ui.camera.CameraViewModel
 import com.example.odm.garbagesorthelper.widget.FocusCircleView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.orhanobut.logger.Logger
@@ -88,7 +87,9 @@ class CameraFragment : BaseFragment() {
         hideInterface?.showTitleBar()
     }
 
-    override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
+
+
+     fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         cameraViewModel = ViewModelProviders.of(this).get(CameraViewModel::class.java)
     }
 
@@ -97,7 +98,7 @@ class CameraFragment : BaseFragment() {
 
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initViews() {
+    override  fun initViews() {
         btnCapture = activity?.findViewById(R.id.btnCamera)
         containerCamera = activity?.findViewById(R.id.containerCamera)
         focusCircle = activity?.findViewById(R.id.focusCircle)

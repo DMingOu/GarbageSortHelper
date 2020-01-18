@@ -19,8 +19,9 @@ abstract class BaseFragment : Fragment(), IBaseView {
     /**
      * 初始化页面的ViewModel和DataBinding
      */
-    abstract fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?)
+//     fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?)
 
+    abstract fun initViews()
     /**
      * 返回页面布局的ID
      *

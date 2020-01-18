@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.transition.Slide
 import com.example.odm.garbagesorthelper.R
+import com.example.odm.garbagesorthelper.base.BaseActivity
 import com.example.odm.garbagesorthelper.ui.root.RootActivity
 import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.orhanobut.logger.Logger
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
 
-class WelcomeActivity : AppCompatActivity() {
+class WelcomeActivity : BaseActivity() {
 
     companion object{
         val TAG = "WelcomeActivity"
@@ -30,7 +31,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //沉浸式状态栏
         StatusBarUtils.translucent(this)
-        setContentView(R.layout.activity_welcome)
+        setContentView(layoutId)
 //        setupWindowAnimations()
         showWelcomePage()
     }
@@ -42,6 +43,9 @@ class WelcomeActivity : AppCompatActivity() {
             enterHomePage()
         }
     }
+
+    override val layoutId: Int
+        get() = R.layout.activity_welcome
 
     private fun showWelcomePage() {
         if(SharePreferencesUtil.getInstance().contains("isSkipWelcomeAnimation")

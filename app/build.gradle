@@ -30,9 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
-    }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -112,35 +110,36 @@ dependencies {
 //    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
 //    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
-    //BaseAdapter （混淆：自带）
+    //BaseAdapter
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
-    //log （混淆：有）
+    //log 
     implementation 'com.orhanobut:logger:2.2.0'
 
-    //MD风格底部导航 (混淆：无)
+    //MD风格底部导航
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
-    //crash页面跳转 （无需混淆）
+    //crash页面跳转
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
 
-    //1.0.5版本后只支持androidx （混淆：无）
+    //1.0.5版本后只支持androidx
     implementation 'com.github.xuexiangjys:XUI:1.0.7'
-    //标题栏（混淆：无）
+    //标题栏
     implementation 'com.wuhenzhizao:titlebar:1.1.4'
 
-    //申请权限 （混淆：无）
+    //申请权限
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
-    //轮播图 （混淆：无）
+    //轮播图
     implementation 'com.github.xiaohaibin:XBanner:androidx_v1.0.2'
 
-    //讯飞语音SDK （混淆：有）
+    //讯飞语音SDK
     implementation files('libs/Msc.jar')
-    //美团消息总线（混淆：有）
+
+    //美团消息总线
     implementation 'com.jeremyliao:live-event-bus-x:1.5.0'
-    //图片加载、缓存 （混淆：有）
+    //图片加载、缓存
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-    //启动页欢迎动画 （混淆：无）
+    //启动页欢迎动画
     implementation 'site.gemus:openingstartanimation:1.0.0'
 
     //工具类集合

@@ -1,20 +1,12 @@
-package com.example.odm.garbagesorthelper.ui.Camera
+package com.example.odm.garbagesorthelper.ui.camera
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.os.Environment
-import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
-import android.util.Size
-import android.view.ScaleGestureDetector
 import android.view.Surface
-import android.view.WindowManager
 import androidx.camera.core.*
 import androidx.camera.extensions.HdrImageCaptureExtender
 import androidx.camera.extensions.HdrPreviewExtender
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.odm.garbagesorthelper.base.BaseModel
 import com.example.odm.garbagesorthelper.base.BaseViewModel
 import java.io.File

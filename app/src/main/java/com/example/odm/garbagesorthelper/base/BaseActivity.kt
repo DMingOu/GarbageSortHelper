@@ -28,7 +28,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     /**
      * 初始化页面的ViewModel和DataBinding
      */
-    abstract fun initViewDataBinding()
+//    abstract fun initViewDataBinding()
 
     /**
      * 返回页面布局的ID
@@ -66,11 +66,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
                 val top = l[1]
                 val bottom = top + v.getHeight()
                 val right = left + v.getWidth()
-                return if (event.x > left && event.x < right && event.y > top && event.y < bottom) { // 点击位置如果是EditText的区域，忽略它，不收起键盘。
-                    false
-                } else {
-                    true
-                }
+                return !(event.x > left && event.x < right && event.y > top && event.y < bottom)
             }
             return false
         }

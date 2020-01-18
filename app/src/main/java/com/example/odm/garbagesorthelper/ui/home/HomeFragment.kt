@@ -17,7 +17,7 @@ import com.example.odm.garbagesorthelper.core.Constants
 import com.example.odm.garbagesorthelper.model.entity.BannerData
 import com.example.odm.garbagesorthelper.model.entity.GarbageData.DataBean
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean.ResultBean
-import com.example.odm.garbagesorthelper.ui.Camera.CameraActivity
+import com.example.odm.garbagesorthelper.ui.camera.CameraActivity
 import com.example.odm.garbagesorthelper.ui.root.RootActivity
 import com.example.odm.garbagesorthelper.ui.search.SearchActivity
 import com.example.odm.garbagesorthelper.utils.InjectorUtils
@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment() {
         mIatDialog?.destroy()
     }
 
-    fun initViews() {
+      override fun initViews() {
         etSearch = activity?.findViewById(R.id.etSearch) ?: ClearEditText(activity)
         banner = activity?.findViewById(R.id.banner) ?: XBanner(activity)
         btnOpenCamera = activity?.findViewById(R.id.btnOpenCamera) ?: Button(activity)
@@ -120,7 +120,7 @@ class HomeFragment : BaseFragment() {
                 }
         }
 
-    override fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
+     fun initViewDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         viewModel = InjectorUtils.provideHomeViewModelFactory(requireContext()).create(HomeViewModel::class.java)
     }
 
@@ -171,17 +171,12 @@ class HomeFragment : BaseFragment() {
                 }
             }
         })
-//        //跳转到拍摄页面
-//        viewModel?.isOpenCamera?.observe(this, Observer { isOpenCamera: Boolean ->
-//            if (isOpenCamera) {
-//
-//            }
-//        })
+
         //监控将从百度图像识别获取到物体关键词，调用垃圾分类API，显示结果
         viewModel?.imageClassifyGarbage?.observe(this, Observer { bean: ResultBean ->
             val keyGarbageName = bean.keyword
             if (viewModel?.searching ?: false) {
-                viewModel?.onSearch(keyGarbageName ?: "")
+                viewModel?.onSearch(keyGarbageName)
             }
         })
 

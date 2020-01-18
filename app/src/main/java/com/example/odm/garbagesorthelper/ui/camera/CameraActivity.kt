@@ -1,4 +1,4 @@
-package com.example.odm.garbagesorthelper.ui.Camera
+package com.example.odm.garbagesorthelper.ui.camera
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
