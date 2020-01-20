@@ -2,6 +2,7 @@ package com.example.odm.garbagesorthelper.model.source.net
 
 import com.example.odm.garbagesorthelper.model.entity.GarbageData
 import com.example.odm.garbagesorthelper.model.entity.ImageClassifyBean
+import com.example.odm.garbagesorthelper.model.entity.accessTokenImageClassify
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -34,6 +35,9 @@ interface ApiService {
     @POST
     fun getImageClassifyData(@Url url: String?, @Query("access_token") access_token: String?, @Body requestBody: RequestBody?): Observable<ImageClassifyBean?>?
 
+    @GET
+    fun getBaiDuAccessTokenImageClassify(@Url url : String): Observable<accessTokenImageClassify>
+
     companion object {
         /*
      * @其他声明
@@ -49,5 +53,7 @@ interface ApiService {
          */
 // 百度图像识别 BaseUrl
         const val Base_Url_Image_Classify = "https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general"
+
+        const val BAIDU_ACCESS_TOKEN_URL = "https://openapi.baidu.com/oauth/2.0/token?grant_type=client_credentials&client_id=VxsAQEj0IqXzYQP4EdhMep65&client_secret=VVZG3lFByluPHwNk4mcF6LkpqEgxoUPv"
     }
 }

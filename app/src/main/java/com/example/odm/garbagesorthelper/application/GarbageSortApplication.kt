@@ -3,6 +3,7 @@ package com.example.odm.garbagesorthelper.application
 import android.app.Application
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.example.odm.garbagesorthelper.R
 import com.example.odm.garbagesorthelper.ui.root.RootActivity
@@ -116,14 +117,14 @@ class GarbageSortApplication : Application() {
      */
     private fun initRxJavaOnErrorHandle() {
         RxJavaPlugins.setErrorHandler {
-            //Toast.makeText(this , it.message ,Toast.LENGTH_SHORT).show()
-            Logger.d(it.localizedMessage?:"")
+
+            Log.e("RxJavaException" , it.localizedMessage ?: "")
         }
     }
 
     companion object {
         /**
-         * Get context context.
+         * 获取Context上下文
          *
          * @return the context
          */

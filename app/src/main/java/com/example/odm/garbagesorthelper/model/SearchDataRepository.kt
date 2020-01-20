@@ -9,6 +9,7 @@ import com.example.odm.garbagesorthelper.model.source.net.ApiService
 import com.example.odm.garbagesorthelper.model.source.net.RetrofitManager
 import com.example.odm.garbagesorthelper.utils.Base64Util
 import com.example.odm.garbagesorthelper.utils.FileUtil
+import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -23,6 +24,9 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class SearchDataRepository private constructor(private val historyDataSource: LocalGarbageHistoryDataSource) {
+
+    var accessTokenImageClassify : String  = ""
+
     /**
      * 联网获取垃圾分类搜索结果
      * @param garbageName 垃圾名称
@@ -58,14 +62,33 @@ class SearchDataRepository private constructor(private val historyDataSource: Lo
         }
         val param = "image=$imgParam"
         val body = RequestBody.create("application/x-www-form-urlencoded; charset=utf-8".toMediaTypeOrNull(), param)
+        val accessToken = if (accessTokenImageClassify == "")
+                                SharePreferencesUtil.getInstance().getString(Constants.ACCESSTOKEN_BAIDU_IMAGE_CLASSIFY)
+                            else accessTokenImageClassify
         //请求数据
         return RetrofitManager.instance
                 ?.apiService
-                ?.getImageClassifyData(ApiService.Base_Url_Image_Classify, Constants.accessToken_baidu, body)
+                ?.getImageClassifyData(ApiService.Base_Url_Image_Classify, accessToken, body)
                 ?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
 
     }
+
+    /**
+     * 获取百度图像识别接口返回的AccessToken，存入SharePreferences 做持久化
+     */
+    fun getBaiDuAccessTokenImageClassify(){
+          RetrofitManager.instance
+                ?.apiService
+                ?.getBaiDuAccessTokenImageClassify(ApiService.BAIDU_ACCESS_TOKEN_URL)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe {
+                    SharePreferencesUtil.getInstance().put(Constants.ACCESSTOKEN_BAIDU_IMAGE_CLASSIFY , it.accessToken)
+                    accessTokenImageClassify = it.accessToken
+                }?.isDisposed
+    }
+
 
     /**
      * 获取所有 垃圾搜索历史

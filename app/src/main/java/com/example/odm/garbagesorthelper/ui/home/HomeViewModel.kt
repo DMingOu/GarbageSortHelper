@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.odm.garbagesorthelper.R
+import com.example.odm.garbagesorthelper.core.Constants
 import com.example.odm.garbagesorthelper.model.SearchDataRepository
 import com.example.odm.garbagesorthelper.model.entity.*
 import com.example.odm.garbagesorthelper.model.source.net.HttpThrowable
 import com.example.odm.garbagesorthelper.model.source.net.ObserverManager
 import com.example.odm.garbagesorthelper.utils.GsonUtils
+import com.example.odm.garbagesorthelper.utils.SharePreferencesUtil
 import com.iflytek.cloud.ErrorCode
 import com.iflytek.cloud.InitListener
 import com.iflytek.cloud.RecognizerResult
@@ -37,6 +39,7 @@ class HomeViewModel (private val repository: SearchDataRepository) : ViewModel()
     init {
         //初始化 获取数据库中所有数据
         allGarbageSearchHistory
+        getBaiDuAccessToken()
     }
 
 
@@ -275,6 +278,10 @@ class HomeViewModel (private val repository: SearchDataRepository) : ViewModel()
 
             }
         }
+
+    fun getBaiDuAccessToken(){
+        repository.getBaiDuAccessTokenImageClassify()
+    }
 
 
 

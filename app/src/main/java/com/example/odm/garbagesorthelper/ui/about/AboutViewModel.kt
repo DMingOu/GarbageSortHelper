@@ -40,8 +40,12 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
 
     var versionUpdateInfo : String
 
-    //Note：不初始化MutableList，就算后面add ，也始终会是null
-     var options1Items: MutableList<String> = ArrayList()
+
+    /**
+     * 省，市，区数据
+     * Note：不初始化MutableList，就算后面add ，也始终会是null
+     */
+    var options1Items: MutableList<String> = ArrayList()
      var options2Items: MutableList<MutableList<String>> = ArrayList()
      var options3Items: MutableList<MutableList<MutableList<String>>> = ArrayList()
 
@@ -140,8 +144,8 @@ class AboutViewModel(application: Application?) : BaseViewModel<BaseModel?>(appl
             .isDisposed
     }
 
+    /***** 获取升级信息 *****/
     fun getUpdateInfo() : String {
-        /***** 获取升级信息 *****/
         val upgradeInfo  = Beta.getUpgradeInfo()
 
         if (upgradeInfo == null) {
