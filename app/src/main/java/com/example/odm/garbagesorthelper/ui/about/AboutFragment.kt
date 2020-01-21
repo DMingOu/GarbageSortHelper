@@ -195,8 +195,9 @@ class AboutFragment : BaseFragment() {
 
     private fun showAuthorDialog() {
         if (dialogBuilder != null) {
-            dialogBuilder?.title(Constants.WHO_AM_I)
-                    ?.content(resources.getString(R.string.author_introduction_self) + "\n" +
+            dialogBuilder?.title(Constants.DEVELOPER_SAY)
+                    ?.content(
+                            resources.getString(R.string.author_introduction_self) + "\n" +
                             resources.getString(R.string.safe_introduction)+"\n"+
                             resources.getString(R.string.welcome_contact_to_me) + "\n" +
                             resources.getString(R.string.my_github_address))
