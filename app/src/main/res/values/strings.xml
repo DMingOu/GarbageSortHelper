@@ -1,7 +1,7 @@
 <resources>
     <string name = "Bugly_App_Id">1e7ded2891</string>
     <string name = "app_name">GarbageSortHelper</string>
-    <string name = "app_name_chinese">垃圾分类小助手</string>
+    <string name = "app_name_chinese">垃圾分类小帮手</string>
 
     <string name = "recycle_garbage">可回收垃圾</string>
     <string name = "harmful_garbage">有害垃圾</string>
@@ -40,7 +40,7 @@
     <string name = "recorder_dialog_textview_text">请用普通话说出您想要查询的垃圾名称</string>
     <string name = "show_dialog_about">关于页面呼出对话框</string>
 
-    <string name = "author_introduction_self">我是客户端开发者DMingO，独立开发了垃圾分类小助手。</string>
+    <string name = "author_introduction_self">我是客户端开发者DMingO，独立开发了垃圾分类小帮手。</string>
     <string name = "safe_introduction">本App无任何收集用户隐私行为，获取用户权限只为识别功能所需,请您放心使用。</string>
     <string name = "welcome_contact_to_me">如有任何疑问,欢迎您通过下方Github地址与本人联系。</string>
     <string name = "my_email_address">DMingOu0529@gmail.com</string>
