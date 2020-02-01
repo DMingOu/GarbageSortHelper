@@ -1,5 +1,5 @@
 # GarbageSortHelper 一款个人练习向的垃圾分类小助手APP
-## 采用 MVVM 架构下的 Kotlin + JetPack  + Retrofit + RxJava(打算逐步转向协程)
+## 采用 MVVM 架构(未使用DataBinding)下的 Kotlin + JetPack  + Retrofit + RxJava(打算逐步转向协程)
 #### 目前功能
 1. 文字搜索
 2. 拍照搜索（百度接口）CameraX
